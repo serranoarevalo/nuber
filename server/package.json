@@ -1,0 +1,18 @@
+{
+  "name": "nuber-server",
+  "version": "1.0.0",
+  "description": "Nuber Server",
+  "main": "src/server.ts",
+  "author": "Nicolás Serrano Arévalo <itnico.las.me@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "tsc-watch": "^1.0.21"
+  },
+  "scripts": {
+    "dev": "tsc-watch --onSuccess \" node dist/index.js\""
+  },
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
