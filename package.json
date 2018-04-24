@@ -1,12 +1,10 @@
 {
   "name": "nuber",
   "version": "1.0.0",
-  "description": "Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, React, Apollo and PWA.",
+  "description":
+    "Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, React, Apollo and PWA.",
   "repository": "https://github.com/serranoarevalo/nuber",
   "author": "Nicolás Serrano Arévalo <itnico.las.me@gmail.com>",
   "license": "MIT",
-  "private": false,
-  "dependencies": {
-    "@types/express": "^4.11.1"
-  }
+  "private": false
 }
