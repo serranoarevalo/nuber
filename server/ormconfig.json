@@ -1,9 +1,0 @@
-{
-  "type": "postgres",
-  "host": "localhost",
-  "username": "serranoarevalo",
-  "password": "",
-  "database": "nuber",
-  "entities": ["src/dist/models/*.js"],
-  "logging": true
-}

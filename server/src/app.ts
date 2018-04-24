@@ -1,9 +1,13 @@
 import express from "express";
 import logger from "morgan";
 import helmet from "helmet";
+import Knex from "knex";
+import knexConfig from "../knexfile";
 
 class App {
   constructor() {
+    const knex = Knex(knexConfig.development);
+    knex.migrate.latest();
     this.app = express();
     this.config();
   }
