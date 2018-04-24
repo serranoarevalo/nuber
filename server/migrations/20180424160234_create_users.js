@@ -10,11 +10,16 @@ exports.up = function(knex, Promise) {
         .integer("phone")
         .unique()
         .notNull();
-      table.timestamp("created_at").defaultTo(knex.fn.now());
+      table.string("password").notNull();
+      table
+        .timestamp("createdAt")
+        .notNull()
+        .defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").notNull();
     })
   ]);
 };
 
 exports.down = function(knex, Promise) {
-  return Promise.all([knex.schema.dropTable("users")]);
+  return Promise.all([knex.schema.dropTableIfExists("users")]);
 };
