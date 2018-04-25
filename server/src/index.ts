@@ -1,5 +1,6 @@
 import app from "./app";
 import { Options } from "graphql-yoga";
+import { createConnection } from "typeorm";
 
 const PORT: number | string = process.env.PORT || 4000;
 const GRAPHQL_ENDPOINT: string = "/graphql";
@@ -19,6 +20,8 @@ const appOptions: Options = {
   endpoint: GRAPHQL_ENDPOINT
 };
 
-app.start(appOptions, handleListening);
+createConnection().then(() => {
+  app.start(appOptions, handleListening);
+});
 
 app.express.on("error", handleAppError);
