@@ -1,27 +1,32 @@
-import express from "express";
+import { GraphQLServer } from "graphql-yoga";
 import logger from "morgan";
 import helmet from "helmet";
-import bodyParser from "body-parser";
-import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
+
+const typeDefs = `
+  type Query {
+    hello(name: String): String!
+  }
+`;
+
+const resolvers = {
+  Query: {
+    hello: (_: any, { name }: any) => `Hello ${name || "World"}`
+  }
+};
 
 class App {
-  public app: express.Application;
+  public app: GraphQLServer;
 
   constructor() {
-    this.app = express();
+    this.app = new GraphQLServer({ typeDefs, resolvers });
     this.config();
-    this.routes();
   }
   private middlewares = (): void => {
-    this.app.use(logger("dev"));
-    this.app.use(helmet());
+    this.app.express.use(logger("dev"));
+    this.app.express.use(helmet());
   };
   private config = (): void => {
     this.middlewares();
-  };
-  private routes = (): void => {
-    this.app.use("/graphql", bodyParser.json(), graphqlExpress({ schema: "" }));
-    this.app.get("/graphiql", graphiqlExpress({ endpointURL: "/graphql" }));
   };
 }
 

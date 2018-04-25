@@ -1,6 +1,10 @@
 import app from "./app";
+import { Options } from "graphql-yoga";
 
 const PORT: number | string = process.env.PORT || 4000;
+const GRAPHQL_ENDPOINT: string = "/graphql";
+const SUBSCRIPTIONS_ENDPOINT: string = "/subscriptions";
+const PLAYGROUND_ENDPOINT: string = "/playground";
 
 const handleAppError = (error: NodeJS.ErrnoException): void =>
   console.log(error);
@@ -8,6 +12,13 @@ const handleAppError = (error: NodeJS.ErrnoException): void =>
 const handleListening = (): void =>
   console.log(`Listening on http://localhost:${PORT}`);
 
-app.listen(PORT, handleListening);
+const appOptions: Options = {
+  port: PORT,
+  subscriptions: SUBSCRIPTIONS_ENDPOINT,
+  playground: PLAYGROUND_ENDPOINT,
+  endpoint: GRAPHQL_ENDPOINT
+};
 
-app.on("error", handleAppError);
+app.start(appOptions, handleListening);
+
+app.express.on("error", handleAppError);
