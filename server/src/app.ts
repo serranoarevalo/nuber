@@ -1,6 +1,7 @@
 import express from "express";
 import logger from "morgan";
 import helmet from "helmet";
+import { createConnection } from "typeorm";
 
 class App {
   public app: express.Application;
