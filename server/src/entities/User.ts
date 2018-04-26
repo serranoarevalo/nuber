@@ -14,7 +14,7 @@ import bcrypt, { hash } from "bcrypt";
 const BCRYPT_ROUNDS = 10;
 
 @Entity()
-export class User extends BaseEntity {
+class User extends BaseEntity {
   @PrimaryGeneratedColumn() id: number;
 
   @Column({ type: "text", unique: true })
@@ -58,3 +58,5 @@ export class User extends BaseEntity {
     }
   }
 }
+
+export default User;

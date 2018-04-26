@@ -2,18 +2,13 @@ import { GraphQLServer } from "graphql-yoga";
 import logger from "morgan";
 import helmet from "helmet";
 import schema from "./schema";
-
-const resolvers = {
-  Query: {
-    users: (_: any, { name }: any) => `Hello ${name || "World"}`
-  }
-};
+import entities from "./entities";
 
 class App {
   public app: GraphQLServer;
 
   constructor() {
-    this.app = new GraphQLServer({ schema });
+    this.app = new GraphQLServer({ schema, context: { entities } });
     this.config();
   }
   private middlewares = (): void => {
