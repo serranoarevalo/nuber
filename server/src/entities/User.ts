@@ -52,14 +52,5 @@ class User extends BaseEntity {
     const hashedPassword = await this.hashPassword(this.password);
     this.password = hashedPassword;
   }
-
-  // This isn't working.
-  @BeforeUpdate()
-  async updatePassword(): Promise<void> {
-    if (this.password) {
-      const hashedPassword = await this.hashPassword(this.password);
-      this.password = hashedPassword;
-    }
-  }
 }
 export default User;
