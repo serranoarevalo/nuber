@@ -5,8 +5,8 @@ type User {
   lastName: String!
   age: Int!
   password: String!
-  createdAt: Int!
-  updatedAt: Int!
+  createdAt: String!
+  updatedAt: String!
   verifiedEmail: Boolean!
 }
 
