@@ -8,9 +8,7 @@
   "private": false,
   "devDependencies": {
     "@types/bcrypt": "^1.0.0",
-    "@types/express": "^4.11.1",
     "@types/helmet": "^0.0.37",
-    "@types/knex": "^0.14.12",
     "@types/mailgun-js": "^0.16.0",
     "@types/morgan": "^1.7.35",
     "@types/node": "^9.6.6",

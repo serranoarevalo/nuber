@@ -31,4 +31,5 @@ type Mutation {
     password: String
     age: Int
   ): Boolean!
+  confirmUserEmail(id: Int!, key: String!): Boolean!
 }
