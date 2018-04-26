@@ -45,18 +45,16 @@ export class User extends BaseEntity {
   }
 
   @BeforeInsert()
-  savePassword(): void {
-    this.hashPassword(this.password).then((hash: string): void => {
-      this.password = hash;
-    });
+  async savePassword(): Promise<void> {
+    const hashedPassword = await this.hashPassword(this.password);
+    this.password = hashedPassword;
   }
 
   @BeforeUpdate()
-  updatePassword(): void {
+  async updatePassword(): Promise<void> {
     if (this.password) {
-      this.hashPassword(this.password).then((hash: string): void => {
-        this.password = hash;
-      });
+      const hashedPassword = await this.hashPassword(this.password);
+      this.password = hashedPassword;
     }
   }
 }
