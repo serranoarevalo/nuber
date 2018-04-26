@@ -58,5 +58,4 @@ class User extends BaseEntity {
     }
   }
 }
-
 export default User;

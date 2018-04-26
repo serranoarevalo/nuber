@@ -19,5 +19,6 @@ type Mutation {
     firstName: String!
     lastName: String!
     password: String!
+    age: Int!
   ): User!
 }
