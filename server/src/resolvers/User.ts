@@ -2,7 +2,8 @@ import bcrypt from "bcrypt";
 
 export default {
   Query: {
-    users: (parent, args, { entities: { User } }) => User.find()
+    users: (parent, args, { entities: { User } }) => User.find(),
+    user: (parent, { id }, { entities: { User } }) => User.findOne(id)
   },
   Mutation: {
     createUser: (parent, args, { entities: { User } }) =>
