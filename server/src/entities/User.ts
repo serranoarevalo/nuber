@@ -33,6 +33,9 @@ class User extends BaseEntity {
   @Column({ type: "text" })
   password: string;
 
+  @Column({ type: "boolean", default: false })
+  verifiedEmail: boolean;
+
   @CreateDateColumn() createdAt: Date;
   @UpdateDateColumn() updatedAt: Date;
 

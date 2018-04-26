@@ -7,6 +7,7 @@ type User {
   password: String!
   createdAt: Int!
   updatedAt: Int!
+  verifiedEmail: Boolean!
 }
 
 type Query {
