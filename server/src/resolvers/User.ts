@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
-import Mailgun from "mailgun-js";
-import { MAILGUN_API_KEY } from "../keys";
+import { sendConfirmationEmail } from "../utils/sendEmail";
 
 export default {
   Query: {
@@ -14,25 +13,11 @@ export default {
       { entities: { User, EmailConfirmation } }
     ) => {
       const newUser = await User.create(args).save();
-      if (newUser) {
-        const emailConfirmation = await EmailConfirmation.create({
-          user: newUser
-        }).save();
-        const mailgun = new Mailgun({
-          apiKey: MAILGUN_API_KEY,
-          domain: "sandbox6dc95a40763144f59f34911bf0fb8eaf.mailgun.org"
-        });
-        const emailData = {
-          from: "itnico.las.me@gmail.com",
-          to: "itnico.las.me@gmail.com",
-          subject: "Please confirm your email",
-          html: `Hello please confirm your email by: <a href="http://nuber.co/verify/${
-            emailConfirmation.key
-          }">clicking here</a>`
-        };
-        const message = await mailgun.messages().send(emailData);
-        return newUser;
-      }
+      const emailConfirmation = await EmailConfirmation.create({
+        user: newUser
+      }).save();
+      const message = await sendConfirmationEmail(emailConfirmation.key);
+      return newUser;
     },
     updateUser: async (
       parent,
