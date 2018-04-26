@@ -52,7 +52,9 @@ class User extends BaseEntity {
 
   @BeforeUpdate()
   async updatePassword(): Promise<void> {
+    console.log("al");
     if (this.password) {
+      console.log("updating password");
       const hashedPassword = await this.hashPassword(this.password);
       this.password = hashedPassword;
     }

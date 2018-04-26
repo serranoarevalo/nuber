@@ -1,12 +1,18 @@
 export default {
   Query: {
-    users: async (parent, args, { entities: { User } }) => {
-      const allUsers = await User.find();
-      return allUsers;
-    }
+    users: (parent, args, { entities: { User } }) => User.find()
   },
   Mutation: {
-    createUser: async (parent, args, { entities: { User } }) =>
-      User.create(args).save()
+    createUser: (parent, args, { entities: { User } }) =>
+      User.create(args).save(),
+    updateUser: async (parent, args, { entities: { User } }) => {
+      try {
+        await User.update(args.id, args);
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    }
   }
 };

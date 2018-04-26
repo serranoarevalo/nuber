@@ -11,6 +11,7 @@ type User {
 
 type Query {
   users: [User]!
+  user(id: Int!): User
 }
 
 type Mutation {
@@ -21,4 +22,12 @@ type Mutation {
     password: String!
     age: Int!
   ): User!
+  updateUser(
+    id: Int!
+    email: String
+    firstName: String
+    lastName: String
+    password: String
+    age: Int
+  ): Boolean!
 }
