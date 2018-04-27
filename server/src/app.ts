@@ -37,7 +37,8 @@ class App {
     if (token) {
       try {
         const decoded = await jwt.verify(token, JWT_SECRET);
-        req.user = decoded["user"];
+        const reqUser = await entities.User.find(decoded["id"]);
+        req.user = reqUser;
       } catch (err) {
         console.log(err);
       }

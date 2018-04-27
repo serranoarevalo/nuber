@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { sendConfirmationEmail } from "../utils/sendEmail";
+import { createJWT } from "../utils/createJWT";
 import request from "request-promise";
 
 export default {
@@ -71,6 +72,28 @@ export default {
         verifiedEmail: true,
         loginType: "facebook"
       }).save();
+    },
+    loginWithEmail: async (
+      paret,
+      { email, password }: { email: string; password: string },
+      { entities: { User } }
+    ) => {
+      const user = await User.findOne({ email, loginType: "email" });
+      if (!user) {
+        return {
+          ok: false,
+          message: "User not found"
+        };
+      }
+      const validPassword = await user.comparePassword(password, user.password);
+      if (!validPassword) {
+        return {
+          ok: false,
+          message: "Wrong password"
+        };
+      }
+      const token = createJWT(user.id);
+      return token;
     }
   }
 };

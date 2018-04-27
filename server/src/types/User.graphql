@@ -35,4 +35,5 @@ type Mutation {
   ): Boolean!
   confirmUserEmail(id: Int!, key: String!): Boolean!
   facebookConnect(token: String!): User!
+  loginWithEmail(email: String!, password: String!): String!
 }
