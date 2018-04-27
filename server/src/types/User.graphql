@@ -8,6 +8,8 @@ type User {
   createdAt: String!
   updatedAt: String!
   verifiedEmail: Boolean!
+  loginType: String!
+  fullName: String!
 }
 
 type Query {
@@ -32,4 +34,5 @@ type Mutation {
     age: Int
   ): Boolean!
   confirmUserEmail(id: Int!, key: String!): Boolean!
+  facebookConnect(token: String!): User!
 }

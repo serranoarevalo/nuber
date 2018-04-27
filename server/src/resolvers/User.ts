@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { sendConfirmationEmail } from "../utils/sendEmail";
+import request from "request-promise";
 
 export default {
   Query: {
@@ -52,6 +53,24 @@ export default {
       } else {
         return false;
       }
+    },
+    facebookConnect: async (
+      parent,
+      { token }: { token: string },
+      { entities: { User } }
+    ) => {
+      // https://developers.facebook.com/tools/explorer/?method=GET
+      const fbURL = `https://graph.facebook.com/me?access_token=${token}&fields=id,first_name,last_name,email`;
+      const fbRequest = await request(fbURL);
+      const { id, first_name, last_name, email } = JSON.parse(fbRequest);
+      return User.create({
+        facebookId: id,
+        firstName: first_name,
+        lastName: last_name,
+        email: `${id}@facebook.com`,
+        verifiedEmail: true,
+        loginType: "facebook"
+      }).save();
     }
   }
 };

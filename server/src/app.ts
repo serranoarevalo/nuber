@@ -9,14 +9,11 @@ class App {
 
   constructor() {
     this.app = new GraphQLServer({ schema, context: { entities } });
-    this.config();
+    this.middlewares();
   }
   private middlewares = (): void => {
     this.app.express.use(logger("dev"));
     this.app.express.use(helmet());
-  };
-  private config = (): void => {
-    this.middlewares();
   };
 }
 

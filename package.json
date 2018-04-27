@@ -1,13 +1,10 @@
 {
   "name": "nuber",
   "version": "1.0.0",
-  "description": "Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, React, Apollo and PWA.",
+  "description":
+    "Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, React, Apollo and PWA.",
   "repository": "https://github.com/serranoarevalo/nuber",
   "author": "Nicolás Serrano Arévalo <itnico.las.me@gmail.com>",
   "license": "MIT",
-  "private": false,
-  "dependencies": {
-    "@types/mailgun-js": "^0.16.0",
-    "mailgun-js": "^0.17.0"
-  }
+  "private": false
 }

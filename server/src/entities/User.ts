@@ -21,13 +21,16 @@ class User extends BaseEntity {
   @IsEmail()
   email: string;
 
+  @Column({ type: "bigint", nullable: true })
+  facebookId: number;
+
   @Column({ type: "text" })
   firstName: string;
 
   @Column({ type: "text" })
   lastName: string;
 
-  @Column({ type: "int" })
+  @Column({ type: "int", nullable: true })
   age: number;
 
   @Column({ type: "text" })
@@ -36,10 +39,13 @@ class User extends BaseEntity {
   @Column({ type: "boolean", default: false })
   verifiedEmail: boolean;
 
+  @Column({ type: "text", enum: ["facebook", "email"], default: "email" })
+  loginType: string;
+
   @CreateDateColumn() createdAt: Date;
   @UpdateDateColumn() updatedAt: Date;
 
-  hashPassword(password: string): Promise<string> {
+  hashPassword(password: string = ""): Promise<string> {
     return bcrypt.hash(password, BCRYPT_ROUNDS);
   }
 
