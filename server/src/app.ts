@@ -8,7 +8,15 @@ class App {
   public app: GraphQLServer;
 
   constructor() {
-    this.app = new GraphQLServer({ schema, context: { entities } });
+    this.app = new GraphQLServer({
+      schema,
+      context: req => {
+        return {
+          req: req.request,
+          entities
+        };
+      }
+    });
     this.middlewares();
   }
   private middlewares = (): void => {
