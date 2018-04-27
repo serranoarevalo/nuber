@@ -45,6 +45,10 @@ class User extends BaseEntity {
   @CreateDateColumn() createdAt: Date;
   @UpdateDateColumn() updatedAt: Date;
 
+  fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
   hashPassword(password: string = ""): Promise<string> {
     return bcrypt.hash(password, BCRYPT_ROUNDS);
   }
