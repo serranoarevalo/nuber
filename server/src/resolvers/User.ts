@@ -21,7 +21,10 @@ export default {
       const message = await sendConfirmationEmail(emailConfirmation.key);
       emailConfirmation.sent = true;
       emailConfirmation.save();
-      return newUser;
+      return {
+        ok: true,
+        user: newUser
+      };
     },
     updateUser: async (
       parent,
@@ -67,7 +70,10 @@ export default {
       const existingUser = await User.findOne({ facebookId: id });
       if (existingUser) {
         const token = createJWT(existingUser.id);
-        return;
+        return {
+          ok: true,
+          token
+        };
       } else {
         const user = await User.create({
           facebookId: id,
@@ -78,7 +84,10 @@ export default {
           loginType: "facebook"
         }).save();
         const token = createJWT(user.id);
-        return token;
+        return {
+          ok: true,
+          token
+        };
       }
     },
     loginWithEmail: async (
@@ -90,18 +99,25 @@ export default {
       if (!user) {
         return {
           ok: false,
-          message: "User not found"
+          errors: {
+            message: "No user with that email"
+          }
         };
       }
       const validPassword = await user.comparePassword(password, user.password);
       if (!validPassword) {
         return {
           ok: false,
-          message: "Wrong password"
+          errors: {
+            message: "Wrong password"
+          }
         };
       }
       const token = createJWT(user.id);
-      return token;
+      return {
+        ok: true,
+        token
+      };
     }
   }
 };

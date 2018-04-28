@@ -17,6 +17,18 @@ type Query {
   user(id: Int!): User
 }
 
+type LoginResponse {
+  ok: Boolean!
+  token: String
+  errors: Error
+}
+
+type RegisterResponse {
+  ok: Boolean!
+  user: User
+  errors: Error
+}
+
 type Mutation {
   registerUserWithEmail(
     email: String!
@@ -24,7 +36,7 @@ type Mutation {
     lastName: String!
     password: String!
     age: Int!
-  ): User!
+  ): RegisterResponse!
   updateUser(
     id: Int!
     email: String
@@ -34,6 +46,6 @@ type Mutation {
     age: Int
   ): Boolean!
   confirmUserEmail(id: Int!, key: String!): Boolean!
-  facebookConnect(token: String!): User!
-  loginWithEmail(email: String!, password: String!): String!
+  facebookConnect(token: String!): LoginResponse!
+  loginWithEmail(email: String!, password: String!): LoginResponse!
 }
