@@ -2,10 +2,13 @@ import bcrypt from "bcrypt";
 import { sendConfirmationEmail } from "../utils/sendEmail";
 import { createJWT } from "../utils/createJWT";
 import request from "request-promise";
+import { authorizedResolver } from "../utils/wrappedResolvers";
 
 export default {
   Query: {
-    users: (parent, args, { entities: { User } }) => User.find(),
+    users: authorizedResolver.wrap((parent, args, { entities: { User } }) =>
+      User.find()
+    ),
     user: (parent, { id }, { entities: { User } }) => User.findOne(id)
   },
   Mutation: {
