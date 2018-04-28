@@ -64,14 +64,22 @@ export default {
       const fbURL = `https://graph.facebook.com/me?access_token=${token}&fields=id,first_name,last_name,email`;
       const fbRequest = await request(fbURL);
       const { id, first_name, last_name, email } = JSON.parse(fbRequest);
-      return User.create({
-        facebookId: id,
-        firstName: first_name,
-        lastName: last_name,
-        email: `${id}@facebook.com`,
-        verifiedEmail: true,
-        loginType: "facebook"
-      }).save();
+      const existingUser = await User.findOne({ facebookId: id });
+      if (existingUser) {
+        const token = createJWT(existingUser.id);
+        return;
+      } else {
+        const user = await User.create({
+          facebookId: id,
+          firstName: first_name,
+          lastName: last_name,
+          email: `${id}@facebook.com`,
+          verifiedEmail: true,
+          loginType: "facebook"
+        }).save();
+        const token = createJWT(user.id);
+        return token;
+      }
     },
     loginWithEmail: async (
       paret,
