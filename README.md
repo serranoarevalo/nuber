@@ -9,3 +9,5 @@ Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, Rea
 * Graphql Yoga (Server ❤️)
 * TypeORM (DB 💪🏻)
 * Bcrypt (Passwords 🔒)
+* Mailgun (Sending Emails 💌)
+* JSONWEBTOKENS (Auth 🔑)
