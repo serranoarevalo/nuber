@@ -9,7 +9,7 @@ export default {
     users: authenticatedResolver.wrap((parent, args, { entities: { User } }) =>
       User.find()
     ),
-    user: authenticatedResolver.wrap(
+    userProfile: authenticatedResolver.wrap(
       async (parent, { id }, { entities: { User } }) => {
         const user = await User.findOne(id);
         if (user) {

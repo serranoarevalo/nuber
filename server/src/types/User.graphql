@@ -37,7 +37,7 @@ type UserProfileResponse {
 
 type Query {
   users: [User]!
-  user(id: Int!): UserProfileResponse!
+  userProfile(id: Int!): UserProfileResponse!
 }
 
 type Mutation {
