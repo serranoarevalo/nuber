@@ -11,7 +11,7 @@ const createWrapper = wrapperResolver => {
   return wrapperResolver;
 };
 
-export const authorizedResolver = createWrapper((parent, args, { req }) => {
+export const authenticatedResolver = createWrapper((parent, args, { req }) => {
   if (!req.user) {
     throw new Error("No JWT token provided. I refuse to proceed");
   }

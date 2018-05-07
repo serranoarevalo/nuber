@@ -40,7 +40,7 @@ class App {
         const reqUser = await entities.User.find(decoded["id"]);
         req.user = reqUser;
       } catch (err) {
-        console.log(err);
+        return err;
       }
     }
     next();

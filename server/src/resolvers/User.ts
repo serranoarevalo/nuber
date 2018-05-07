@@ -2,14 +2,30 @@ import bcrypt from "bcrypt";
 import { sendConfirmationEmail } from "../utils/sendEmail";
 import { createJWT } from "../utils/createJWT";
 import request from "request-promise";
-import { authorizedResolver } from "../utils/wrappedResolvers";
+import { authenticatedResolver } from "../utils/wrappedResolvers";
 
 export default {
   Query: {
-    users: authorizedResolver.wrap((parent, args, { entities: { User } }) =>
+    users: authenticatedResolver.wrap((parent, args, { entities: { User } }) =>
       User.find()
     ),
-    user: (parent, { id }, { entities: { User } }) => User.findOne(id)
+    user: authenticatedResolver.wrap(
+      async (parent, { id }, { entities: { User } }) => {
+        const user = await User.findOne(id);
+        if (user) {
+          return {
+            ok: true,
+            user,
+            error: null
+          };
+        } else {
+          return {
+            ok: false,
+            error: { message: "User not found" }
+          };
+        }
+      }
+    )
   },
   Mutation: {
     registerUserWithEmail: async (
@@ -29,38 +45,58 @@ export default {
         user: newUser
       };
     },
-    updateUser: async (
-      parent,
-      args,
-      { entities: { User } }
-    ): Promise<boolean> => {
-      const updateData = args;
-      if (args.password) {
-        const hashedPassword: string = await bcrypt.hash(args.password, 12);
-        updateData.password = hashedPassword;
+    updateUser: authenticatedResolver.wrap(
+      async (
+        parent,
+        args,
+        { entities: { User } },
+        req: Express.Request
+      ): Promise<boolean> => {
+        const updateData = args;
+        if (args.password) {
+          const hashedPassword: string = await bcrypt.hash(args.password, 12);
+          updateData.password = hashedPassword;
+        }
+        try {
+          await User.update(args.id, args);
+          return true;
+        } catch (error) {
+          return false;
+        }
       }
-      try {
-        await User.update(args.id, args);
-        return true;
-      } catch (error) {
-        return false;
+    ),
+    confirmUserEmail: authenticatedResolver.wrap(
+      async (
+        parent,
+        { key }: { key: string },
+        { entities: { User, EmailConfirmation } },
+        req: Express.Request
+      ): Promise<object> => {
+        if (req.user) {
+          const user = await User.findOne(req.user.id);
+          const confirmation = await EmailConfirmation.findOne({ key, user });
+          if (confirmation) {
+            user.verifiedEmail = true;
+            user.save();
+            await confirmation.remove();
+            return {
+              ok: true
+            };
+          } else {
+            return {
+              ok: false
+            };
+          }
+        } else {
+          return {
+            ok: false,
+            error: {
+              message: "Not authenticated"
+            }
+          };
+        }
       }
-    },
-    confirmUserEmail: async (
-      parent,
-      { id, key }: { id: number; key: string },
-      { entities: { User, EmailConfirmation } }
-    ): Promise<boolean> => {
-      const user = await User.findOne(id);
-      const confirmation = await EmailConfirmation.findOne({ key, user });
-      if (confirmation) {
-        user.verifiedEmail = true;
-        user.save();
-        return true;
-      } else {
-        return false;
-      }
-    },
+    ),
     facebookConnect: async (
       parent,
       { token }: { token: string },
@@ -102,7 +138,7 @@ export default {
       if (!user) {
         return {
           ok: false,
-          errors: {
+          error: {
             message: "No user with that email"
           }
         };
@@ -111,7 +147,7 @@ export default {
       if (!validPassword) {
         return {
           ok: false,
-          errors: {
+          error: {
             message: "Wrong password"
           }
         };

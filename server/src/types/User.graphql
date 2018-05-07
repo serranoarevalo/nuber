@@ -12,21 +12,32 @@ type User {
   fullName: String!
 }
 
-type Query {
-  users: [User]!
-  user(id: Int!): User
-}
-
 type LoginResponse {
   ok: Boolean!
   token: String
-  errors: Error
+  error: Error
 }
 
 type RegisterResponse {
   ok: Boolean!
   user: User
-  errors: Error
+  error: Error
+}
+
+type ConfirmationResponse {
+  ok: Boolean!
+  error: Error
+}
+
+type UserProfileResponse {
+  ok: Boolean!
+  user: User
+  error: Error
+}
+
+type Query {
+  users: [User]!
+  user(id: Int!): UserProfileResponse!
 }
 
 type Mutation {
@@ -45,7 +56,7 @@ type Mutation {
     password: String
     age: Int
   ): Boolean!
-  confirmUserEmail(id: Int!, key: String!): Boolean!
+  confirmUserEmail(key: String!): ConfirmationResponse!
   facebookConnect(token: String!): LoginResponse!
   loginWithEmail(email: String!, password: String!): LoginResponse!
 }
