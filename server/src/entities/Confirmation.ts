@@ -10,17 +10,13 @@ import {
   ManyToOne
 } from "typeorm";
 import { IsEmail } from "class-validator";
-import bcrypt, { hash } from "bcrypt";
 import User from "./User";
 
-const BCRYPT_ROUNDS = 10;
-
 @Entity()
-class EmailConfirmation extends BaseEntity {
+class Confirmation extends BaseEntity {
   @PrimaryGeneratedColumn() id: number;
 
   @ManyToOne(() => User)
-  @IsEmail()
   user: User;
 
   @Column({ type: "boolean", default: false })
@@ -28,6 +24,9 @@ class EmailConfirmation extends BaseEntity {
 
   @Column({ type: "text" })
   key: string;
+
+  @Column({ type: "text", enum: ["email", "phone"], default: "email" })
+  type: string;
 
   @CreateDateColumn() createdAt: Date;
   @UpdateDateColumn() updatedAt: Date;
@@ -39,4 +38,4 @@ class EmailConfirmation extends BaseEntity {
       .substr(2);
   }
 }
-export default EmailConfirmation;
+export default Confirmation;

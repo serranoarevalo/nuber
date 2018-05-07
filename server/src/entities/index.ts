@@ -1,7 +1,7 @@
 import User from "./User";
-import EmailConfirmation from "./EmailConfirmation";
+import Confirmation from "./Confirmation";
 
 export default {
   User,
-  EmailConfirmation
+  Confirmation
 };

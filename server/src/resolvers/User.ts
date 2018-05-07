@@ -31,10 +31,10 @@ export default {
     registerUserWithEmail: async (
       parent,
       args,
-      { entities: { User, EmailConfirmation } }
+      { entities: { User, Confirmation } }
     ) => {
       const newUser = await User.create(args).save();
-      const emailConfirmation = await EmailConfirmation.create({
+      const emailConfirmation = await Confirmation.create({
         user: newUser
       }).save();
       const message = await sendConfirmationEmail(emailConfirmation.key);
@@ -69,29 +69,27 @@ export default {
       async (
         parent,
         { key }: { key: string },
-        { entities: { User, EmailConfirmation } },
+        { entities: { User, Confirmation } },
         req: Express.Request
       ): Promise<object> => {
-        if (req.user) {
-          const user = await User.findOne(req.user.id);
-          const confirmation = await EmailConfirmation.findOne({ key, user });
-          if (confirmation) {
-            user.verifiedEmail = true;
-            user.save();
-            await confirmation.remove();
-            return {
-              ok: true
-            };
-          } else {
-            return {
-              ok: false
-            };
-          }
+        const { user } = req;
+        const confirmation = await Confirmation.findOne({
+          key,
+          user,
+          type: "email"
+        });
+        if (confirmation) {
+          user.verifiedEmail = true;
+          user.save();
+          await confirmation.remove();
+          return {
+            ok: true
+          };
         } else {
           return {
             ok: false,
             error: {
-              message: "Not authenticated"
+              message: "Verification token is not valid or has expired."
             }
           };
         }
@@ -157,6 +155,24 @@ export default {
         ok: true,
         token
       };
-    }
+    },
+    requestPhoneVerification: authenticatedResolver.wrap(
+      async (
+        parent,
+        {
+          countryCode,
+          phoneNumber
+        }: { countryCode: number; phoneNumber: number },
+        { entities: { User, Confirmation } },
+        req: Express.Request
+      ) => {
+        const { user } = req;
+        const confirmation = await Confirmation.create({
+          user,
+          type: "phone"
+        }).save();
+        // TO DO: Send message with Twilio
+      }
+    )
   }
 };
