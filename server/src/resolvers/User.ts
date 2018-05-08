@@ -3,6 +3,7 @@ import { sendConfirmationEmail } from "../utils/sendEmail";
 import { createJWT } from "../utils/createJWT";
 import request from "request-promise";
 import { authenticatedResolver } from "../utils/wrappedResolvers";
+import { TEST_TWILIO_ID, TEST_TWILIO_TOKEN } from "../keys";
 
 export default {
   Query: {
