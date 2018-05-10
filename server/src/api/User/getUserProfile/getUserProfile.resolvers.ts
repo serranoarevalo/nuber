@@ -1,9 +1,14 @@
 import { authenticatedResolver } from "../../../utils/wrappedResolvers";
+import { Resolvers } from "../../../types/resolvers";
 
-module.exports = {
+const resolvers: Resolvers = {
   Query: {
     getUserProfile: authenticatedResolver.wrap(
-      async (parent, { id }: { id: number }, { entities: { User } }) => {
+      async (
+        parent,
+        { id }: { id: number },
+        { entities: { User } }
+      ): Promise<object> => {
         const user = await User.findOne(id);
         if (user) {
           return {
@@ -20,3 +25,5 @@ module.exports = {
     )
   }
 };
+
+export default resolvers;

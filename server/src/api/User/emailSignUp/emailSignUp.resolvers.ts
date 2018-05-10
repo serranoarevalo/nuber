@@ -1,6 +1,7 @@
 import { sendConfirmationEmail } from "../../../utils/sendEmail";
+import { Resolvers } from "../../../types/resolvers";
 
-module.exports = {
+const resolvers: Resolvers = {
   Mutation: {
     emailSignUp: async (parent, args, { entities: { User, Confirmation } }) => {
       const newUser = await User.create(args).save();
@@ -17,3 +18,5 @@ module.exports = {
     }
   }
 };
+
+export default resolvers;

@@ -6,7 +6,7 @@ import { authenticatedResolver } from "../utils/wrappedResolvers";
 import { sendVerificationText } from "../utils/sendSMS";
 
 export default {
-  Mutation: {
+  Mutation {
     updateUser: authenticatedResolver.wrap(
       async (parent, args, { entities: { User }, req }): Promise<boolean> => {
         const { user } = req;
@@ -68,29 +68,7 @@ export default {
       { email, password }: { email: string; password: string },
       { entities: { User } }
     ) => {
-      const user = await User.findOne({ email, loginType: "email" });
-      if (!user) {
-        return {
-          ok: false,
-          error: {
-            message: "No user with that email"
-          }
-        };
-      }
-      const validPassword = await user.comparePassword(password, user.password);
-      if (!validPassword) {
-        return {
-          ok: false,
-          error: {
-            message: "Wrong password"
-          }
-        };
-      }
-      const token = createJWT(user.id);
-      return {
-        ok: true,
-        token
-      };
+      
     },
     requestPhoneVerification: authenticatedResolver.wrap(
       async (

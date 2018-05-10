@@ -1,6 +1,7 @@
 import { authenticatedResolver } from "../../../utils/wrappedResolvers";
+import { Resolvers } from "../../../types/resolvers";
 
-module.exports = {
+const resolvers: Resolvers = {
   Mutation: {
     verifyEmail: authenticatedResolver.wrap(
       async (
@@ -33,3 +34,5 @@ module.exports = {
     )
   }
 };
+
+export default resolvers;

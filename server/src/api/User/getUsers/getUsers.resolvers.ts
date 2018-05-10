@@ -1,6 +1,7 @@
 import { authenticatedResolver } from "../../../utils/wrappedResolvers";
+import { Resolvers } from "../../../types/resolvers";
 
-module.exports = {
+const resolvers: Resolvers = {
   Query: {
     getUsers: authenticatedResolver.wrap(
       async (parent, args, { entities: { User } }) => {
@@ -20,3 +21,5 @@ module.exports = {
     )
   }
 };
+
+export default resolvers;

@@ -1,13 +1,15 @@
 import { createJWT } from "../../../utils/createJWT";
+import { Resolvers, Resolver } from "../../../types/resolvers";
+import User from "../../../entities/User";
 
-module.exports = {
+const resolvers: Resolvers = {
   Mutation: {
     emailSignIn: async (
       parent,
       { email, password }: { email: string; password: string },
-      { entities: { User } }
-    ) => {
-      const user = await User.findOne({ email, loginType: "email" });
+      { entities: { User }, req }
+    ): Promise<object> => {
+      const user: User = await User.findOne({ email, loginType: "email" });
       if (!user) {
         return {
           ok: false,
@@ -29,3 +31,5 @@ module.exports = {
     }
   }
 };
+
+export default resolvers;
