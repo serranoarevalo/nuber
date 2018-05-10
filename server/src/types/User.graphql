@@ -10,6 +10,8 @@ type User {
   verifiedEmail: Boolean!
   loginType: String!
   fullName: String!
+  phoneNumber: String
+  verifiedPhoneNumber: Boolean
 }
 
 type LoginResponse {
@@ -40,6 +42,11 @@ type RequestPhoneVerificationResponse {
   error: Error
 }
 
+type PhoneVerificationResponse {
+  ok: Boolean!
+  error: Error
+}
+
 type Query {
   users: [User]!
   userProfile(id: Int!): UserProfileResponse!
@@ -65,7 +72,7 @@ type Mutation {
   facebookConnect(token: String!): LoginResponse!
   loginWithEmail(email: String!, password: String!): LoginResponse!
   requestPhoneVerification(
-    countryCode: Int!
-    phoneNumber: Int!
+    phoneNumber: String!
   ): RequestPhoneVerificationResponse!
+  verifyPhone(key: String!): PhoneVerificationResponse
 }

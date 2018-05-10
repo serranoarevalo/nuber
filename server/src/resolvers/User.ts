@@ -3,7 +3,7 @@ import { sendConfirmationEmail } from "../utils/sendEmail";
 import { createJWT } from "../utils/createJWT";
 import request from "request-promise";
 import { authenticatedResolver } from "../utils/wrappedResolvers";
-import { TEST_TWILIO_ID, TEST_TWILIO_TOKEN } from "../keys";
+import { sendVerificationText } from "../utils/sendSMS";
 
 export default {
   Query: {
@@ -47,19 +47,15 @@ export default {
       };
     },
     updateUser: authenticatedResolver.wrap(
-      async (
-        parent,
-        args,
-        { entities: { User } },
-        req: Express.Request
-      ): Promise<boolean> => {
+      async (parent, args, { entities: { User }, req }): Promise<boolean> => {
+        const { user } = req;
         const updateData = args;
         if (args.password) {
           const hashedPassword: string = await bcrypt.hash(args.password, 12);
           updateData.password = hashedPassword;
         }
         try {
-          await User.update(args.id, args);
+          await User.update(user.id, args);
           return true;
         } catch (error) {
           return false;
@@ -160,19 +156,52 @@ export default {
     requestPhoneVerification: authenticatedResolver.wrap(
       async (
         parent,
-        {
-          countryCode,
-          phoneNumber
-        }: { countryCode: number; phoneNumber: number },
-        { entities: { User, Confirmation } },
-        req: Express.Request
+        { phoneNumber }: { phoneNumber: string },
+        { entities: { User, Confirmation }, req }
       ) => {
         const { user } = req;
+        user.phoneNumber = phoneNumber;
+        user.save();
         const confirmation = await Confirmation.create({
           user,
           type: "phone"
         }).save();
-        // TO DO: Send message with Twilio
+        const message = await sendVerificationText(
+          phoneNumber,
+          confirmation.key
+        );
+        return {
+          ok: true
+        };
+      }
+    ),
+    verifyPhone: authenticatedResolver.wrap(
+      async (
+        parent,
+        { key }: { key: string },
+        { entities: { User, Confirmation }, req }
+      ): Promise<object> => {
+        const { user } = req;
+        const confirmation = await Confirmation.findOne({
+          key,
+          user,
+          type: "phone"
+        });
+        if (confirmation) {
+          user.verifiedPhoneNumber = true;
+          user.save();
+          await confirmation.remove();
+          return {
+            ok: true
+          };
+        } else {
+          return {
+            ok: false,
+            error: {
+              message: "Verification token is not valid or has expired."
+            }
+          };
+        }
       }
     )
   }

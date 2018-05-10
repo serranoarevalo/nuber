@@ -42,8 +42,8 @@ class User extends BaseEntity {
   @Column({ type: "text", enum: ["facebook", "email"], default: "email" })
   loginType: string;
 
-  @Column({ type: "bigint", nullable: true })
-  phoneNumber: number;
+  @Column({ type: "text", nullable: true })
+  phoneNumber: string;
 
   @Column({ type: "boolean", default: false })
   verifiedPhoneNumber: boolean;
