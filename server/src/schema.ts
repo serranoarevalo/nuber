@@ -1,10 +1,15 @@
 import path from "path";
+import fs from "fs";
 import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas";
-import { makeExecutableSchema } from "graphql-tools";
-import { CANCELLED } from "dns";
+import { makeExecutableSchema, mergeSchemas } from "graphql-tools";
+import { GraphQLSchema } from "graphql";
 
-const allTypes: String[] = fileLoader(path.join(__dirname, "./types"));
-const allResolvers: String[] = fileLoader(path.join(__dirname, "./resolvers"));
+const allTypes: GraphQLSchema[] = fileLoader(
+  path.join(__dirname, "./api/**/*.graphql")
+);
+const allResolvers: String[] = fileLoader(
+  path.join(__dirname, "./api/**/*.resolvers.ts")
+);
 const mergedTypes = mergeTypes(allTypes);
 const mergedResolvers = mergeResolvers(allResolvers);
 
