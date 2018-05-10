@@ -1,5 +1,6 @@
 import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import { Resolvers } from "../../../types/resolvers";
+import User from "../../../entities/User";
 
 const resolvers: Resolvers = {
   Query: {
@@ -10,7 +11,7 @@ const resolvers: Resolvers = {
         { id }: { id: number },
         { entities: { User } }
       ): Promise<object> => {
-        const user = await User.findOne(id);
+        const user: User = await User.findOne(id);
         if (user) {
           return {
             ok: true,

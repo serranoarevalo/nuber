@@ -16,14 +16,17 @@ const resolvers: Resolvers = {
           error: "No user with that email"
         };
       }
-      const validPassword = await user.comparePassword(password, user.password);
+      const validPassword: boolean = await user.comparePassword(
+        password,
+        user.password
+      );
       if (!validPassword) {
         return {
           ok: false,
           error: "Wrong password"
         };
       }
-      const token = createJWT(user.id);
+      const token: string = createJWT(user.id);
       return {
         ok: true,
         token

@@ -6,8 +6,8 @@ export type Resolver = (
   args: any,
   context: {
     entities: {
-      User: any; //User;
-      Confirmation: any; //Confirmation;
+      User: User;
+      Confirmation: Confirmation;
     };
     req: Express.Request;
   },

@@ -1,11 +1,12 @@
 import { authenticatedResolver } from "../../../utils/wrappedResolvers";
 import { Resolvers } from "../../../types/resolvers";
+import User from "../../../entities/User";
 
 const resolvers: Resolvers = {
   Query: {
     getUsers: authenticatedResolver.wrap(
       async (parent, args, { entities: { User } }) => {
-        const users = await User.find();
+        const users: User[] = await User.find();
         if (users) {
           return {
             ok: true,

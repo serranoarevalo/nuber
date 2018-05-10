@@ -1,5 +1,7 @@
 import { authenticatedResolver } from "../../../utils/wrappedResolvers";
 import { Resolvers } from "../../../types/resolvers";
+import User from "../../../entities/User";
+import Confirmation from "../../../entities/Confirmation";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -9,8 +11,8 @@ const resolvers: Resolvers = {
         { key }: { key: string },
         { entities: { User, Confirmation }, req }
       ) => {
-        const { user } = req;
-        const confirmation = await Confirmation.findOne({
+        const { user }: { user: User } = req;
+        const confirmation: Confirmation = await Confirmation.findOne({
           key,
           user,
           type: "email"

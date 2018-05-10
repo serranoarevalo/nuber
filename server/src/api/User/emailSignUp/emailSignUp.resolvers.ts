@@ -1,11 +1,17 @@
 import { sendConfirmationEmail } from "../../../utils/sendEmail";
 import { Resolvers } from "../../../types/resolvers";
+import User from "../../../entities/User";
+import Confirmation from "../../../entities/Confirmation";
 
 const resolvers: Resolvers = {
   Mutation: {
-    emailSignUp: async (parent, args, { entities: { User, Confirmation } }) => {
-      const newUser = await User.create(args).save();
-      const emailConfirmation = await Confirmation.create({
+    emailSignUp: async (
+      parent,
+      args,
+      { entities: { User, Confirmation } }
+    ): Promise<object> => {
+      const newUser: User = await User.create(args).save();
+      const emailConfirmation: Confirmation = await Confirmation.create({
         user: newUser
       }).save();
       const message = await sendConfirmationEmail(emailConfirmation.key);
