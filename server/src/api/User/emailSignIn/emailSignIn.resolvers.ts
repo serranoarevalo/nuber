@@ -1,13 +1,12 @@
 import { createJWT } from "../../../utils/createJWT";
-import { Resolvers, Resolver } from "../../../types/resolvers";
+import { Resolvers } from "../../../types/resolvers";
 import User from "../../../entities/User";
 
 const resolvers: Resolvers = {
   Mutation: {
     emailSignIn: async (
-      parent,
-      { email, password }: { email: string; password: string },
-      { entities: { User }, req }
+      _,
+      { email, password }: { email: string; password: string }
     ): Promise<object> => {
       const user: User = await User.findOne({ email, loginType: "email" });
       if (!user) {

@@ -5,11 +5,7 @@ import Confirmation from "../../../entities/Confirmation";
 
 const resolvers: Resolvers = {
   Mutation: {
-    emailSignUp: async (
-      parent,
-      args,
-      { entities: { User, Confirmation } }
-    ): Promise<object> => {
+    emailSignUp: async (_, args, __): Promise<object> => {
       const newUser: User = await User.create(args).save();
       const emailConfirmation: Confirmation = await Confirmation.create({
         user: newUser

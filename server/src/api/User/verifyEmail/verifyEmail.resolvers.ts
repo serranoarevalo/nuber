@@ -6,11 +6,7 @@ import Confirmation from "../../../entities/Confirmation";
 const resolvers: Resolvers = {
   Mutation: {
     verifyEmail: authenticatedResolver.wrap(
-      async (
-        parent,
-        { key }: { key: string },
-        { entities: { User, Confirmation }, req }
-      ) => {
+      async (_, { key }: { key: string }, { req }) => {
         const { user }: { user: User } = req;
         const confirmation: Confirmation = await Confirmation.findOne({
           key,
@@ -27,9 +23,7 @@ const resolvers: Resolvers = {
         } else {
           return {
             ok: false,
-            error: {
-              message: "Verification token is not valid or has expired."
-            }
+            error: "Verification token is not valid or has expired."
           };
         }
       }

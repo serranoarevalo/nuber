@@ -6,11 +6,7 @@ const resolvers: Resolvers = {
   Query: {
     getUserProfile: makeMiddleware(
       authMiddleware,
-      async (
-        parent,
-        { id }: { id: number },
-        { entities: { User } }
-      ): Promise<object> => {
+      async (_, { id }: { id: number }): Promise<object> => {
         const user: User = await User.findOne(id);
         if (user) {
           return {

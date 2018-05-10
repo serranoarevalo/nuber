@@ -5,10 +5,6 @@ export type Resolver = (
   parent: any,
   args: any,
   context: {
-    entities: {
-      User: User;
-      Confirmation: Confirmation;
-    };
     req: Express.Request;
   },
   info: any

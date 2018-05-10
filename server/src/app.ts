@@ -15,8 +15,7 @@ class App {
       schema,
       context: req => {
         return {
-          req: req.request,
-          entities
+          req: req.request
         };
       }
     });
