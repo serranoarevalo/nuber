@@ -23,7 +23,7 @@
     "typescript": "^2.9.0-dev.20180425"
   },
   "scripts": {
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "dev": "nodemon --exec ts-node src/index.ts -e js,ts,graphql"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",

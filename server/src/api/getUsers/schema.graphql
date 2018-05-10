@@ -1,3 +1,25 @@
+type User {
+  id: Int!
+  email: String!
+  firstName: String!
+  lastName: String!
+  age: Int!
+  password: String!
+  createdAt: String!
+  updatedAt: String!
+  verifiedEmail: Boolean!
+  loginType: String!
+  fullName: String!
+  phoneNumber: String
+  verifiedPhoneNumber: Boolean
+}
+
+type getUsersResponse {
+  ok: Boolean!
+  users: [User]!
+  error: String
+}
+
 type Query {
-  getUser: String
+  getUsers: getUsersResponse!
 }
