@@ -7,23 +7,6 @@ import { sendVerificationText } from "../utils/sendSMS";
 
 export default {
   Mutation: {
-    registerUserWithEmail: async (
-      parent,
-      args,
-      { entities: { User, Confirmation } }
-    ) => {
-      const newUser = await User.create(args).save();
-      const emailConfirmation = await Confirmation.create({
-        user: newUser
-      }).save();
-      const message = await sendConfirmationEmail(emailConfirmation.key);
-      emailConfirmation.sent = true;
-      emailConfirmation.save();
-      return {
-        ok: true,
-        user: newUser
-      };
-    },
     updateUser: authenticatedResolver.wrap(
       async (parent, args, { entities: { User }, req }): Promise<boolean> => {
         const { user } = req;
@@ -46,29 +29,7 @@ export default {
         { key }: { key: string },
         { entities: { User, Confirmation } },
         req: Express.Request
-      ): Promise<object> => {
-        const { user } = req;
-        const confirmation = await Confirmation.findOne({
-          key,
-          user,
-          type: "email"
-        });
-        if (confirmation) {
-          user.verifiedEmail = true;
-          user.save();
-          await confirmation.remove();
-          return {
-            ok: true
-          };
-        } else {
-          return {
-            ok: false,
-            error: {
-              message: "Verification token is not valid or has expired."
-            }
-          };
-        }
-      }
+      ): Promise<object> => {}
     ),
     facebookConnect: async (
       parent,

@@ -1,0 +1,9 @@
+type EmailSignInResponse {
+  ok: Boolean!
+  token: String
+  error: String
+}
+
+type Mutation {
+  emailSignIn(email: String!, password: String!): EmailSignInResponse!
+}
