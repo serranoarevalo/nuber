@@ -1,9 +1,9 @@
-type getUserProfileResponse {
+type GetUserProfileResponse {
   ok: Boolean!
   user: User
   error: String
 }
 
 type Query {
-  getUserProfile(id: Int!): getUserProfileResponse!
+  getUserProfile(id: Int!): GetUserProfileResponse!
 }
