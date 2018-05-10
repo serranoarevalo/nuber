@@ -1,7 +1,9 @@
 import { ResolverFn } from "graphql-tools/dist/stitching/makeRemoteExecutableSchema";
+import { IResolverObject } from "graphql-yoga/dist/src/types";
+import { Resolver, WrapperResolver } from "../types/resolvers";
 
 const createWrapper = wrapperResolver => {
-  wrapperResolver.wrap = resolverToWrap => {
+  wrapperResolver.wrap = (resolverToWrap): WrapperResolver => {
     const wrappedResolver = async (parent, args, context, info) => {
       await wrapperResolver(parent, args, context, info);
       return resolverToWrap(parent, args, context, info);

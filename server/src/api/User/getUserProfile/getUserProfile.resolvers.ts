@@ -1,9 +1,10 @@
-import { authenticatedResolver } from "../../../utils/wrappedResolvers";
+import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import { Resolvers } from "../../../types/resolvers";
 
 const resolvers: Resolvers = {
   Query: {
-    getUserProfile: authenticatedResolver.wrap(
+    getUserProfile: makeMiddleware(
+      authMiddleware,
       async (
         parent,
         { id }: { id: number },
