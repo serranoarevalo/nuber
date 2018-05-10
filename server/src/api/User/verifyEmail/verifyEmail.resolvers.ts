@@ -2,10 +2,12 @@ import { authenticatedResolver } from "../../../utils/wrappedResolvers";
 import { Resolvers } from "../../../types/resolvers";
 import User from "../../../entities/User";
 import Confirmation from "../../../entities/Confirmation";
+import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 
 const resolvers: Resolvers = {
   Mutation: {
-    verifyEmail: authenticatedResolver.wrap(
+    verifyEmail: makeMiddleware(
+      authMiddleware,
       async (_, { key }: { key: string }, { req }) => {
         const { user }: { user: User } = req;
         const confirmation: Confirmation = await Confirmation.findOne({
@@ -14,8 +16,8 @@ const resolvers: Resolvers = {
           type: "email"
         });
         if (confirmation) {
-          user.verifiedEmail = true;
-          user.save();
+          req.user.verifiedEmail = true;
+          req.user.save();
           await confirmation.remove();
           return {
             ok: true
