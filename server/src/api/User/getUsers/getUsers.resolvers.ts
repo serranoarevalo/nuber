@@ -1,4 +1,4 @@
-import { authenticatedResolver } from "../../utils/wrappedResolvers";
+import { authenticatedResolver } from "../../../utils/wrappedResolvers";
 
 module.exports = {
   Query: {

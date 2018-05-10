@@ -6,28 +6,6 @@ import { authenticatedResolver } from "../utils/wrappedResolvers";
 import { sendVerificationText } from "../utils/sendSMS";
 
 export default {
-  Query: {
-    users: authenticatedResolver.wrap((parent, args, { entities: { User } }) =>
-      User.find()
-    ),
-    userProfile: authenticatedResolver.wrap(
-      async (parent, { id }, { entities: { User } }) => {
-        const user = await User.findOne(id);
-        if (user) {
-          return {
-            ok: true,
-            user,
-            error: null
-          };
-        } else {
-          return {
-            ok: false,
-            error: { message: "User not found" }
-          };
-        }
-      }
-    )
-  },
   Mutation: {
     registerUserWithEmail: async (
       parent,
