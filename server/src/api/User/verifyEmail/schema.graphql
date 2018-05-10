@@ -1,0 +1,8 @@
+type VerifyEmailResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  verifyEmail(key: String!): VerifyEmailResponse!
+}
