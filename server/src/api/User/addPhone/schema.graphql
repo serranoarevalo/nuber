@@ -1,0 +1,8 @@
+type AddPhoneResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  addPhone(phoneNumber: String!): AddPhoneResponse!
+}
