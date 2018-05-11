@@ -17,3 +17,4 @@ Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, Rea
 * Bcrypt (Passwords 🔒)
 * Mailgun (Sending Emails 💌)
 * JWT (Auth 🔑)
+* Twilio (Sending SMS 📱)
