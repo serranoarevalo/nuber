@@ -16,24 +16,28 @@ const resolvers: Resolvers = {
       const fbURL = `https://graph.facebook.com/me?access_token=${token}&fields=id,first_name,last_name,email`;
       const fbRequest = await request(fbURL);
       const { id, first_name, last_name, email } = JSON.parse(fbRequest);
-      const existingUser: User = await User.findOne({ facebookId: id });
+      const formatted = {
+        facebookId: id,
+        firstName: first_name,
+        lastName: last_name,
+        email: `${id}@facebook.com`,
+        verifiedEmail: true,
+        loginType: "facebook",
+        profilePhoto: `https://graph.facebook.com/${id}/picture?type=square`
+      };
+      let existingUser: User = await User.findOne({ facebookId: id });
       if (existingUser) {
+        await User.update({ facebookId: id }, formatted);
+        const updatedUser: User = await User.findOne({ facebookId: id });
         const token: string = createJWT(existingUser.id);
         return {
           ok: true,
           token,
-          user: existingUser,
+          user: updatedUser,
           error: null
         };
       } else {
-        const user: User = await User.create({
-          facebookId: id,
-          firstName: first_name,
-          lastName: last_name,
-          email: `${id}@facebook.com`,
-          verifiedEmail: true,
-          loginType: "facebook"
-        }).save();
+        const user: User = await User.create(formatted).save();
         const token: string = createJWT(user.id);
         return {
           ok: true,
