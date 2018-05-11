@@ -3,6 +3,7 @@ import { sendVerificationText } from "../../../utils/sendSMS";
 import Confirmation from "../../../entities/Confirmation";
 import User from "../../../entities/User";
 import { Resolvers } from "../../../types/resolvers";
+import { AddPhoneResponse } from "../../../types/graph";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -12,7 +13,7 @@ const resolvers: Resolvers = {
         _,
         { phoneNumber }: { phoneNumber: string },
         { req }
-      ): Promise<object> => {
+      ): Promise<AddPhoneResponse> => {
         const { user }: { user: User } = req;
         user.phoneNumber = phoneNumber;
         user.save();
@@ -25,7 +26,8 @@ const resolvers: Resolvers = {
           confirmation.key
         );
         return {
-          ok: true
+          ok: true,
+          error: null
         };
       }
     )

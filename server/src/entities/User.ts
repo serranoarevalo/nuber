@@ -48,8 +48,8 @@ class User extends BaseEntity {
   @Column({ type: "boolean", default: false })
   verifiedPhoneNumber: boolean;
 
-  @CreateDateColumn() createdAt: Date;
-  @UpdateDateColumn() updatedAt: Date;
+  @CreateDateColumn() createdAt: string;
+  @UpdateDateColumn() updatedAt: string;
 
   get fullName(): string {
     return `${this.firstName} ${this.lastName}`;

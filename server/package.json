@@ -19,11 +19,15 @@
     "@types/pg": "^7.4.6",
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
+    "@types/twilio": "^0.0.9",
+    "graphql-to-typescript": "^0.1.2",
     "ts-node": "^6.0.0",
     "typescript": "^2.9.0-dev.20180425"
   },
   "scripts": {
-    "dev": "nodemon --exec ts-node src/index.ts -e js,ts,graphql"
+    "dev": "nodemon --exec ts-node src/index.ts -e js,ts,graphql",
+    "types":
+      "graphql-to-typescript ./src/api/**/*.graphql ./src/types/graph.d.ts"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
@@ -39,6 +43,7 @@
     "reflect-metadata": "^0.1.12",
     "request": "^2.85.0",
     "request-promise": "^4.2.2",
+    "twilio": "^3.16.0",
     "typeorm": "^0.2.1"
   }
 }

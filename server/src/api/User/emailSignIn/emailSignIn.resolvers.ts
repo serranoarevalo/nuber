@@ -1,18 +1,21 @@
 import { createJWT } from "../../../utils/createJWT";
 import { Resolvers } from "../../../types/resolvers";
 import User from "../../../entities/User";
+import { EmailSignInResponse } from "../../../types/graph";
 
 const resolvers: Resolvers = {
   Mutation: {
     emailSignIn: async (
       _,
       { email, password }: { email: string; password: string }
-    ): Promise<object> => {
+    ): Promise<EmailSignInResponse> => {
       const user: User = await User.findOne({ email, loginType: "email" });
       if (!user) {
         return {
           ok: false,
-          error: "No user with that email"
+          error: "No user with that email",
+          token: null,
+          user: null
         };
       }
       const validPassword: boolean = await user.comparePassword(
@@ -22,14 +25,17 @@ const resolvers: Resolvers = {
       if (!validPassword) {
         return {
           ok: false,
-          error: "Wrong password"
+          error: "Wrong password",
+          token: null,
+          user: null
         };
       }
       const token: string = createJWT(user.id);
       return {
         ok: true,
         token,
-        user
+        user,
+        error: null
       };
     }
   }
