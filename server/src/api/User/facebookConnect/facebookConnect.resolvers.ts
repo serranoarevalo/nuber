@@ -3,6 +3,7 @@ import { Resolvers } from "../../../types/resolvers";
 import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import User from "../../../entities/User";
 import { createJWT } from "../../../utils/createJWT";
+import { FacebookConnectResolver } from "../../../types/graph";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -10,7 +11,7 @@ const resolvers: Resolvers = {
       _,
       { token }: { token: string },
       { req }
-    ): Promise<object> => {
+    ): Promise<FacebookConnectResolver> => {
       // https://developers.facebook.com/tools/explorer/?method=GET
       const fbURL = `https://graph.facebook.com/me?access_token=${token}&fields=id,first_name,last_name,email`;
       const fbRequest = await request(fbURL);
@@ -21,7 +22,8 @@ const resolvers: Resolvers = {
         return {
           ok: true,
           token,
-          user: existingUser
+          user: existingUser,
+          error: null
         };
       } else {
         const user: User = await User.create({
@@ -36,7 +38,8 @@ const resolvers: Resolvers = {
         return {
           ok: true,
           token,
-          user
+          user,
+          error: null
         };
       }
     }

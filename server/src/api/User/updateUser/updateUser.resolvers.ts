@@ -2,12 +2,13 @@ import bcrypt from "bcrypt";
 import { Resolvers } from "../../../types/resolvers";
 import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import User from "../../../entities/User";
+import { UpdateUserResponse } from "../../../types/graph";
 
 const resolvers: Resolvers = {
   Mutation: {
     updateUser: makeMiddleware(
       authMiddleware,
-      async (_, args, { req }): Promise<object> => {
+      async (_, args, { req }): Promise<UpdateUserResponse> => {
         const { user }: { user: User } = req;
         const updateData = args;
         if (args.password) {
@@ -17,7 +18,8 @@ const resolvers: Resolvers = {
         try {
           await User.update(user.id, args);
           return {
-            ok: true
+            ok: true,
+            error: null
           };
         } catch (error) {
           return {

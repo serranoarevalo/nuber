@@ -2,12 +2,17 @@ import { Resolvers } from "../../../types/resolvers";
 import User from "../../../entities/User";
 import Confirmation from "../../../entities/Confirmation";
 import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
+import { VerifyEmailResponse } from "../../../types/graph";
 
 const resolvers: Resolvers = {
   Mutation: {
     verifyEmail: makeMiddleware(
       authMiddleware,
-      async (_, { key }: { key: string }, { req }): Promise<object> => {
+      async (
+        _,
+        { key }: { key: string },
+        { req }
+      ): Promise<VerifyEmailResponse> => {
         const { user }: { user: User } = req;
         const confirmation: Confirmation = await Confirmation.findOne({
           key,
@@ -19,7 +24,8 @@ const resolvers: Resolvers = {
           req.user.save();
           await confirmation.remove();
           return {
-            ok: true
+            ok: true,
+            error: null
           };
         } else {
           return {
