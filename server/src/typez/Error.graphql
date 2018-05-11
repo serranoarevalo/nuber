@@ -1,3 +1,0 @@
-type Error {
-  message: String!
-}
