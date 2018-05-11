@@ -2,6 +2,7 @@ type EmailSignInResponse {
   ok: Boolean!
   token: String
   error: String
+  user: User
 }
 
 type Mutation {

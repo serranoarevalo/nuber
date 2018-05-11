@@ -28,7 +28,8 @@ const resolvers: Resolvers = {
       const token: string = createJWT(user.id);
       return {
         ok: true,
-        token
+        token,
+        user
       };
     }
   }

@@ -20,7 +20,8 @@ const resolvers: Resolvers = {
         const token: string = createJWT(existingUser.id);
         return {
           ok: true,
-          token
+          token,
+          user: existingUser
         };
       } else {
         const user: User = await User.create({
@@ -34,7 +35,8 @@ const resolvers: Resolvers = {
         const token: string = createJWT(user.id);
         return {
           ok: true,
-          token
+          token,
+          user
         };
       }
     }

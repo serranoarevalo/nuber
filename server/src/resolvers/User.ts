@@ -1,51 +1,12 @@
-import bcrypt from "bcrypt";
+
 import { sendConfirmationEmail } from "../utils/sendEmail";
 import { createJWT } from "../utils/createJWT";
-import request from "request-promise";
+
 import { authenticatedResolver } from "../utils/wrappedResolvers";
 import { sendVerificationText } from "../utils/sendSMS";
 
 export default {
   Mutation {
-    facebookConnect: async (
-      parent,
-      { token }: { token: string },
-      { entities: { User } }
-    ) => {
-      // https://developers.facebook.com/tools/explorer/?method=GET
-      const fbURL = `https://graph.facebook.com/me?access_token=${token}&fields=id,first_name,last_name,email`;
-      const fbRequest = await request(fbURL);
-      const { id, first_name, last_name, email } = JSON.parse(fbRequest);
-      const existingUser = await User.findOne({ facebookId: id });
-      if (existingUser) {
-        const token = createJWT(existingUser.id);
-        return {
-          ok: true,
-          token
-        };
-      } else {
-        const user = await User.create({
-          facebookId: id,
-          firstName: first_name,
-          lastName: last_name,
-          email: `${id}@facebook.com`,
-          verifiedEmail: true,
-          loginType: "facebook"
-        }).save();
-        const token = createJWT(user.id);
-        return {
-          ok: true,
-          token
-        };
-      }
-    },
-    loginWithEmail: async (
-      paret,
-      { email, password }: { email: string; password: string },
-      { entities: { User } }
-    ) => {
-      
-    },
     requestPhoneVerification: authenticatedResolver.wrap(
       async (
         parent,
