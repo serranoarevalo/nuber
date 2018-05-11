@@ -1,0 +1,8 @@
+type RequestPasswordResetResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  requestPasswordReset: RequestPasswordResetResponse!
+}

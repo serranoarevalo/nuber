@@ -25,7 +25,11 @@ class Confirmation extends BaseEntity {
   @Column({ type: "text" })
   key: string;
 
-  @Column({ type: "text", enum: ["email", "phone"], default: "email" })
+  @Column({
+    type: "text",
+    enum: ["email", "phone", "password"],
+    default: "email"
+  })
   type: string;
 
   @CreateDateColumn() createdAt: Date;

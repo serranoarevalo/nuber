@@ -12,6 +12,12 @@ export const sendConfirmationEmail = (key: string) => {
   return sendMail(emailSubject, emailBody);
 };
 
+export const sendResetPasswordEmail = (key: string) => {
+  const emailSubject = "Reset password";
+  const emailBody = `Hello please click here to reset your password: <a href="http://nuber.co/reset/${key}">clicking here</a>`;
+  return sendMail(emailSubject, emailBody);
+};
+
 export const sendMail = (subject: string, html: string) => {
   const emailData = {
     from: "itnico.las.me@gmail.com",

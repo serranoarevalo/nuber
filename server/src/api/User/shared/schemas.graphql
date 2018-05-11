@@ -1,17 +1,17 @@
 type User {
   id: Int!
-  email: String!
-  firstName: String!
-  lastName: String!
-  age: Int!
-  password: String!
-  createdAt: String!
-  updatedAt: String!
-  verifiedEmail: Boolean!
-  loginType: String!
-  fullName: String!
+  email: String
+  facebookId: Int
+  firstName: String
+  lastName: String
+  age: Int
+  password: String
+  verifiedEmail: Boolean
+  loginType: String
   phoneNumber: String
   verifiedPhoneNumber: Boolean
   profilePhoto: String
-  facebookId: String
+  createdAt: String
+  updatedAt: String
+  fullName: String
 }
