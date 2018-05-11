@@ -1,11 +1,12 @@
-import { authenticatedResolver } from "../../../utils/wrappedResolvers";
 import { Resolvers } from "../../../types/resolvers";
 import User from "../../../entities/User";
 import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 
 const resolvers: Resolvers = {
   Query: {
-    getUsers: makeMiddleware(authMiddleware, async (_, __, ___) => {
+    getUsers: makeMiddleware(authMiddleware, async (_, __, ___): Promise<
+      object
+    > => {
       const users: User[] = await User.find();
       if (users) {
         return {

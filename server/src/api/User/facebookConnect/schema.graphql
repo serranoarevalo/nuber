@@ -1,0 +1,9 @@
+type FacebookConnectResolver {
+  ok: Boolean!
+  token: String
+  error: String
+}
+
+type Mutation {
+  facebookConnect(token: String!): FacebookConnectResolver!
+}

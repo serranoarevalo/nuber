@@ -1,4 +1,3 @@
-import { authenticatedResolver } from "../../../utils/wrappedResolvers";
 import { Resolvers } from "../../../types/resolvers";
 import User from "../../../entities/User";
 import Confirmation from "../../../entities/Confirmation";
@@ -8,7 +7,7 @@ const resolvers: Resolvers = {
   Mutation: {
     verifyEmail: makeMiddleware(
       authMiddleware,
-      async (_, { key }: { key: string }, { req }) => {
+      async (_, { key }: { key: string }, { req }): Promise<object> => {
         const { user }: { user: User } = req;
         const confirmation: Confirmation = await Confirmation.findOne({
           key,

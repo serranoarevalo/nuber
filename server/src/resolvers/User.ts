@@ -7,30 +7,6 @@ import { sendVerificationText } from "../utils/sendSMS";
 
 export default {
   Mutation {
-    updateUser: authenticatedResolver.wrap(
-      async (parent, args, { entities: { User }, req }): Promise<boolean> => {
-        const { user } = req;
-        const updateData = args;
-        if (args.password) {
-          const hashedPassword: string = await bcrypt.hash(args.password, 12);
-          updateData.password = hashedPassword;
-        }
-        try {
-          await User.update(user.id, args);
-          return true;
-        } catch (error) {
-          return false;
-        }
-      }
-    ),
-    confirmUserEmail: authenticatedResolver.wrap(
-      async (
-        parent,
-        { key }: { key: string },
-        { entities: { User, Confirmation } },
-        req: Express.Request
-      ): Promise<object> => {}
-    ),
     facebookConnect: async (
       parent,
       { token }: { token: string },

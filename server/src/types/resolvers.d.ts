@@ -19,7 +19,3 @@ export interface Resolvers {
     [key: string]: Resolver;
   };
 }
-
-export interface WrapperResolver extends Resolver {
-  wrap: Function;
-}
