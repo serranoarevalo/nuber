@@ -8,7 +8,11 @@ const resolvers: Resolvers = {
   Mutation: {
     addPhone: makeMiddleware(
       authMiddleware,
-      async (_, { phoneNumber }: { phoneNumber: string }, { req }) => {
+      async (
+        _,
+        { phoneNumber }: { phoneNumber: string },
+        { req }
+      ): Promise<object> => {
         const { user }: { user: User } = req;
         user.phoneNumber = phoneNumber;
         user.save();

@@ -1,0 +1,8 @@
+type VerifyPhoneResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  verifyPhone(key: String!): VerifyPhoneResponse!
+}
