@@ -51,6 +51,9 @@ class User extends BaseEntity {
   @Column({ type: "text", nullable: true })
   profilePhoto: string;
 
+  @Column({ type: "boolean", default: false })
+  isDriver: boolean;
+
   @CreateDateColumn() createdAt: string;
   @UpdateDateColumn() updatedAt: string;
 
