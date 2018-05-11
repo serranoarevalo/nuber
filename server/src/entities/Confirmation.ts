@@ -16,7 +16,10 @@ import User from "./User";
 class Confirmation extends BaseEntity {
   @PrimaryGeneratedColumn() id: number;
 
-  @ManyToOne(() => User)
+  @Column({ nullable: true })
+  userId: number;
+
+  @ManyToOne(type => User)
   user: User;
 
   @Column({ type: "boolean", default: false })

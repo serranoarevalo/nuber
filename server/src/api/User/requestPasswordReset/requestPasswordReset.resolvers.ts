@@ -10,15 +10,26 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, __, { req }): Promise<RequestPasswordResetResponse> => {
         const { user }: { user: User } = req;
-        const confirmation: Confirmation = await Confirmation.create({
-          user,
-          type: "password"
-        }).save();
-        const message = await sendResetPasswordEmail(confirmation.key);
-        return {
-          ok: true,
-          error: null
-        };
+        console.log(user);
+        if (user.loginType === "email") {
+          const confirmation: Confirmation = await Confirmation.create({
+            user,
+            type: "password"
+          }).save();
+          console.log(confirmation);
+          const message = await sendResetPasswordEmail(confirmation.key);
+          confirmation.sent = true;
+          confirmation.save();
+          return {
+            ok: true,
+            error: null
+          };
+        } else {
+          return {
+            ok: false,
+            error: "Couldn't reset password, maybe try login in with Facebook?"
+          };
+        }
       }
     )
   }

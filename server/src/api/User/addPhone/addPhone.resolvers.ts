@@ -26,6 +26,8 @@ const resolvers: Resolvers = {
           phoneNumber,
           confirmation.key
         );
+        confirmation.sent = true;
+        confirmation.save();
         return {
           ok: true,
           error: null

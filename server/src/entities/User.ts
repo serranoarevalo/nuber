@@ -67,6 +67,7 @@ class User extends BaseEntity {
   }
 
   @BeforeInsert()
+  @BeforeUpdate()
   async savePassword(): Promise<void> {
     const hashedPassword = await this.hashPassword(this.password);
     this.password = hashedPassword;

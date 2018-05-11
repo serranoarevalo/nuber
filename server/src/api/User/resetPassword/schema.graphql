@@ -1,0 +1,8 @@
+type ResetPasswordResponse {
+  ok: Boolean
+  error: String
+}
+
+type Mutation {
+  resetPassword(key: String!, newPassword: String!): ResetPasswordResponse!
+}
