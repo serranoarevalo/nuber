@@ -14,4 +14,10 @@ type User {
   createdAt: String
   updatedAt: String
   fullName: String
+  confirmations: [Confirmation]
+}
+
+type Confirmation {
+  sent: Boolean!
+  key: String!
 }

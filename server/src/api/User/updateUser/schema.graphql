@@ -11,5 +11,6 @@ type Mutation {
     password: String
     age: Int
     phoneNumber: Int
+    profilePhoto: String
   ): UpdateUserResponse!
 }

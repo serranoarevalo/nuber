@@ -19,7 +19,7 @@ class Confirmation extends BaseEntity {
   @Column({ nullable: true })
   userId: number;
 
-  @ManyToOne(type => User)
+  @ManyToOne(type => User, user => user.confirmations)
   user: User;
 
   @Column({ type: "boolean", default: false })

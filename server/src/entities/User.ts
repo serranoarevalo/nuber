@@ -6,10 +6,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
-  BeforeUpdate
+  BeforeUpdate,
+  OneToMany
 } from "typeorm";
 import { IsEmail } from "class-validator";
 import bcrypt, { hash } from "bcrypt";
+import Confirmation from "./Confirmation";
 
 const BCRYPT_ROUNDS = 10;
 
@@ -53,6 +55,18 @@ class User extends BaseEntity {
 
   @Column({ type: "boolean", default: false })
   isDriver: boolean;
+
+  @Column({ type: "bigint", nullable: true })
+  balance: number;
+
+  @Column({ type: "float", default: 0 })
+  driverRating: number;
+  // TODO: I might have to get the ratings by aggregating them from all the Ride
+  @Column({ type: "float", default: 0 })
+  userRating: number;
+
+  @OneToMany(type => Confirmation, confirmation => confirmation.user)
+  confirmations: Confirmation[];
 
   @CreateDateColumn() createdAt: string;
   @UpdateDateColumn() updatedAt: string;

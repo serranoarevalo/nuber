@@ -9,6 +9,7 @@ const resolvers: Resolvers = {
       MeResponse
     > => {
       const user = await User.findOne(req.user.id);
+      console.log(user);
       if (user) {
         return {
           ok: true,
