@@ -46,6 +46,12 @@ class Ride extends BaseEntity {
   @Column({ type: "text", enum: ["cash", "card"] })
   paymentMethod: string;
 
+  @Column({ type: "text" })
+  driverLocation: string;
+
+  @Column({ type: "json" })
+  ridePath: string;
+
   @CreateDateColumn() createdAt: string;
   @UpdateDateColumn() updatedAt: string;
 }

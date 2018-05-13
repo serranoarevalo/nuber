@@ -7,6 +7,7 @@ Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, Rea
 * User authentication with email / password and Facebook.
 * Email verification with Mailgun.
 * Phone verification with Twilio.
+* Forgot password
 
 ## Packages used:
 
