@@ -15,6 +15,7 @@ type User {
   updatedAt: String
   fullName: String
   confirmations: [Confirmation]
+  isDriver: Boolean
 }
 
 type Confirmation {

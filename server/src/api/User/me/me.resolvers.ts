@@ -8,10 +8,7 @@ const resolvers: Resolvers = {
     me: makeMiddleware(authMiddleware, async (_, __, { req }): Promise<
       MeResponse
     > => {
-      const user = await User.findOne(req.user.id, {
-        relations: ["confirmations"]
-      });
-      console.log(user);
+      const user: User = await User.findOne(req.user.id);
       if (user) {
         return {
           ok: true,

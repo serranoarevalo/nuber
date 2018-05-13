@@ -12,6 +12,7 @@ import {
 import { IsEmail } from "class-validator";
 import bcrypt, { hash } from "bcrypt";
 import Confirmation from "./Confirmation";
+import Ride from "./Ride";
 
 const BCRYPT_ROUNDS = 10;
 
@@ -59,14 +60,14 @@ class User extends BaseEntity {
   @Column({ type: "bigint", nullable: true })
   balance: number;
 
-  @Column({ type: "float", default: 0 })
-  driverRating: number;
-  // TODO: I might have to get the ratings by aggregating them from all the Ride
-  @Column({ type: "float", default: 0 })
-  userRating: number;
-
   @OneToMany(type => Confirmation, confirmation => confirmation.user)
   confirmations: Confirmation[];
+
+  @OneToMany(type => Ride, ride => ride.passenger)
+  rideAsPassenger: Ride[];
+
+  @OneToMany(type => Ride, ride => ride.driver)
+  rideAsDriver: Ride[];
 
   @CreateDateColumn() createdAt: string;
   @UpdateDateColumn() updatedAt: string;
