@@ -1,0 +1,26 @@
+enum Status {
+  accepted
+  onroute
+  finished
+  canceled
+  requesting
+}
+
+enum Payment {
+  cash
+  card
+}
+
+type Ride {
+  status: Status!
+  driverRating: Int
+  passengerRating: Int
+  passenger: User!
+  driver: User!
+  pickUpLocation: String
+  dropOffLocation: String
+  price: Int
+  paymentMethod: Payment!
+  createdAt: String!
+  updatedAt: String!
+}

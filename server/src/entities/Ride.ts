@@ -17,7 +17,7 @@ class Ride extends BaseEntity {
 
   @Column({
     type: "text",
-    enum: ["accepted", "on-route", "finished", "canceled", "requesting"],
+    enum: ["accepted", "onroute", "finished", "canceled", "requesting"],
     default: "requesting"
   })
   status: string;
