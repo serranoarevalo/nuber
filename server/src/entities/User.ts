@@ -58,7 +58,7 @@ class User extends BaseEntity {
   @Column({ type: "boolean", default: false })
   isDriver: boolean;
 
-  @Column({ type: "bigint", nullable: true })
+  @Column({ type: "float", nullable: true })
   balance: number;
 
   @Column({ type: "text", default: "" })

@@ -5,9 +5,12 @@ enum ConfirmationType {
 }
 
 type Confirmation {
+  id: Int!
   userId: Int!
   user: User!
   sent: Boolean!
   key: String!
   type: ConfirmationType!
+  createdAt: String!
+  updatedAt: String!
 }

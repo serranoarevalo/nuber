@@ -16,4 +16,9 @@ type User {
   fullName: String
   confirmations: [Confirmation]
   isDriver: Boolean
+  balance: Float
+  carPlates: String
+  ridesAsPassenger: [Ride]!
+  ridesAsDriver: [Ride]!
+  places: [Place]!
 }

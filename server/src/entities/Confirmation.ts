@@ -35,8 +35,8 @@ class Confirmation extends BaseEntity {
   })
   type: string;
 
-  @CreateDateColumn() createdAt: Date;
-  @UpdateDateColumn() updatedAt: Date;
+  @CreateDateColumn() createdAt: string;
+  @UpdateDateColumn() updatedAt: string;
 
   @BeforeInsert()
   createKey(): void {

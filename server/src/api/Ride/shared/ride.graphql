@@ -12,14 +12,15 @@ enum Payment {
 }
 
 type Ride {
+  id: Int!
   status: Status!
-  driverRating: Int
-  passengerRating: Int
+  driverRating: Float
+  passengerRating: Float
   passenger: User!
   driver: User!
   pickUpLocation: String
   dropOffLocation: String
-  price: Int
+  price: Float
   paymentMethod: Payment!
   createdAt: String!
   updatedAt: String!

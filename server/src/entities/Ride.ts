@@ -22,10 +22,10 @@ class Ride extends BaseEntity {
   })
   status: string;
 
-  @Column({ type: "decimal" })
+  @Column({ type: "float" })
   driverRating: number;
 
-  @Column({ type: "decimal" })
+  @Column({ type: "float" })
   passengerRating: number;
 
   @ManyToOne(type => User, user => user.ridesAsPassenger)

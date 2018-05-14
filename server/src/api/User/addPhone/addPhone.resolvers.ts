@@ -15,7 +15,7 @@ const resolvers: Resolvers = {
         { phoneNumber }: { phoneNumber: string },
         { req }
       ): Promise<AddPhoneResponse> => {
-        const { user } = req;
+        const { user }: { user: User } = req;
         user.phoneNumber = phoneNumber;
         user.save();
         const confirmation: Confirmation = await Confirmation.create({

@@ -16,15 +16,15 @@ class Place extends BaseEntity {
   @PrimaryGeneratedColumn() id: number;
 
   @Column({ type: "text" })
-  label: string;
+  name: string;
 
   @Column({ type: "json" })
   latlong: string;
 
   @Column({ type: "text" })
-  addess: string;
+  address: string;
 
-  @Column({ type: "boolean" })
+  @Column({ type: "boolean", default: false })
   fav: boolean;
 
   @ManyToOne(type => User, user => user.places)
