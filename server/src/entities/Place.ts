@@ -21,6 +21,9 @@ class Place extends BaseEntity {
   @Column({ type: "json" })
   latlong: string;
 
+  @Column({ type: "text" })
+  addess: string;
+
   @Column({ type: "boolean" })
   fav: boolean;
 

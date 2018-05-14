@@ -40,9 +40,13 @@ class Confirmation extends BaseEntity {
 
   @BeforeInsert()
   createKey(): void {
-    this.key = Math.random()
-      .toString(36)
-      .substr(2);
+    if (this.type === "phone") {
+      this.key = Math.floor(Math.random() * 100000).toString();
+    } else {
+      this.key = Math.random()
+        .toString(36)
+        .substr(2);
+    }
   }
 }
 export default Confirmation;

@@ -3,4 +3,5 @@ type Place {
   latlong: String!
   fav: Boolean!
   user: User!
+  address: String!
 }
