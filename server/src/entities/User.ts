@@ -13,6 +13,7 @@ import { IsEmail } from "class-validator";
 import bcrypt, { hash } from "bcrypt";
 import Confirmation from "./Confirmation";
 import Ride from "./Ride";
+import Place from "./Place";
 
 const BCRYPT_ROUNDS = 10;
 
@@ -60,14 +61,20 @@ class User extends BaseEntity {
   @Column({ type: "bigint", nullable: true })
   balance: number;
 
+  @Column({ type: "text", default: "" })
+  carPlates: string;
+
   @OneToMany(type => Confirmation, confirmation => confirmation.user)
   confirmations: Confirmation[];
 
   @OneToMany(type => Ride, ride => ride.passenger)
-  rideAsPassenger: Ride[];
+  ridesAsPassenger: Ride[];
 
   @OneToMany(type => Ride, ride => ride.driver)
-  rideAsDriver: Ride[];
+  ridesAsDriver: Ride[];
+
+  @OneToMany(type => Place, place => place.user)
+  places: Place[];
 
   @CreateDateColumn() createdAt: string;
   @UpdateDateColumn() updatedAt: string;

@@ -28,10 +28,10 @@ class Ride extends BaseEntity {
   @Column({ type: "decimal" })
   passengerRating: number;
 
-  @ManyToOne(type => User, user => user.rideAsPassenger)
+  @ManyToOne(type => User, user => user.ridesAsPassenger)
   passenger: User;
 
-  @ManyToOne(type => User, user => user.rideAsDriver)
+  @ManyToOne(type => User, user => user.ridesAsDriver)
   driver: User;
 
   @Column({ type: "text" })
@@ -45,12 +45,6 @@ class Ride extends BaseEntity {
 
   @Column({ type: "text", enum: ["cash", "card"] })
   paymentMethod: string;
-
-  @Column({ type: "text" })
-  driverLocation: string;
-
-  @Column({ type: "json" })
-  ridePath: string;
 
   @CreateDateColumn() createdAt: string;
   @UpdateDateColumn() updatedAt: string;
