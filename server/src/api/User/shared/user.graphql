@@ -17,8 +17,3 @@ type User {
   confirmations: [Confirmation]
   isDriver: Boolean
 }
-
-type Confirmation {
-  sent: Boolean!
-  key: String!
-}

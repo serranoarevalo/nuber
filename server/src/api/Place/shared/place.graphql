@@ -1,0 +1,6 @@
+type Place {
+  label: String!
+  latlong: String!
+  fav: Boolean!
+  user: User!
+}

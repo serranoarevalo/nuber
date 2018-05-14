@@ -1,0 +1,13 @@
+enum ConfirmationType {
+  email
+  phone
+  password
+}
+
+type Confirmation {
+  userId: Int!
+  user: User!
+  sent: Boolean!
+  key: String!
+  type: ConfirmationType!
+}
