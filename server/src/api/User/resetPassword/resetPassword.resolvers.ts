@@ -11,7 +11,7 @@ const resolvers: Resolvers = {
     ): Promise<ResetPasswordResponse> => {
       const confirmation: Confirmation = await Confirmation.findOne({
         key,
-        type: "password"
+        type: "PASSWORD"
       });
       if (confirmation) {
         const user: User = await User.findOne(confirmation.userId);

@@ -32,7 +32,7 @@ const resolvers: Resolvers = {
           lastName: last_name,
           email: `${id}@facebook.com`,
           verifiedEmail: true,
-          loginType: "facebook",
+          loginType: "FACEBOOK",
           profilePhoto: `https://graph.facebook.com/${id}/picture?type=square`
         }).save();
         const token: string = createJWT(user.id);

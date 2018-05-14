@@ -17,7 +17,7 @@ const resolvers: Resolvers = {
         const confirmation: Confirmation = await Confirmation.findOne({
           key,
           user,
-          type: "phone"
+          type: "PHONE"
         });
         if (confirmation) {
           user.verifiedPhoneNumber = true;

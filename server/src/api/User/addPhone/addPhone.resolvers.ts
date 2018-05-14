@@ -20,7 +20,7 @@ const resolvers: Resolvers = {
         user.save();
         const confirmation: Confirmation = await Confirmation.create({
           user,
-          type: "phone"
+          type: "PHONE"
         }).save();
         const message = await sendVerificationText(
           phoneNumber,

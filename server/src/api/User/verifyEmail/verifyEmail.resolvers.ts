@@ -17,7 +17,7 @@ const resolvers: Resolvers = {
         const confirmation: Confirmation = await Confirmation.findOne({
           key,
           user,
-          type: "email"
+          type: "EMAIL"
         });
         if (confirmation) {
           req.user.verifiedEmail = true;

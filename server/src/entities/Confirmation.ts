@@ -30,7 +30,7 @@ class Confirmation extends BaseEntity {
 
   @Column({
     type: "text",
-    enum: ["email", "phone", "password"],
+    enum: ["EMAIL", "PHONE", "PASSWORD"],
     default: "email"
   })
   type: string;
@@ -40,7 +40,7 @@ class Confirmation extends BaseEntity {
 
   @BeforeInsert()
   createKey(): void {
-    if (this.type === "phone") {
+    if (this.type === "PHONE") {
       this.key = Math.floor(Math.random() * 100000).toString();
     } else {
       this.key = Math.random()

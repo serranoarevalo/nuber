@@ -9,7 +9,7 @@ const resolvers: Resolvers = {
       _,
       { email, password }: { email: string; password: string }
     ): Promise<EmailSignInResponse> => {
-      const user: User = await User.findOne({ email, loginType: "email" });
+      const user: User = await User.findOne({ email, loginType: "EMAIL" });
       if (!user) {
         return {
           ok: false,

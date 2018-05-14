@@ -14,20 +14,18 @@
     "@types/mailgun-js": "^0.16.0",
     "@types/morgan": "^1.7.35",
     "@types/node": "^9.6.6",
-    "@types/passport": "^0.4.5",
-    "@types/passport-jwt": "^3.0.1",
     "@types/pg": "^7.4.6",
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
     "@types/twilio": "^0.0.9",
     "graphql-to-typescript": "^0.1.2",
     "ts-node": "^6.0.0",
-    "typescript": "^2.9.0-dev.20180425"
+    "tslint-config-prettier": "^1.12.0",
+    "typescript": "^2.8.3"
   },
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts -e js,ts,graphql",
-    "types":
-      "graphql-to-typescript ./src/api/**/*.graphql ./src/types/graph.d.ts"
+    "types": "graphql-to-typescript ./src/api/**/*.graphql ./src/types/graph.d.ts"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",

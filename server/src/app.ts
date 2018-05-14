@@ -37,7 +37,7 @@ class App {
       try {
         const decoded = await jwt.verify(token, JWT_SECRET);
         const reqUser = await entities.User.findOne(decoded["id"]);
-        req.user = reqUser;
+        req["user"] = reqUser;
       } catch (err) {
         return err;
       }

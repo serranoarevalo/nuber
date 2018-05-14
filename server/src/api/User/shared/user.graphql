@@ -7,7 +7,7 @@ type User {
   age: Int
   password: String
   verifiedEmail: Boolean
-  loginType: String
+  loginType: String!
   phoneNumber: String
   verifiedPhoneNumber: Boolean
   profilePhoto: String

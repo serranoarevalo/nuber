@@ -43,7 +43,7 @@ class Ride extends BaseEntity {
   @Column({ type: "decimal" })
   price: number;
 
-  @Column({ type: "text", enum: ["cash", "card"] })
+  @Column({ type: "text", enum: ["CASH", "CARD"] })
   paymentMethod: string;
 
   @CreateDateColumn() createdAt: string;

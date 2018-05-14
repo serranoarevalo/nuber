@@ -11,12 +11,12 @@ const resolvers: Resolvers = {
       async (_, __, { req }): Promise<RequestPasswordResetResponse> => {
         const { user }: { user: User } = req;
         console.log(user);
-        if (user.loginType === "email") {
+        if (user.loginType === "EMAIL") {
           const confirmation: Confirmation = await Confirmation.create({
             user,
-            type: "password"
+            type: "PASSWORD"
           }).save();
-          console.log(confirmation);
+
           const message = await sendResetPasswordEmail(confirmation.key);
           confirmation.sent = true;
           confirmation.save();
