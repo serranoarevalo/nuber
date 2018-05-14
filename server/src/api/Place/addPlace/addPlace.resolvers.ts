@@ -9,8 +9,8 @@ const resolvers: Resolvers = {
     addPlace: makeMiddleware(authMiddleware, async (_, args, { req }): Promise<
       AddPlaceResponse
     > => {
-      const { user }: { user: User } = req;
-      const newPlace: Place = await Place.create({ ...args, user }).save();
+      const { user } = req;
+      const newPlace = await Place.create({ ...args, user }).save();
       if (newPlace) {
         return {
           ok: true,

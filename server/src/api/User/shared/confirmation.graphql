@@ -10,7 +10,7 @@ type Confirmation {
   user: User!
   sent: Boolean!
   key: String!
-  type: ConfirmationType!
+  type: String!
   createdAt: String!
   updatedAt: String!
 }

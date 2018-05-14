@@ -1,19 +1,6 @@
-enum Status {
-  accepted
-  onroute
-  finished
-  canceled
-  requesting
-}
-
-enum Payment {
-  cash
-  card
-}
-
 type Ride {
   id: Int!
-  status: Status!
+  status: String!
   driverRating: Float
   passengerRating: Float
   passenger: User!
@@ -21,7 +8,7 @@ type Ride {
   pickUpLocation: String
   dropOffLocation: String
   price: Float
-  paymentMethod: Payment!
+  paymentMethod: String!
   createdAt: String!
   updatedAt: String!
 }

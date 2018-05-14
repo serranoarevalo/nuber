@@ -1,4 +1,4 @@
-export const typeDefs = ["type AddPlaceResponse {\n  ok: Boolean!\n  place: Place\n  error: String\n}\n\ntype Mutation {\n  addPlace(\n    address: String!\n    name: String!\n    latlong: String!\n    fav: Boolean\n  ): AddPlaceResponse!\n}\n","type Place {\n  id: Int!\n  name: String!\n  latlong: String!\n  address: String!\n  fav: Boolean!\n  user: User!\n  createdAt: String!\n  updatedAt: String!\n}\n","enum Status {\n  accepted\n  onroute\n  finished\n  canceled\n  requesting\n}\n\nenum Payment {\n  cash\n  card\n}\n\ntype Ride {\n  id: Int!\n  status: Status!\n  driverRating: Float\n  passengerRating: Float\n  passenger: User!\n  driver: User!\n  pickUpLocation: String\n  dropOffLocation: String\n  price: Float\n  paymentMethod: Payment!\n  createdAt: String!\n  updatedAt: String!\n}\n","type AddPhoneResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  addPhone(phoneNumber: String!): AddPhoneResponse!\n}\n","","type EmailSignInResponse {\n  ok: Boolean!\n  token: String\n  error: String\n  user: User\n}\n\ntype Mutation {\n  emailSignIn(email: String!, password: String!): EmailSignInResponse!\n}\n","type EmailSignUpResponse {\n  ok: Boolean!\n  user: User\n  error: String\n}\n\ntype Mutation {\n  emailSignUp(\n    email: String!\n    firstName: String!\n    lastName: String!\n    password: String!\n    age: Int!\n  ): EmailSignUpResponse!\n}\n","type FacebookConnectResolver {\n  ok: Boolean!\n  token: String\n  error: String\n  user: User\n}\n\ntype Mutation {\n  facebookConnect(token: String!): FacebookConnectResolver!\n}\n","type GetUserProfileResponse {\n  ok: Boolean!\n  user: User\n  error: String\n}\n\ntype Query {\n  getUserProfile(id: Int!): GetUserProfileResponse!\n}\n","type GetUsersResponse {\n  ok: Boolean!\n  users: [User]!\n  error: String\n}\n\ntype Query {\n  getUsers: GetUsersResponse!\n}\n","type MeResponse {\n  ok: Boolean!\n  user: User\n  error: String\n}\n\ntype Query {\n  me: MeResponse\n}\n","type RequestPasswordResetResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  requestPasswordReset: RequestPasswordResetResponse!\n}\n","type ResetPasswordResponse {\n  ok: Boolean\n  error: String\n}\n\ntype Mutation {\n  resetPassword(key: String!, newPassword: String!): ResetPasswordResponse!\n}\n","enum ConfirmationType {\n  email\n  phone\n  password\n}\n\ntype Confirmation {\n  id: Int!\n  userId: Int!\n  user: User!\n  sent: Boolean!\n  key: String!\n  type: ConfirmationType!\n  createdAt: String!\n  updatedAt: String!\n}\n","type User {\n  id: Int!\n  email: String\n  facebookId: Int\n  firstName: String\n  lastName: String\n  age: Int\n  password: String\n  verifiedEmail: Boolean\n  loginType: String\n  phoneNumber: String\n  verifiedPhoneNumber: Boolean\n  profilePhoto: String\n  createdAt: String\n  updatedAt: String\n  fullName: String\n  confirmations: [Confirmation]\n  isDriver: Boolean\n  balance: Float\n  carPlates: String\n  ridesAsPassenger: [Ride]!\n  ridesAsDriver: [Ride]!\n  places: [Place]!\n}\n","type UpdateUserResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  updateUser(\n    email: String\n    firstName: String\n    lastName: String\n    password: String\n    age: Int\n    phoneNumber: Int\n    profilePhoto: String\n  ): UpdateUserResponse!\n}\n","type VerifyEmailResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  verifyEmail(key: String!): VerifyEmailResponse!\n}\n","type VerifyPhoneResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  verifyPhone(key: String!): VerifyPhoneResponse!\n}\n"];
+export const typeDefs = ["type AddPlaceResponse {\n  ok: Boolean!\n  place: Place\n  error: String\n}\n\ntype Mutation {\n  addPlace(\n    address: String!\n    name: String!\n    latlong: String!\n    fav: Boolean\n  ): AddPlaceResponse!\n}\n","type Place {\n  id: Int!\n  name: String!\n  latlong: String!\n  address: String!\n  fav: Boolean!\n  user: User!\n  createdAt: String!\n  updatedAt: String!\n}\n","type Ride {\n  id: Int!\n  status: String!\n  driverRating: Float\n  passengerRating: Float\n  passenger: User!\n  driver: User!\n  pickUpLocation: String\n  dropOffLocation: String\n  price: Float\n  paymentMethod: String!\n  createdAt: String!\n  updatedAt: String!\n}\n","type AddPhoneResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  addPhone(phoneNumber: String!): AddPhoneResponse!\n}\n","","type EmailSignInResponse {\n  ok: Boolean!\n  token: String\n  error: String\n  user: User\n}\n\ntype Mutation {\n  emailSignIn(email: String!, password: String!): EmailSignInResponse!\n}\n","type EmailSignUpResponse {\n  ok: Boolean!\n  user: User\n  error: String\n}\n\ntype Mutation {\n  emailSignUp(\n    email: String!\n    firstName: String!\n    lastName: String!\n    password: String!\n    age: Int!\n  ): EmailSignUpResponse!\n}\n","type FacebookConnectResolver {\n  ok: Boolean!\n  token: String\n  error: String\n  user: User\n}\n\ntype Mutation {\n  facebookConnect(token: String!): FacebookConnectResolver!\n}\n","type GetUserProfileResponse {\n  ok: Boolean!\n  user: User\n  error: String\n}\n\ntype Query {\n  getUserProfile(id: Int!): GetUserProfileResponse!\n}\n","type GetUsersResponse {\n  ok: Boolean!\n  users: [User]!\n  error: String\n}\n\ntype Query {\n  getUsers: GetUsersResponse!\n}\n","type MeResponse {\n  ok: Boolean!\n  user: User\n  error: String\n}\n\ntype Query {\n  me: MeResponse\n}\n","type RequestPasswordResetResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  requestPasswordReset: RequestPasswordResetResponse!\n}\n","type ResetPasswordResponse {\n  ok: Boolean\n  error: String\n}\n\ntype Mutation {\n  resetPassword(key: String!, newPassword: String!): ResetPasswordResponse!\n}\n","enum ConfirmationType {\n  email\n  phone\n  password\n}\n\ntype Confirmation {\n  id: Int!\n  userId: Int!\n  user: User!\n  sent: Boolean!\n  key: String!\n  type: String!\n  createdAt: String!\n  updatedAt: String!\n}\n","type User {\n  id: Int!\n  email: String\n  facebookId: Int\n  firstName: String\n  lastName: String\n  age: Int\n  password: String\n  verifiedEmail: Boolean\n  loginType: String\n  phoneNumber: String\n  verifiedPhoneNumber: Boolean\n  profilePhoto: String\n  createdAt: String\n  updatedAt: String\n  fullName: String\n  confirmations: [Confirmation]\n  isDriver: Boolean\n  balance: Float\n  carPlates: String\n  ridesAsPassenger: [Ride]!\n  ridesAsDriver: [Ride]!\n  places: [Place]!\n}\n","type UpdateUserResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  updateUser(\n    email: String\n    firstName: String\n    lastName: String\n    password: String\n    age: Int\n    phoneNumber: Int\n    profilePhoto: String\n  ): UpdateUserResponse!\n}\n","type VerifyEmailResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  verifyEmail(key: String!): VerifyEmailResponse!\n}\n","type VerifyPhoneResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  verifyPhone(key: String!): VerifyPhoneResponse!\n}\n"];
 /* tslint:disable */
 
 export interface Query {
@@ -42,16 +42,14 @@ export interface Confirmation {
   user: User;
   sent: boolean;
   key: string;
-  type: ConfirmationType;
+  type: string;
   createdAt: string;
   updatedAt: string;
 }
 
-export type ConfirmationType = "email" | "phone" | "password";
-
 export interface Ride {
   id: number;
-  status: Status;
+  status: string;
   driverRating: number | null;
   passengerRating: number | null;
   passenger: User;
@@ -59,14 +57,10 @@ export interface Ride {
   pickUpLocation: string | null;
   dropOffLocation: string | null;
   price: number | null;
-  paymentMethod: Payment;
+  paymentMethod: string;
   createdAt: string;
   updatedAt: string;
 }
-
-export type Status = "accepted" | "onroute" | "finished" | "canceled" | "requesting";
-
-export type Payment = "cash" | "card";
 
 export interface Place {
   id: number;
@@ -144,6 +138,8 @@ export interface ResetPasswordResponse {
   ok: boolean | null;
   error: string | null;
 }
+
+export type ConfirmationType = "email" | "phone" | "password";
 
 export interface UpdateUserResponse {
   ok: boolean;
