@@ -1,0 +1,9 @@
+type GetPlaceResponse {
+  ok: Boolean!
+  place: Place
+  error: String
+}
+
+type Query {
+  getPlace(placeId: Int!): GetPlaceResponse!
+}
