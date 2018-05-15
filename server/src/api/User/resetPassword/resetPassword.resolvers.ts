@@ -3,11 +3,16 @@ import Confirmation from "../../../entities/Confirmation";
 import User from "../../../entities/User";
 import { ResetPasswordResponse } from "../../../types/graph";
 
+interface IArgs {
+  key: string;
+  newPassword: string;
+}
+
 const resolvers: Resolvers = {
   Mutation: {
     resetPassword: async (
       _,
-      { key, newPassword }: { key: string; newPassword: string }
+      { key, newPassword }: IArgs
     ): Promise<ResetPasswordResponse> => {
       const confirmation: Confirmation = await Confirmation.findOne({
         key,

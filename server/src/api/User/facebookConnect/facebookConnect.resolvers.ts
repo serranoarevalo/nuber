@@ -5,18 +5,22 @@ import User from "../../../entities/User";
 import { createJWT } from "../../../utils/createJWT";
 import { FacebookConnectResolver } from "../../../types/graph";
 
+interface IArgs {
+  fbToken: string;
+}
+
 const resolvers: Resolvers = {
   Mutation: {
     facebookConnect: async (
       _,
-      { token }: { token: string },
+      { fbToken }: IArgs,
       { req }
     ): Promise<FacebookConnectResolver> => {
       // https://developers.facebook.com/tools/explorer/?method=GET
-      const fbURL = `https://graph.facebook.com/me?access_token=${token}&fields=id,first_name,last_name,email`;
+      const fbURL = `https://graph.facebook.com/me?access_token=${fbToken}&fields=id,first_name,last_name,email`;
       const fbRequest = await request(fbURL);
       const { id, first_name, last_name, email } = JSON.parse(fbRequest);
-      let existingUser: User = await User.findOne({ facebookId: id });
+      const existingUser: User = await User.findOne({ facebookId: id });
       if (existingUser) {
         const token: string = createJWT(existingUser.id);
         return {

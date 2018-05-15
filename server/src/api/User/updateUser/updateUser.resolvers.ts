@@ -4,11 +4,21 @@ import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import User from "../../../entities/User";
 import { UpdateUserResponse } from "../../../types/graph";
 
+interface IArgs {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  age: number;
+  phoneNumber: string;
+  profilePhoto: string;
+}
+
 const resolvers: Resolvers = {
   Mutation: {
     updateUser: makeMiddleware(
       authMiddleware,
-      async (_, args, { req }): Promise<UpdateUserResponse> => {
+      async (_, args: IArgs, { req }): Promise<UpdateUserResponse> => {
         const { user }: { user: User } = req;
         const updateData = args;
         if (args.password) {

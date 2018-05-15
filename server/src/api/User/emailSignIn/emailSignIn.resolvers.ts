@@ -3,11 +3,16 @@ import { Resolvers } from "../../../types/resolvers";
 import User from "../../../entities/User";
 import { EmailSignInResponse } from "../../../types/graph";
 
+interface IArgs {
+  email: string;
+  password: string;
+}
+
 const resolvers: Resolvers = {
   Mutation: {
     emailSignIn: async (
       _,
-      { email, password }: { email: string; password: string }
+      { email, password }: IArgs
     ): Promise<EmailSignInResponse> => {
       const user: User = await User.findOne({ email, loginType: "EMAIL" });
       if (!user) {

@@ -4,15 +4,15 @@ import Confirmation from "../../../entities/Confirmation";
 import User from "../../../entities/User";
 import { VerifyPhoneResponse } from "../../../types/graph";
 
+interface IArgs {
+  key: string;
+}
+
 const resolvers: Resolvers = {
   Mutation: {
     verifyPhone: makeMiddleware(
       authMiddleware,
-      async (
-        _,
-        { key }: { key: string },
-        { req }
-      ): Promise<VerifyPhoneResponse> => {
+      async (_, { key }: IArgs, { req }): Promise<VerifyPhoneResponse> => {
         const { user }: { user: User } = req;
         const confirmation: Confirmation = await Confirmation.findOne({
           key,

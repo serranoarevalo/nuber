@@ -1,20 +1,19 @@
 import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import { sendVerificationText } from "../../../utils/sendSMS";
-import Verification from "../../../entities/Confirmation";
 import User from "../../../entities/User";
 import { Resolvers } from "../../../types/resolvers";
 import { AddPhoneResponse } from "../../../types/graph";
 import Confirmation from "../../../entities/Confirmation";
 
+interface IArgs {
+  phoneNumber: string;
+}
+
 const resolvers: Resolvers = {
   Mutation: {
     addPhone: makeMiddleware(
       authMiddleware,
-      async (
-        _,
-        { phoneNumber }: { phoneNumber: string },
-        { req }
-      ): Promise<AddPhoneResponse> => {
+      async (_, { phoneNumber }: IArgs, { req }): Promise<AddPhoneResponse> => {
         const { user }: { user: User } = req;
         user.phoneNumber = phoneNumber;
         user.save();

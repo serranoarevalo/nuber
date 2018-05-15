@@ -4,15 +4,15 @@ import User from "../../../entities/User";
 import { GetPlaceResponse } from "../../../types/graph";
 import Place from "../../../entities/Place";
 
+interface IArgs {
+  placeId: number;
+}
+
 const resolvers: Resolvers = {
   Query: {
     getPlace: makeMiddleware(
       authMiddleware,
-      async (
-        _,
-        { placeId }: { placeId: number },
-        { req }
-      ): Promise<GetPlaceResponse> => {
+      async (_, { placeId }: IArgs, { req }): Promise<GetPlaceResponse> => {
         const { user }: { user: User } = req;
         const place: Place = await Place.findOne({ id: placeId, user });
         if (place) {

@@ -4,15 +4,15 @@ import User from "../../../entities/User";
 import { DeletePlaceResponse } from "../../../types/graph";
 import Place from "../../../entities/Place";
 
+interface IArgs {
+  placeId: number;
+}
+
 const resolvers: Resolvers = {
   Mutation: {
     deletePlace: makeMiddleware(
       authMiddleware,
-      async (
-        _,
-        { placeId }: { placeId: number },
-        { req }
-      ): Promise<DeletePlaceResponse> => {
+      async (_, { placeId }: IArgs, { req }): Promise<DeletePlaceResponse> => {
         const { user }: { user: User } = req;
         const place: Place = await Place.findOne({ id: placeId, user });
         if (place) {

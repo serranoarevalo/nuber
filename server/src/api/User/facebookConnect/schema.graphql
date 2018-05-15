@@ -6,5 +6,5 @@ type FacebookConnectResolver {
 }
 
 type Mutation {
-  facebookConnect(token: String!): FacebookConnectResolver!
+  facebookConnect(fbToken: String!): FacebookConnectResolver!
 }

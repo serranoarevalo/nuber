@@ -38,6 +38,9 @@ class Ride extends BaseEntity {
   pickUpLocation: string;
 
   @Column({ type: "text" })
+  pickUpCoords: string;
+
+  @Column({ type: "text" })
   dropOffLocation: string;
 
   @Column({ type: "decimal" })

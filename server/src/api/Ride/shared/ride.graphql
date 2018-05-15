@@ -4,8 +4,9 @@ type Ride {
   driverRating: Float
   passengerRating: Float
   passenger: User!
-  driver: User!
+  driver: User
   pickUpLocation: String
+  pickUpCoords: String!
   dropOffLocation: String
   price: Float
   paymentMethod: String!
