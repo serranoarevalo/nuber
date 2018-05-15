@@ -87,8 +87,8 @@ class User extends BaseEntity {
     return bcrypt.hash(password, BCRYPT_ROUNDS);
   }
 
-  comparePassword(password: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(password, hash);
+  comparePassword(password: string, hashString: string): Promise<boolean> {
+    return bcrypt.compare(password, hashString);
   }
 
   @BeforeInsert()
