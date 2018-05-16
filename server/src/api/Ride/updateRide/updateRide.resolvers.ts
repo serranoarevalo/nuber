@@ -3,6 +3,7 @@ import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import { UpdateRideResponse } from "../../../types/graph";
 import User from "../../../entities/User";
 import Ride from "../../../entities/Ride";
+import { getConnection, SelectQueryBuilder } from "typeorm";
 
 interface IArgs {
   rideId: number;
@@ -17,31 +18,26 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, args: IArgs, { req }): Promise<UpdateRideResponse> => {
         const { user }: { user: User } = req;
-        const ride: Ride = await Ride.findOne(
-          { id: args.rideId },
-          { loadRelationIds: true }
-        );
+        const ride = await getConnection()
+          .getRepository(Ride)
+          .createQueryBuilder("ride")
+          .loadAllRelationIds()
+          .where("ride.passenger = :userId OR ride.driver = :driverId", {
+            userId: user.id,
+            driverId: user.id
+          })
+          .getOne();
         if (ride) {
-          if (
-            Number(ride.passenger) === user.id ||
-            Number(ride.driver) === user.id
-          ) {
-            try {
-              await Ride.update(args.rideId, args);
-              return {
-                ok: true,
-                error: null
-              };
-            } catch (error) {
-              return {
-                ok: false,
-                error: "Couldn't update ride"
-              };
-            }
-          } else {
+          try {
+            await Ride.update(args.rideId, args);
+            return {
+              ok: true,
+              error: null
+            };
+          } catch (error) {
             return {
               ok: false,
-              error: "You cant update this ride"
+              error: "Couldn't update ride"
             };
           }
         } else {
