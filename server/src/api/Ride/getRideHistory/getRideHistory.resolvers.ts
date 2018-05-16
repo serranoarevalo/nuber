@@ -1,45 +1,36 @@
 import { Resolvers } from "../../../types/resolvers";
 import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
+import { User } from "../../../types/graph";
 import Ride from "../../../entities/Ride";
-import User from "../../../entities/User";
 import { getConnection } from "typeorm";
-
-interface IArgs {
-  rideId: number;
-}
 
 const resolvers: Resolvers = {
   Query: {
-    getRide: makeMiddleware(authMiddleware, async (_, args: IArgs, { req }) => {
+    getRideHistory: makeMiddleware(authMiddleware, async (_, __, { req }) => {
       const { user }: { user: User } = req;
-      const ride = await getConnection()
+      const rides = await getConnection()
         .getRepository(Ride)
         .createQueryBuilder("ride")
         .loadAllRelationIds()
-        .where(
-          "ride.id = :rideId AND ride.passenger = :userId OR ride.driver = :driverId",
-          {
-            userId: user.id,
-            driverId: user.id,
-            rideId: args.rideId
-          }
-        )
-        .getOne();
-      if (ride) {
+        .where("ride.passenger = :userId OR ride.driver = :driverId", {
+          userId: user.id,
+          driverId: user.id
+        })
+        .getMany();
+      if (rides) {
         return {
           ok: true,
-          ride,
+          rides,
           error: null
         };
       } else {
         return {
           ok: false,
-          ride: null,
-          error: "Couldn't find ride"
+          rides: null,
+          error: "Could not find rides"
         };
       }
     })
   }
 };
-
 export default resolvers;

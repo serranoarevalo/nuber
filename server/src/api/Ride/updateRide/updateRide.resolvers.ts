@@ -22,11 +22,16 @@ const resolvers: Resolvers = {
           .getRepository(Ride)
           .createQueryBuilder("ride")
           .loadAllRelationIds()
-          .where("ride.passenger = :userId OR ride.driver = :driverId", {
-            userId: user.id,
-            driverId: user.id
-          })
+          .where(
+            "ride.id = :rideId AND ride.passenger = :userId OR ride.driver = :driverId",
+            {
+              userId: user.id,
+              driverId: user.id,
+              rideId: args.rideId
+            }
+          )
           .getOne();
+        console.log(ride);
         if (ride) {
           try {
             await Ride.update(args.rideId, args);
