@@ -1,0 +1,13 @@
+type UpdateRideResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  updateRide(
+    rideId: Int!
+    status: String
+    driverRating: Float
+    passengerRating: Float
+  ): UpdateRideResponse!
+}

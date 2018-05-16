@@ -1,0 +1,9 @@
+type GetRideResponse {
+  ok: Boolean!
+  ride: Ride
+  error: String
+}
+
+type Query {
+  getRide(rideId: Int!): GetRideResponse!
+}
