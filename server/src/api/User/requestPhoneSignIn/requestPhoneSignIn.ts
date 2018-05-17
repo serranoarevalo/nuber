@@ -1,9 +1,8 @@
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
-import { sendVerificationText } from "../../../utils/sendSMS";
-import User from "../../../entities/User";
 import { Resolvers } from "../../../types/resolvers";
-import { AddPhoneResponse } from "../../../types/graph";
+import User from "../../../entities/User";
 import Confirmation from "../../../entities/Confirmation";
+import { sendVerificationText } from "../../../utils/sendSMS";
+import { RequestPhoneSignInResponse } from "../../../types/graph";
 
 interface IArgs {
   phoneNumber: string;
@@ -11,12 +10,15 @@ interface IArgs {
 
 const resolvers: Resolvers = {
   Mutation: {
-    addPhone: makeMiddleware(
-      authMiddleware,
-      async (_, { phoneNumber }: IArgs, { req }): Promise<AddPhoneResponse> => {
-        const { user }: { user: User } = req;
-        user.phoneNumber = phoneNumber;
-        user.save();
+    requestPhoneSignIn: async (
+      _,
+      { phoneNumber }: IArgs
+    ): Promise<RequestPhoneSignInResponse> => {
+      const user: User = await User.findOne({
+        phoneNumber,
+        verifiedPhoneNumber: true
+      });
+      if (user) {
         const confirmation: Confirmation = await Confirmation.create({
           user,
           type: "PHONE"
@@ -28,8 +30,14 @@ const resolvers: Resolvers = {
           ok: true,
           error: null
         };
+      } else {
+        return {
+          ok: false,
+          error: "There is no user registered with that phone number"
+        };
       }
-    )
+    }
   }
 };
+
 export default resolvers;

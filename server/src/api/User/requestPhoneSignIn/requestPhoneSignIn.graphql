@@ -1,0 +1,8 @@
+type RequestPhoneSignInResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  requestPhoneSignIn(phoneNumber: String!): RequestPhoneSignInResponse!
+}
