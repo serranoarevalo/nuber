@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start":
-      "concurrently --kill-others \"cd server && yarn run dev\" \"cd client && yarn start\" "
+    "start:back": "cd server && yarn run dev",
+    "start:front": "cd client && yarn run start"
   }
 }
