@@ -24,6 +24,10 @@
   version "0.12.6"
   resolved "http://registry.npmjs.org/@types/graphql/-/graphql-0.12.6.tgz#3d619198585fcabe5f4e1adfb5cf5f3388c66c13"
 
+"@types/history@*":
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/@types/history/-/history-4.6.2.tgz#12cfaba693ba20f114ed5765467ff25fdf67ddb0"
+
 "@types/jest@^22.2.3":
   version "22.2.3"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.2.3.tgz#0157c0316dc3722c43a7b71de3fdf3acbccef10d"
@@ -41,6 +45,21 @@
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.5.tgz#a757457662e3819409229e8f86795ff37b371f96"
   dependencies:
     "@types/node" "*"
+    "@types/react" "*"
+
+"@types/react-router-dom@^4.2.6":
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.2.6.tgz#9f7eb3c0e6661a9607d878ff8675cc4ea95cd276"
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+    "@types/react-router" "*"
+
+"@types/react-router@*":
+  version "4.0.25"
+  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-4.0.25.tgz#1e25490780b80e0d8f96bf649379cca8638c1e5a"
+  dependencies:
+    "@types/history" "*"
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^16.3.14":

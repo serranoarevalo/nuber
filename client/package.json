@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-router-dom": "^4.2.6",
     "apollo-boost": "^0.1.6",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
