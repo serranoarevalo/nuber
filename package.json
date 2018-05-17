@@ -6,5 +6,9 @@
   "repository": "https://github.com/serranoarevalo/nuber",
   "author": "Nicolás Serrano Arévalo <itnico.las.me@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "scripts": {
+    "start":
+      "concurrently --kill-others \"cd server && yarn run dev\" \"cd client && yarn start\" "
+  }
 }

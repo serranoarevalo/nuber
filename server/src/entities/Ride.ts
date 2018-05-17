@@ -43,6 +43,9 @@ class Ride extends BaseEntity {
   @Column({ type: "text" })
   dropOffLocation: string;
 
+  @Column({ type: "json", nullable: true })
+  drivePath: string;
+
   @Column({ type: "decimal" })
   price: number;
 
