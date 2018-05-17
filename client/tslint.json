@@ -4,6 +4,7 @@
     "exclude": ["config/**/*.js", "node_modules/**/*."]
   },
   "rules": {
-    "member-access": false
+    "member-access": false,
+    "no-unused-expression": false
   }
 }
