@@ -1,6 +1,7 @@
 import { tween } from "popmotion";
 import PropTypes from "prop-types";
 import React from "react";
+import FontAwesome from "react-fontawesome";
 import posed from "react-pose";
 import { PoseElementProps } from "react-pose/lib/components/PoseElement.types";
 import styled from "styled-components";
@@ -11,6 +12,7 @@ const PresenterScreen = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
+  position: relative;
 `;
 
 const PosedHeader = posed.div({
@@ -56,11 +58,10 @@ const Logo = styled.span`
 
 const PosedMobile = posed.div({
   closed: {
-    height: "15%"
+    maxHeight: "15%"
   },
   open: {
-    height: "100%",
-    marginTop: "50px"
+    maxHeight: "100%"
   }
 });
 
@@ -75,8 +76,10 @@ const StyledMobile = styled<IStyledMobile, any>(PosedMobile)`
   padding: 0 15px;
   display: flex;
   flex-direction: column;
+  height: 15%;
   justify-content: ${props =>
     props.loginMethod === "mobile" ? "flex-start" : "center"};
+  margin-top: ${props => (props.loginMethod === "mobile" ? "100px" : "0px")};
 `;
 
 const Title = styled.div`
@@ -112,6 +115,30 @@ const SocialText = styled.span`
   margin: 0 15px;
 `;
 
+interface IStyledBackButton {
+  pose: PoseElementProps;
+  onCLick: () => void;
+}
+
+const PosedBackButton = posed.span({
+  hidding: {
+    left: "-50px",
+    transition: (props: any) => tween({ ...props, duration: 500 })
+  },
+  showing: {
+    left: "15px",
+    transition: (props: any) => tween({ ...props, duration: 500 })
+  }
+});
+
+const StyledBackButton = styled<IStyledBackButton, any>(PosedBackButton)`
+  position: absolute;
+  top: 15px;
+  font-size: 30px;
+  left: 15px;
+  color: rgba(0, 0, 0, 0.7);
+`;
+
 interface IProps {
   handleMobileClick: () => void;
   handleSocialClick: () => void;
@@ -127,6 +154,12 @@ const LoginPresenter: React.SFC<IProps> = ({
   loginMethod
 }) => (
   <PresenterScreen>
+    <StyledBackButton
+      pose={loginMethod !== "" ? "showing" : "hidding"}
+      onClick={handleBackButtonClick}
+    >
+      <FontAwesome name="arrow-circle-left" />
+    </StyledBackButton>
     <StyledHeader
       onClick={handleMobileClick}
       pose={loginMethod === "" ? "open" : "closed"}
