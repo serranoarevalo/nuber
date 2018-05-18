@@ -12,6 +12,9 @@ injectGlobal`
   * {
     box-sizing:border-box;
   }
+  html,body, #root{
+    height:100%
+  }
   body {
     font-family: "Maven Pro", sans-serif;
   }
