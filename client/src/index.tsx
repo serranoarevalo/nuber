@@ -7,9 +7,13 @@ import client from "./apollo";
 import App from "./Components/App";
 
 injectGlobal`
+  @import url('https://fonts.googleapis.com/css?family=Maven+Pro:400,500');
   ${reset};
   * {
     box-sizing:border-box;
+  }
+  body {
+    font-family: "Maven Pro", sans-serif;
   }
 `;
 
