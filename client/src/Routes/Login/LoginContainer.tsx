@@ -5,6 +5,7 @@ import { loginMethodType } from "./LoginTypes";
 interface IState {
   loginMethod: loginMethodType;
   phoneNumber: string;
+  typing: boolean;
 }
 
 class LoginContainer extends React.Component<{}, IState> {
@@ -12,11 +13,12 @@ class LoginContainer extends React.Component<{}, IState> {
     super(props);
     this.state = {
       loginMethod: "",
-      phoneNumber: ""
+      phoneNumber: "",
+      typing: false
     };
   }
   render() {
-    const { phoneNumber, loginMethod } = this.state;
+    const { phoneNumber, loginMethod, typing } = this.state;
     return (
       <LoginPresenter
         handleMobileClick={this.handleMobileClick}
@@ -24,12 +26,14 @@ class LoginContainer extends React.Component<{}, IState> {
         handleBackButtonClick={this.handleBackButtonClick}
         phoneNumber={phoneNumber}
         loginMethod={loginMethod}
+        typing={typing}
       />
     );
   }
   private handleMobileClick = (): void => {
     this.setState({
-      loginMethod: "mobile"
+      loginMethod: "mobile",
+      typing: true
     });
   };
   private handleSocialClick = (): void => {
@@ -38,9 +42,23 @@ class LoginContainer extends React.Component<{}, IState> {
     });
   };
   private handleBackButtonClick = (): void => {
-    this.setState({
-      loginMethod: ""
-    });
+    const { loginMethod } = this.state;
+    if (loginMethod !== "mobile") {
+      this.setState({
+        loginMethod: ""
+      });
+    } else {
+      setTimeout(
+        () =>
+          this.setState({
+            loginMethod: ""
+          }),
+        700
+      );
+      this.setState({
+        typing: false
+      });
+    }
   };
 }
 

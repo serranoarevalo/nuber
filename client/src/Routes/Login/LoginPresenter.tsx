@@ -100,12 +100,26 @@ const PhoneText = styled<IPhoneText, any>("span")`
   }
 `;
 
-const Social = styled.div`
+const PhoneInput = PhoneText.withComponent("input").extend`
+  border:0;
+  width:70%;
+  &:focus{
+    outline:none;
+  }
+`;
+
+interface ISocial {
+  hidding: boolean;
+}
+
+const Social = styled<ISocial, any>("div")`
   display: flex;
   justify-content: center;
   flex-direction: column;
   height: 7%;
   border-top: 1px solid rgba(41, 128, 185, 0.5);
+  transition: opacity 0.3s linear;
+  opacity: ${props => (props.hidding ? "0" : "1")};
 `;
 
 const SocialText = styled.span`
@@ -145,13 +159,15 @@ interface IProps {
   handleBackButtonClick: () => void;
   phoneNumber: string;
   loginMethod: loginMethodType;
+  typing: boolean;
 }
 
 const LoginPresenter: React.SFC<IProps> = ({
   handleBackButtonClick,
   handleMobileClick,
   handleSocialClick,
-  loginMethod
+  loginMethod,
+  typing
 }) => (
   <PresenterScreen>
     <StyledBackButton
@@ -174,10 +190,17 @@ const LoginPresenter: React.SFC<IProps> = ({
       <Title>Get moving with Nuber</Title>
       <span>
         <PhoneText>🇰🇷 +82</PhoneText>
-        <PhoneText grey={true}>Enter your mobile number</PhoneText>
+        {loginMethod === "" ? (
+          <PhoneText grey={true}>Enter your mobile number</PhoneText>
+        ) : (
+          <PhoneInput
+            placeholder="Enter your mobile number"
+            autoFocus={typing}
+          />
+        )}
       </span>
     </StyledMobile>
-    <Social>
+    <Social hidding={loginMethod === "mobile"}>
       <SocialText>Or connect with social</SocialText>
     </Social>
   </PresenterScreen>
@@ -188,6 +211,7 @@ LoginPresenter.propTypes = {
   handleMobileClick: PropTypes.func.isRequired,
   handleSocialClick: PropTypes.func.isRequired,
   loginMethod: PropTypes.oneOf(["", "mobile", "social"]),
-  phoneNumber: PropTypes.string.isRequired
+  phoneNumber: PropTypes.string.isRequired,
+  typing: PropTypes.bool.isRequired
 };
 export default LoginPresenter;
