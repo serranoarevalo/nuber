@@ -19,6 +19,13 @@ const resolvers: Resolvers = {
         verifiedPhoneNumber: true
       });
       if (user) {
+        const existingConfirmation: Confirmation = await Confirmation.findOne({
+          user,
+          type: "PHONE"
+        });
+        if (existingConfirmation) {
+          existingConfirmation.remove();
+        }
         const confirmation: Confirmation = await Confirmation.create({
           user,
           type: "PHONE"
