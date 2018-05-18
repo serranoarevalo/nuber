@@ -1,8 +1,9 @@
 import React from "react";
 import LoginPresenter from "./LoginPresenter";
+import { loginMethodType } from "./LoginTypes";
 
 interface IState {
-  loginMethod: "" | "phone" | "social";
+  loginMethod: loginMethodType;
   phoneNumber: string;
 }
 
@@ -15,19 +16,20 @@ class LoginContainer extends React.Component<{}, IState> {
     };
   }
   render() {
-    const { phoneNumber } = this.state;
+    const { phoneNumber, loginMethod } = this.state;
     return (
       <LoginPresenter
         handleMobileClick={this.handleMobileClick}
         handleSocialClick={this.handleSocialClick}
         handleBackButtonClick={this.handleBackButtonClick}
         phoneNumber={phoneNumber}
+        loginMethod={loginMethod}
       />
     );
   }
   private handleMobileClick = (): void => {
     this.setState({
-      loginMethod: "phone"
+      loginMethod: "mobile"
     });
   };
   private handleSocialClick = (): void => {

@@ -1,35 +1,44 @@
+import { tween } from "popmotion";
 import PropTypes from "prop-types";
 import React from "react";
+import posed from "react-pose";
+import { PoseElementProps } from "react-pose/lib/components/PoseElement.types";
 import styled from "styled-components";
 import bg from "../../images/bg.png";
-
-interface IProps {
-  handleMobileClick: () => void;
-  handleSocialClick: () => void;
-  handleBackButtonClick: () => void;
-  phoneNumber: string;
-}
+import { loginMethodType } from "./LoginTypes";
 
 const PresenterScreen = styled.div`
   width: 100%;
   height: 100%;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns: 100%
-  grid-template-rows:78% 15% 7%;
-  grid-template-areas:"header"
-                      "mobile"
-                      "social";
+  overflow: hidden;
 `;
 
-const Header = styled.div`
+const PosedHeader = posed.div({
+  closed: {
+    maxHeight: "0",
+    opacity: 0,
+    transition: (props: any) => tween({ ...props, duration: 500 })
+  },
+  open: {
+    maxHeight: "1000px",
+    opacity: 1,
+    transition: (props: any) => tween({ ...props, duration: 500 })
+  }
+});
+
+interface IStyledHeader {
+  pose: PoseElementProps;
+  onCLick: () => void;
+}
+
+const StyledHeader = styled<IStyledHeader, any>(PosedHeader)`
   background: linear-gradient(rgba(0, 153, 196, 0.5), rgba(0, 153, 196, 0.4)),
     url(${bg});
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  grid-area: header;
+  height: 78%;
 `;
 
 const Logo = styled.span`
@@ -45,13 +54,29 @@ const Logo = styled.span`
   font-size: 25px;
 `;
 
-const Mobile = styled.div`
-  grid-area: mobile;
+const PosedMobile = posed.div({
+  closed: {
+    height: "15%"
+  },
+  open: {
+    height: "100%",
+    marginTop: "50px"
+  }
+});
+
+interface IStyledMobile {
+  pose: PoseElementProps;
+  onCLick: () => void;
+  loginMethod: loginMethodType;
+}
+
+const StyledMobile = styled<IStyledMobile, any>(PosedMobile)`
   background-color: white;
-  display: flex;
   padding: 0 15px;
-  justify-content: center;
+  display: flex;
   flex-direction: column;
+  justify-content: ${props =>
+    props.loginMethod === "mobile" ? "flex-start" : "center"};
 `;
 
 const Title = styled.div`
@@ -76,7 +101,7 @@ const Social = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  grid-area: social;
+  height: 7%;
   border-top: 1px solid rgba(41, 128, 185, 0.5);
 `;
 
@@ -87,18 +112,38 @@ const SocialText = styled.span`
   margin: 0 15px;
 `;
 
-const LoginPresenter: React.SFC<IProps> = () => (
+interface IProps {
+  handleMobileClick: () => void;
+  handleSocialClick: () => void;
+  handleBackButtonClick: () => void;
+  phoneNumber: string;
+  loginMethod: loginMethodType;
+}
+
+const LoginPresenter: React.SFC<IProps> = ({
+  handleBackButtonClick,
+  handleMobileClick,
+  handleSocialClick,
+  loginMethod
+}) => (
   <PresenterScreen>
-    <Header>
+    <StyledHeader
+      onClick={handleMobileClick}
+      pose={loginMethod === "" ? "open" : "closed"}
+    >
       <Logo>Nuber</Logo>
-    </Header>
-    <Mobile>
+    </StyledHeader>
+    <StyledMobile
+      loginMethod={loginMethod}
+      onClick={handleMobileClick}
+      pose={loginMethod === "mobile" ? "open" : "closed"}
+    >
       <Title>Get moving with Nuber</Title>
       <span>
         <PhoneText>🇰🇷 +82</PhoneText>
         <PhoneText grey={true}>Enter your mobile number</PhoneText>
       </span>
-    </Mobile>
+    </StyledMobile>
     <Social>
       <SocialText>Or connect with social</SocialText>
     </Social>
@@ -109,6 +154,7 @@ LoginPresenter.propTypes = {
   handleBackButtonClick: PropTypes.func.isRequired,
   handleMobileClick: PropTypes.func.isRequired,
   handleSocialClick: PropTypes.func.isRequired,
+  loginMethod: PropTypes.oneOf(["", "mobile", "social"]),
   phoneNumber: PropTypes.string.isRequired
 };
 export default LoginPresenter;
