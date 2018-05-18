@@ -74,9 +74,10 @@ interface IStyledMobile {
 
 const StyledMobile = styled<IStyledMobile, any>(PosedMobile)`
   background-color: white;
-  padding: 25px 15px;
+  padding: 0px 15px;
   height: 15%;
   will-change: maxHeight;
+  padding-top: 2.5vh;
 `;
 
 const Title = styled.div`
@@ -155,7 +156,7 @@ const PosedBackButton = posed.span({
 });
 
 const StyledBackButton = styled<IStyledBackButton, any>(PosedBackButton)`
-  position: absolute;
+  position: fixed;
   top: 15px;
   font-size: 30px;
   left: 15px;
@@ -202,6 +203,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
         <StyledMobile
           onClick={this.handleMobileClick}
           pose={loginMethod === "mobile" ? "open" : "closed"}
+          loginMethod={loginMethod}
         >
           <Title>Get moving with Nuber</Title>
           <span>
@@ -223,14 +225,14 @@ class LoginPresenter extends React.Component<IProps, {}> {
     const { handleMobileClick, loginMethod } = this.props;
     if (loginMethod === "") {
       handleMobileClick();
-      setTimeout(() => this.textInput.current.focus(), 700);
+      setTimeout(() => this.textInput.current.focus(), 500);
     }
   };
   handleBackClick = (): void => {
     const { handleBackButtonClick, loginMethod } = this.props;
     if (loginMethod !== "") {
       this.textInput.current.blur();
-      setTimeout(() => handleBackButtonClick(), 700);
+      setTimeout(() => handleBackButtonClick(), 500);
     }
   };
 }
