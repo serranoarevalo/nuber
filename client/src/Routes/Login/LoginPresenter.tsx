@@ -41,6 +41,7 @@ const StyledHeader = styled<IStyledHeader, any>(PosedHeader)`
   justify-content: center;
   align-items: center;
   height: 78%;
+  will-change: maxHeight;
 `;
 
 const Logo = styled.span`
@@ -73,13 +74,9 @@ interface IStyledMobile {
 
 const StyledMobile = styled<IStyledMobile, any>(PosedMobile)`
   background-color: white;
-  padding: 0 15px;
-  display: flex;
-  flex-direction: column;
+  padding: 25px 15px;
   height: 15%;
-  justify-content: ${props =>
-    props.loginMethod === "mobile" ? "flex-start" : "center"};
-  margin-top: ${props => (props.loginMethod === "mobile" ? "100px" : "0px")};
+  will-change: maxHeight;
 `;
 
 const Title = styled.div`
@@ -100,11 +97,23 @@ const PhoneText = styled<IPhoneText, any>("span")`
   }
 `;
 
-const PhoneInput = PhoneText.withComponent("input").extend`
-  border:0;
-  width:70%;
-  &:focus{
-    outline:none;
+const PhoneInput = styled<any, any>("input")`
+  border: 0;
+  width: 70%;
+  font-family: "Maven Pro";
+  font-size: 20px;
+  margin-left: 20px;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    font-family: "Maven Pro";
+  }
+  &:disabled {
+    background-color: transparent;
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+    }
   }
 `;
 
@@ -159,59 +168,71 @@ interface IProps {
   handleBackButtonClick: () => void;
   phoneNumber: string;
   loginMethod: loginMethodType;
-  typing: boolean;
 }
 
-const LoginPresenter: React.SFC<IProps> = ({
-  handleBackButtonClick,
-  handleMobileClick,
-  handleSocialClick,
-  loginMethod,
-  typing
-}) => (
-  <PresenterScreen>
-    <StyledBackButton
-      pose={loginMethod !== "" ? "showing" : "hidding"}
-      onClick={handleBackButtonClick}
-    >
-      <FontAwesome name="arrow-circle-left" />
-    </StyledBackButton>
-    <StyledHeader
-      onClick={handleMobileClick}
-      pose={loginMethod === "" ? "open" : "closed"}
-    >
-      <Logo>Nuber</Logo>
-    </StyledHeader>
-    <StyledMobile
-      loginMethod={loginMethod}
-      onClick={handleMobileClick}
-      pose={loginMethod === "mobile" ? "open" : "closed"}
-    >
-      <Title>Get moving with Nuber</Title>
-      <span>
-        <PhoneText>🇰🇷 +82</PhoneText>
-        {loginMethod === "" ? (
-          <PhoneText grey={true}>Enter your mobile number</PhoneText>
-        ) : (
-          <PhoneInput
-            placeholder="Enter your mobile number"
-            autoFocus={typing}
-          />
-        )}
-      </span>
-    </StyledMobile>
-    <Social hidding={loginMethod === "mobile"}>
-      <SocialText>Or connect with social</SocialText>
-    </Social>
-  </PresenterScreen>
-);
+class LoginPresenter extends React.Component<IProps, {}> {
+  static propTypes = {
+    handleBackButtonClick: PropTypes.func.isRequired,
+    handleMobileClick: PropTypes.func.isRequired,
+    handleSocialClick: PropTypes.func.isRequired,
+    loginMethod: PropTypes.oneOf(["", "mobile", "social"]),
+    phoneNumber: PropTypes.string.isRequired
+  };
+  textInput: any;
+  constructor(props: IProps) {
+    super(props);
+    this.textInput = React.createRef();
+  }
+  render() {
+    const { loginMethod } = this.props;
+    return (
+      <PresenterScreen>
+        <StyledBackButton
+          pose={loginMethod !== "" ? "showing" : "hidding"}
+          onClick={this.handleBackClick}
+        >
+          <FontAwesome name="arrow-circle-left" />
+        </StyledBackButton>
+        <StyledHeader
+          onClick={this.handleMobileClick}
+          pose={loginMethod === "" ? "open" : "closed"}
+        >
+          <Logo>Nuber</Logo>
+        </StyledHeader>
+        <StyledMobile
+          onClick={this.handleMobileClick}
+          pose={loginMethod === "mobile" ? "open" : "closed"}
+        >
+          <Title>Get moving with Nuber</Title>
+          <span>
+            <PhoneText>🇰🇷 +82</PhoneText>
+            <PhoneInput
+              placeholder="Enter your mobile number"
+              innerRef={this.textInput}
+              type="text"
+            />
+          </span>
+        </StyledMobile>
+        <Social hidding={loginMethod === "mobile"}>
+          <SocialText>Or connect with social</SocialText>
+        </Social>
+      </PresenterScreen>
+    );
+  }
+  handleMobileClick = (): void => {
+    const { handleMobileClick, loginMethod } = this.props;
+    if (loginMethod === "") {
+      handleMobileClick();
+      setTimeout(() => this.textInput.current.focus(), 700);
+    }
+  };
+  handleBackClick = (): void => {
+    const { handleBackButtonClick, loginMethod } = this.props;
+    if (loginMethod !== "") {
+      this.textInput.current.blur();
+      setTimeout(() => handleBackButtonClick(), 700);
+    }
+  };
+}
 
-LoginPresenter.propTypes = {
-  handleBackButtonClick: PropTypes.func.isRequired,
-  handleMobileClick: PropTypes.func.isRequired,
-  handleSocialClick: PropTypes.func.isRequired,
-  loginMethod: PropTypes.oneOf(["", "mobile", "social"]),
-  phoneNumber: PropTypes.string.isRequired,
-  typing: PropTypes.bool.isRequired
-};
 export default LoginPresenter;
