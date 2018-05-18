@@ -19,12 +19,12 @@ const PosedHeader = posed.div({
   closed: {
     maxHeight: "0",
     opacity: 0,
-    transition: (props: any) => tween({ ...props, duration: 500 })
+    transition: (props: any) => tween({ ...props, duration: 300 })
   },
   open: {
     maxHeight: "1000px",
     opacity: 1,
-    transition: (props: any) => tween({ ...props, duration: 500 })
+    transition: (props: any) => tween({ ...props, duration: 300 })
   }
 });
 
@@ -59,10 +59,16 @@ const Logo = styled.span`
 
 const PosedMobile = posed.div({
   closed: {
-    maxHeight: "15%"
+    height: "15%",
+    maxHeight: "15%",
+    paddingTop: "0px",
+    transition: (props: any) => tween({ ...props, duration: 500 })
   },
   open: {
-    maxHeight: "100%"
+    height: "100%",
+    maxHeight: "100%",
+    paddingTop: "100px",
+    transition: (props: any) => tween({ ...props, duration: 500 })
   }
 });
 
@@ -75,15 +81,18 @@ interface IStyledMobile {
 const StyledMobile = styled<IStyledMobile, any>(PosedMobile)`
   background-color: white;
   padding: 0px 15px;
-  height: 15%;
   will-change: maxHeight;
-  padding-top: 2.5vh;
+  transition: all 0.1s linear;
+  display: flex;
+  flex-direction: column;
+  justify-content: ${props =>
+    props.loginMethod === "" ? "center" : "flex-start"};
 `;
 
 const Title = styled.div`
   font-size: 28px;
   display: block;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 interface IPhoneText {
