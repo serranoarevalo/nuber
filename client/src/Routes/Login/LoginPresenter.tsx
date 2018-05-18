@@ -17,11 +17,13 @@ const PresenterScreen = styled.div`
 
 const PosedHeader = posed.div({
   closed: {
+    marginBottom: "100px",
     maxHeight: "0",
     opacity: 0,
     transition: (props: any) => tween({ ...props, duration: 300 })
   },
   open: {
+    marginBottom: "20px",
     maxHeight: "1000px",
     opacity: 1,
     transition: (props: any) => tween({ ...props, duration: 300 })
@@ -57,33 +59,20 @@ const Logo = styled.span`
   font-size: 25px;
 `;
 
-const PosedMobile = posed.div({
-  closed: {
-    height: "15%",
-    maxHeight: "15%",
-    paddingTop: "0px",
-    transition: (props: any) => tween({ ...props, duration: 500 })
-  },
-  open: {
-    height: "100%",
-    maxHeight: "100%",
-    paddingTop: "100px",
-    transition: (props: any) => tween({ ...props, duration: 500 })
-  }
-});
-
 interface IStyledMobile {
   pose: PoseElementProps;
   onCLick: () => void;
   loginMethod: loginMethodType;
 }
 
-const StyledMobile = styled<IStyledMobile, any>(PosedMobile)`
+const StyledMobile = styled<IStyledMobile, any>("div")`
   background-color: white;
   padding: 0px 15px;
   will-change: maxHeight;
+  margin-bottom: 20px;
   transition: all 0.1s linear;
   display: flex;
+  height: 10%;
   flex-direction: column;
   justify-content: ${props =>
     props.loginMethod === "" ? "center" : "flex-start"};
