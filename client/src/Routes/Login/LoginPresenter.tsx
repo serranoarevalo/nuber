@@ -29,22 +29,44 @@ const PhoneInput = styled<any, any>("input")`
   &:disabled {
     background-color: transparent;
     &::placeholder {
-      color: rgba(0, 0, 0, 0.5);
+      color: rgba(0, 0, 0, 1);
     }
   }
 `;
+
+const PhoneSelect = styled<any, any>("select")`
+  font-size: 20px;
+  color: "#2c3e50";
+  webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: white;
+  border: 0;
+  font-family: "Maven Pro";
+  &:last-child {
+    margin-left: 20px;
+  }
+`;
+
+const PhoneText = PhoneSelect.withComponent("span");
 
 interface IProps {
   handleMobileClick: () => void;
   handleSocialClick: () => void;
   handleBackButtonClick: () => void;
+  handleInputChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   phoneNumber: string;
   loginMethod: loginMethodType;
+  countryCode: string;
 }
 
 class LoginPresenter extends React.Component<IProps, {}> {
   static propTypes = {
+    countryCode: PropTypes.string.isRequired,
     handleBackButtonClick: PropTypes.func.isRequired,
+    handleInputChange: PropTypes.func.isRequired,
     handleMobileClick: PropTypes.func.isRequired,
     handleSocialClick: PropTypes.func.isRequired,
     loginMethod: PropTypes.oneOf(["", "mobile", "social"]),
@@ -56,16 +78,37 @@ class LoginPresenter extends React.Component<IProps, {}> {
     this.textInput = React.createRef();
   }
   render() {
-    const { loginMethod } = this.props;
+    const {
+      loginMethod,
+      phoneNumber,
+      handleInputChange,
+      countryCode
+    } = this.props;
     return (
       <PresenterScreen>
         <BackButton loginMethod={loginMethod} onClick={this.handleBackClick} />
         <Header onClick={this.handleMobileClick} loginMethod={loginMethod} />
         <MobileLogin onClick={this.handleMobileClick} loginMethod={loginMethod}>
+          {loginMethod === "" ? (
+            <PhoneText>🇰🇷 +82</PhoneText>
+          ) : (
+            <PhoneSelect
+              onChange={handleInputChange}
+              value={countryCode}
+              name={"countryCode"}
+            >
+              <option value={"+82"}>🇰🇷 +82</option>
+              <option value={"+57"}>🇨🇴 +57</option>
+            </PhoneSelect>
+          )}
           <PhoneInput
             placeholder="Enter your mobile number"
             innerRef={this.textInput}
-            type="text"
+            type="tel"
+            value={phoneNumber}
+            onChange={handleInputChange}
+            name={"phoneNumber"}
+            disabled={loginMethod === ""}
           />
         </MobileLogin>
         <SocialLogin loginMethod={loginMethod} />

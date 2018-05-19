@@ -3,20 +3,22 @@ import LoginPresenter from "./LoginPresenter";
 import { loginMethodType } from "./LoginTypes";
 
 interface IState {
-  loginMethod: loginMethodType;
   phoneNumber: string;
+  countryCode: string;
+  loginMethod: loginMethodType;
 }
 
 class LoginContainer extends React.Component<{}, IState> {
   constructor(props: {}) {
     super(props);
     this.state = {
+      countryCode: "+82",
       loginMethod: "",
       phoneNumber: ""
     };
   }
   render() {
-    const { phoneNumber, loginMethod } = this.state;
+    const { phoneNumber, loginMethod, countryCode } = this.state;
     return (
       <LoginPresenter
         handleMobileClick={this.handleMobileClick}
@@ -24,6 +26,8 @@ class LoginContainer extends React.Component<{}, IState> {
         handleBackButtonClick={this.handleBackButtonClick}
         phoneNumber={phoneNumber}
         loginMethod={loginMethod}
+        handleInputChange={this.handleInputChange}
+        countryCode={countryCode}
       />
     );
   }
@@ -41,6 +45,18 @@ class LoginContainer extends React.Component<{}, IState> {
     this.setState({
       loginMethod: ""
     });
+  };
+  private handleInputChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ): void => {
+    const {
+      target: { value, name }
+    } = event;
+    this.setState({
+      [name]: value
+    } as any);
   };
 }
 

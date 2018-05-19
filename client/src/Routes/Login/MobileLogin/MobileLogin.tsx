@@ -28,7 +28,7 @@ const StyledMobile = styled<IStyledMobile, any>("div")`
     props.loginMethod === "" ? "center" : "flex-start"};
   ${props => {
     if (props.loginMethod !== "") {
-      return `animation: ${animation} 0.5s linear`;
+      return `animation: ${animation} .3s linear`;
     } else {
       return;
     }
@@ -39,14 +39,6 @@ const Title = styled.div`
   font-size: 28px;
   display: block;
   margin-bottom: 20px;
-`;
-
-const PhoneText = styled<any, any>("span")`
-  font-size: 20px;
-  color: "#2c3e50";
-  &:last-child {
-    margin-left: 20px;
-  }
 `;
 
 interface IProps {
@@ -62,10 +54,7 @@ const MobileLogin: React.SFC<IProps> = ({ onClick, loginMethod, children }) => (
     loginMethod={loginMethod}
   >
     <Title>Get moving with Nuber</Title>
-    <span>
-      <PhoneText>🇰🇷 +82</PhoneText>
-      {children}
-    </span>
+    <span>{children}</span>
   </StyledMobile>
 );
 
