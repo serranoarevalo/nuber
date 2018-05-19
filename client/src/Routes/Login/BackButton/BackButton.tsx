@@ -23,6 +23,8 @@ const StyledBackButton = styled<any, any>(PosedBackButton)`
   left: 15px;
   z-index: 9;
   color: rgba(0, 0, 0, 0.7);
+  width: 40px;
+  height: 40px;
 `;
 
 interface IProps {

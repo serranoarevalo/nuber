@@ -9,12 +9,12 @@ const PosedHeader = posed.div({
   closed: {
     maxHeight: "100px",
     opacity: 0,
-    transition: (props: any) => tween({ ...props, duration: 500 })
+    transition: (props: any) => tween({ ...props, duration: 300 })
   },
   open: {
     maxHeight: "1000px",
     opacity: 1,
-    transition: (props: any) => tween({ ...props, duration: 500 })
+    transition: (props: any) => tween({ ...props, duration: 300 })
   }
 });
 
