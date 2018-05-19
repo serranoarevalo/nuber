@@ -17,13 +17,11 @@ const PresenterScreen = styled.div`
 
 const PosedHeader = posed.div({
   closed: {
-    marginBottom: "100px",
-    maxHeight: "0",
+    maxHeight: "50px",
     opacity: 0,
     transition: (props: any) => tween({ ...props, duration: 300 })
   },
   open: {
-    marginBottom: "20px",
     maxHeight: "1000px",
     opacity: 1,
     transition: (props: any) => tween({ ...props, duration: 300 })
@@ -69,11 +67,11 @@ const StyledMobile = styled<IStyledMobile, any>("div")`
   background-color: white;
   padding: 0px 15px;
   will-change: maxHeight;
-  margin-bottom: 20px;
   transition: all 0.1s linear;
   display: flex;
-  height: 10%;
+  height: 15%;
   flex-direction: column;
+  transition: all 10s linear;
   justify-content: ${props =>
     props.loginMethod === "" ? "center" : "flex-start"};
 `;
@@ -154,10 +152,11 @@ const PosedBackButton = posed.span({
 });
 
 const StyledBackButton = styled<IStyledBackButton, any>(PosedBackButton)`
-  position: fixed;
+  position: absolute;
   top: 15px;
   font-size: 30px;
   left: 15px;
+  z-index: 9;
   color: rgba(0, 0, 0, 0.7);
 `;
 
@@ -230,7 +229,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
     const { handleBackButtonClick, loginMethod } = this.props;
     if (loginMethod !== "") {
       this.textInput.current.blur();
-      setTimeout(() => handleBackButtonClick(), 500);
+      setTimeout(() => handleBackButtonClick(), 200);
     }
   };
 }

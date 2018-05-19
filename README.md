@@ -20,3 +20,10 @@ Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, Rea
 * JWT (Auth 🔑)
 * Twilio (Sending SMS 📱)
 * Postgresql (DB 📃)
+
+### On the frontend:
+
+* React ( God and saviour ⚛︎)
+* Typescript (Peace of mind 🙏🏻)
+* Styled Components (Styles 💅🏻)
+* Popmotion (Animations 🍿)
