@@ -10,7 +10,7 @@ const countries = [
     code: "AS"
   },
   { name: "Andorra", dial_code: "+376", code: "AD", flag: "🇦🇩" },
-  { name: "Angola", dial_code: "+244", code: "AO", flag: "" },
+  { name: "Angola", dial_code: "+244", code: "AO", flag: "🇦🇴" },
   { name: "Anguilla", dial_code: "+1264", code: "AI", flag: "🇦🇮" },
   { name: "Antarctica", dial_code: "+672", code: "AQ", flag: "🇦🇶" },
   {
@@ -39,7 +39,7 @@ const countries = [
     name: "Bolivia, Plurinational State of bolivia",
     dial_code: "+591",
     code: "BO",
-    flag: ""
+    flag: "🇧🇴"
   },
   {
     name: "Bosnia and Herzegovina",
@@ -54,7 +54,7 @@ const countries = [
     name: "British Indian Ocean Territory",
     dial_code: "+246",
     code: "IO",
-    flag: ""
+    flag: "🇮🇴"
   },
   {
     name: "Brunei Darussalam",

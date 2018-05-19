@@ -8,6 +8,15 @@ import { loginMethodType } from "./LoginTypes";
 import MobileLogin from "./MobileLogin";
 import SocialLogin from "./SocialLogin";
 
+const findCountry = (code: string): string => {
+  const foundCountry = countries.find(country => country.dial_code === code);
+  if (foundCountry) {
+    return `${foundCountry.flag} ${foundCountry.dial_code}`;
+  } else {
+    return ``;
+  }
+};
+
 const PresenterScreen = styled.div`
   width: 100%;
   height: 100%;
@@ -17,9 +26,9 @@ const PresenterScreen = styled.div`
 
 const PhoneInput = styled<any, any>("input")`
   border: 0;
-  width: 70%;
   font-family: "Maven Pro";
   font-size: 20px;
+  width: 70%;
   &:focus {
     outline: none;
   }
@@ -43,22 +52,16 @@ const PhoneSelect = styled<any, any>("select")`
   background-color: white;
   border: 0;
   font-family: "Maven Pro";
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  width: 90%;
   margin-bottom: 20px;
-  & option {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
+  width: 90%;
 `;
 
 const PhoneText = PhoneSelect.withComponent("span").extend`
   margin-right:20px;
+   
 `;
+
+const PhoneOption = styled.option``;
 
 interface IProps {
   handleMobileClick: () => void;
@@ -100,7 +103,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
         <Header onClick={this.handleMobileClick} loginMethod={loginMethod} />
         <MobileLogin onClick={this.handleMobileClick} loginMethod={loginMethod}>
           {loginMethod === "" ? (
-            <PhoneText>🇰🇷 +82</PhoneText>
+            <PhoneText>{findCountry(countryCode)}</PhoneText>
           ) : (
             <PhoneSelect
               onChange={handleInputChange}
@@ -108,9 +111,9 @@ class LoginPresenter extends React.Component<IProps, {}> {
               name={"countryCode"}
             >
               {countries.map((country, index) => (
-                <option key={index} value={country.dial_code}>
+                <PhoneOption key={index} value={country.dial_code}>
                   {country.flag} {country.name} ({country.dial_code})
-                </option>
+                </PhoneOption>
               ))}
             </PhoneSelect>
           )}
