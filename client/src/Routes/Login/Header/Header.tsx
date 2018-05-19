@@ -36,7 +36,7 @@ const Logo = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 -10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 -14px 28px rgba(0, 0, 0, 0.22);
   text-transform: uppercase;
   font-weight: 500;
   font-size: 25px;

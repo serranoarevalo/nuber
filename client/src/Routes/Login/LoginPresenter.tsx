@@ -7,6 +7,7 @@ import Header from "./Header";
 import { loginMethodType } from "./LoginTypes";
 import MobileLogin from "./MobileLogin";
 import SocialLogin from "./SocialLogin";
+import SubmitButton from "./SubmitButton";
 
 const findCountry = (code: string): string => {
   const foundCountry = countries.find(country => country.dial_code === code);
@@ -126,6 +127,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
             name={"phoneNumber"}
             disabled={loginMethod === ""}
           />
+          {loginMethod !== "" && <SubmitButton />}
         </MobileLogin>
         <SocialLogin loginMethod={loginMethod} />
       </PresenterScreen>
