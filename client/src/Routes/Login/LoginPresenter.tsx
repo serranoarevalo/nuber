@@ -83,7 +83,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
     const { handleBackButtonClick, loginMethod } = this.props;
     if (loginMethod !== "") {
       this.textInput.current.blur();
-      setTimeout(() => handleBackButtonClick(), 200);
+      setTimeout(() => handleBackButtonClick(), 300);
     }
   };
 }

@@ -1,10 +1,19 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { loginMethodType } from "../LoginTypes";
 
 interface IStyledMobile {
   loginMethod: loginMethodType;
 }
+
+const animation = keyframes`
+  from {
+    justify-content: center;
+  }
+  to {
+    justify-content:flex-start;
+  }
+`;
 
 const StyledMobile = styled<IStyledMobile, any>("div")`
   background-color: white;
@@ -17,6 +26,13 @@ const StyledMobile = styled<IStyledMobile, any>("div")`
   transition: all 10s linear;
   justify-content: ${props =>
     props.loginMethod === "" ? "center" : "flex-start"};
+  ${props => {
+    if (props.loginMethod !== "") {
+      return `animation: ${animation} 0.5s linear`;
+    } else {
+      return;
+    }
+  }};
 `;
 
 const Title = styled.div`

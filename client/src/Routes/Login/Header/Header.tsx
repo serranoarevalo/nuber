@@ -7,14 +7,14 @@ import { loginMethodType } from "../LoginTypes";
 
 const PosedHeader = posed.div({
   closed: {
-    maxHeight: "50px",
+    maxHeight: "100px",
     opacity: 0,
-    transition: (props: any) => tween({ ...props, duration: 300 })
+    transition: (props: any) => tween({ ...props, duration: 500 })
   },
   open: {
     maxHeight: "1000px",
     opacity: 1,
-    transition: (props: any) => tween({ ...props, duration: 300 })
+    transition: (props: any) => tween({ ...props, duration: 500 })
   }
 });
 
