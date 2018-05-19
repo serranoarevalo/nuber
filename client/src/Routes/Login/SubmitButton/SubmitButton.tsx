@@ -21,11 +21,11 @@ const Container = styled.div`
 `;
 
 interface ISubmit {
-  onClick?: () => void;
+  onClick: () => void;
 }
 
-const SubmitButton: React.SFC<ISubmit> = () => (
-  <Container>
+const SubmitButton: React.SFC<ISubmit> = ({ onClick }) => (
+  <Container onClick={onClick}>
     <FontAwesome name="arrow-right" />
   </Container>
 );

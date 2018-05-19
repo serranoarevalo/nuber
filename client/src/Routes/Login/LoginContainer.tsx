@@ -27,6 +27,7 @@ class LoginContainer extends React.Component<{}, IState> {
         phoneNumber={phoneNumber}
         loginMethod={loginMethod}
         handleInputChange={this.handleInputChange}
+        handleSubmit={this.handleSubmit}
         countryCode={countryCode}
       />
     );
@@ -41,11 +42,7 @@ class LoginContainer extends React.Component<{}, IState> {
       loginMethod: "social"
     });
   };
-  private handleBackButtonClick = (): void => {
-    this.setState({
-      loginMethod: ""
-    });
-  };
+
   private handleInputChange: React.ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
   > = (
@@ -57,6 +54,26 @@ class LoginContainer extends React.Component<{}, IState> {
     this.setState({
       [name]: value
     } as any);
+  };
+
+  private handleBackButtonClick = (): void => {
+    this.setState({
+      loginMethod: ""
+    });
+  };
+
+  private handleSubmit: React.FormEventHandler<HTMLFormElement> = (
+    event: React.FormEvent<HTMLFormElement>
+  ): void => {
+    const { phoneNumber, countryCode } = this.state;
+    event.preventDefault();
+    const isValid = /^\+[1-9]{1}[0-9]{7,11}$/.test(
+      `${countryCode}${phoneNumber}`
+    );
+    if (isValid) {
+      return;
+    }
+    // TO DO: Send Graphql query
   };
 }
 

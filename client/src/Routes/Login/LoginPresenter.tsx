@@ -71,6 +71,7 @@ interface IProps {
   handleInputChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   phoneNumber: string;
   loginMethod: loginMethodType;
   countryCode: string;
@@ -83,6 +84,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
     handleInputChange: PropTypes.func.isRequired,
     handleMobileClick: PropTypes.func.isRequired,
     handleSocialClick: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     loginMethod: PropTypes.oneOf(["", "mobile", "social"]),
     phoneNumber: PropTypes.string.isRequired
   };
@@ -96,38 +98,43 @@ class LoginPresenter extends React.Component<IProps, {}> {
       loginMethod,
       phoneNumber,
       handleInputChange,
-      countryCode
+      countryCode,
+      handleSubmit
     } = this.props;
     return (
       <PresenterScreen>
         <BackButton loginMethod={loginMethod} onClick={this.handleBackClick} />
         <Header onClick={this.handleMobileClick} loginMethod={loginMethod} />
         <MobileLogin onClick={this.handleMobileClick} loginMethod={loginMethod}>
-          {loginMethod === "" ? (
-            <PhoneText>{findCountry(countryCode)}</PhoneText>
-          ) : (
-            <PhoneSelect
+          <form onSubmit={handleSubmit}>
+            {loginMethod === "" ? (
+              <PhoneText>{findCountry(countryCode)}</PhoneText>
+            ) : (
+              <PhoneSelect
+                onChange={handleInputChange}
+                value={countryCode}
+                name={"countryCode"}
+              >
+                {countries.map((country, index) => (
+                  <PhoneOption key={index} value={country.dial_code}>
+                    {country.flag} {country.name} ({country.dial_code})
+                  </PhoneOption>
+                ))}
+              </PhoneSelect>
+            )}
+            <PhoneInput
+              placeholder="Enter your mobile number"
+              innerRef={this.textInput}
+              type="tel"
+              value={phoneNumber}
               onChange={handleInputChange}
-              value={countryCode}
-              name={"countryCode"}
-            >
-              {countries.map((country, index) => (
-                <PhoneOption key={index} value={country.dial_code}>
-                  {country.flag} {country.name} ({country.dial_code})
-                </PhoneOption>
-              ))}
-            </PhoneSelect>
-          )}
-          <PhoneInput
-            placeholder="Enter your mobile number"
-            innerRef={this.textInput}
-            type="tel"
-            value={phoneNumber}
-            onChange={handleInputChange}
-            name={"phoneNumber"}
-            disabled={loginMethod === ""}
-          />
-          {loginMethod !== "" && <SubmitButton />}
+              name={"phoneNumber"}
+              disabled={loginMethod === ""}
+            />
+            {loginMethod !== "" && (
+              <SubmitButton onClick={handleSubmit as any} />
+            )}
+          </form>
         </MobileLogin>
         <SocialLogin loginMethod={loginMethod} />
       </PresenterScreen>
