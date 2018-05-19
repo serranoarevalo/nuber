@@ -14,13 +14,13 @@ const Social = styled<ISocial, any>("div")`
   border-top: 1px solid rgba(41, 128, 185, 0.5);
   transition: opacity 0.3s linear;
   opacity: ${props => (props.hidding ? "0" : "1")};
+  padding: 0 15px;
 `;
 
 const SocialText = styled.span`
   color: #2980b9;
   font-weight: 500;
   width: 100%;
-  margin: 0 15px;
 `;
 
 interface IProps {

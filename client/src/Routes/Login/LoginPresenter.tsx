@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+import countries from "../../countries";
 import BackButton from "./BackButton";
 import Header from "./Header";
 import { loginMethodType } from "./LoginTypes";
@@ -19,7 +20,6 @@ const PhoneInput = styled<any, any>("input")`
   width: 70%;
   font-family: "Maven Pro";
   font-size: 20px;
-  margin-left: 20px;
   &:focus {
     outline: none;
   }
@@ -43,12 +43,22 @@ const PhoneSelect = styled<any, any>("select")`
   background-color: white;
   border: 0;
   font-family: "Maven Pro";
-  &:last-child {
-    margin-left: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 90%;
+  margin-bottom: 20px;
+  & option {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 `;
 
-const PhoneText = PhoneSelect.withComponent("span");
+const PhoneText = PhoneSelect.withComponent("span").extend`
+  margin-right:20px;
+`;
 
 interface IProps {
   handleMobileClick: () => void;
@@ -97,8 +107,11 @@ class LoginPresenter extends React.Component<IProps, {}> {
               value={countryCode}
               name={"countryCode"}
             >
-              <option value={"+82"}>🇰🇷 +82</option>
-              <option value={"+57"}>🇨🇴 +57</option>
+              {countries.map((country, index) => (
+                <option key={index} value={country.dial_code}>
+                  {country.flag} {country.name} ({country.dial_code})
+                </option>
+              ))}
             </PhoneSelect>
           )}
           <PhoneInput

@@ -6,6 +6,7 @@
   "rules": {
     "member-access": false,
     "no-unused-expression": false,
-    "no-console": false
+    "no-console": false,
+    "object-literal-sort-keys": false
   }
 }
