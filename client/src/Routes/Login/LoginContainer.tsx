@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 import LoginPresenter from "./LoginPresenter";
 import { loginMethodType } from "./LoginTypes";
 
@@ -72,6 +73,8 @@ class LoginContainer extends React.Component<{}, IState> {
     );
     if (isValid) {
       return;
+    } else {
+      toast.error("Phone number is not valid");
     }
     // TO DO: Send Graphql query
   };
