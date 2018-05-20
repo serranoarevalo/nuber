@@ -25,10 +25,11 @@ const SocialText = styled.span`
 
 interface IProps {
   loginMethod: loginMethodType;
+  onClick: () => void;
 }
 
-const SocialLogin: React.SFC<IProps> = ({ loginMethod }) => (
-  <Social hidding={loginMethod === "mobile"}>
+const SocialLogin: React.SFC<IProps> = ({ loginMethod, onClick }) => (
+  <Social hidding={loginMethod === "mobile"} onClick={onClick}>
     <SocialText>Or connect with social</SocialText>
   </Social>
 );

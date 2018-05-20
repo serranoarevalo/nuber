@@ -99,7 +99,8 @@ class LoginPresenter extends React.Component<IProps, {}> {
       phoneNumber,
       handleInputChange,
       countryCode,
-      handleSubmit
+      handleSubmit,
+      handleSocialClick
     } = this.props;
     return (
       <PresenterScreen>
@@ -136,7 +137,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
             )}
           </form>
         </MobileLogin>
-        <SocialLogin loginMethod={loginMethod} />
+        <SocialLogin loginMethod={loginMethod} onClick={handleSocialClick} />
       </PresenterScreen>
     );
   }
