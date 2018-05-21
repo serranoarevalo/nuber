@@ -19,12 +19,13 @@ const PosedBackButton = posed.span({
 const StyledBackButton = styled<any, any>(PosedBackButton)`
   position: absolute;
   top: 15px;
-  font-size: 30px;
+  font-size: 25px;
   left: 15px;
   z-index: 9;
   color: rgba(0, 0, 0, 0.7);
   width: 40px;
   height: 40px;
+  cursor: pointer;
 `;
 
 interface IProps {
@@ -37,7 +38,7 @@ const BackButton: React.SFC<IProps> = ({ loginMethod, onClick }) => (
     pose={loginMethod !== "" ? "showing" : "hidding"}
     onClick={onClick}
   >
-    <FontAwesome name="arrow-circle-left" />
+    <FontAwesome name="arrow-left" />
   </StyledBackButton>
 );
 
