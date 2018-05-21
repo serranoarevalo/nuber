@@ -1,4 +1,5 @@
 import React from "react";
+import { ReactFacebookLoginInfo } from "react-facebook-login";
 import { toast } from "react-toastify";
 import LoginPresenter from "./LoginPresenter";
 import { loginMethodType } from "./LoginTypes";
@@ -30,6 +31,7 @@ class LoginContainer extends React.Component<{}, IState> {
         handleInputChange={this.handleInputChange}
         handleSubmit={this.handleSubmit}
         countryCode={countryCode}
+        handleFacebookResponse={this.handleFacebookResponse}
       />
     );
   }
@@ -77,6 +79,9 @@ class LoginContainer extends React.Component<{}, IState> {
       toast.error("Phone number is not valid");
     }
     // TO DO: Send Graphql query
+  };
+  private handleFacebookResponse = (response: ReactFacebookLoginInfo) => {
+    console.log(response);
   };
 }
 

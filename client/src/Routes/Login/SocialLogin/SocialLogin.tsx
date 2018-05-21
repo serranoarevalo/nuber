@@ -1,4 +1,5 @@
 import React from "react";
+import FacebookLogin, { ReactFacebookLoginInfo } from "react-facebook-login";
 import styled from "styled-components";
 import { loginMethodType } from "../LoginTypes";
 
@@ -42,11 +43,16 @@ const LoginProvider = styled.div`
 `;
 
 interface IProps {
+  facebookCallback: (response: ReactFacebookLoginInfo) => void;
   loginMethod: loginMethodType;
   onClick: () => void;
 }
 
-const SocialLogin: React.SFC<IProps> = ({ loginMethod, onClick }) => (
+const SocialLogin: React.SFC<IProps> = ({
+  loginMethod,
+  onClick,
+  facebookCallback
+}) => (
   <Social loginMethod={loginMethod} onClick={onClick}>
     {loginMethod === "" && (
       <SocialText>Or connect with Facebook / Email</SocialText>
@@ -54,10 +60,17 @@ const SocialLogin: React.SFC<IProps> = ({ loginMethod, onClick }) => (
     {loginMethod === "social" && (
       <React.Fragment>
         <SocialTitle>Choose an account</SocialTitle>
+        <FacebookLogin
+          appId="1088597931155576"
+          autoLoad={true}
+          fields="name,email,picture"
+          callback={facebookCallback}
+        />
         <LoginProvider>
           <i className="fab fa-facebook-square" />
           Facebook
         </LoginProvider>
+
         <LoginProvider>
           <i className="far fa-envelope" />
           Email

@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { ReactFacebookLoginInfo } from "react-facebook-login";
 import styled from "styled-components";
 import countries from "../../countries";
 import BackButton from "./BackButton";
@@ -65,6 +66,7 @@ const PhoneText = PhoneSelect.withComponent("span").extend`
 const PhoneOption = styled.option``;
 
 interface IProps {
+  handleFacebookResponse: (repsonse: ReactFacebookLoginInfo) => void;
   handleMobileClick: () => void;
   handleSocialClick: () => void;
   handleBackButtonClick: () => void;
@@ -85,6 +87,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
     handleMobileClick: PropTypes.func.isRequired,
     handleSocialClick: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    handleFacebookResponse: PropTypes.func.isRequired,
     loginMethod: PropTypes.oneOf(["", "mobile", "social"]),
     phoneNumber: PropTypes.string.isRequired
   };
@@ -100,7 +103,8 @@ class LoginPresenter extends React.Component<IProps, {}> {
       handleInputChange,
       countryCode,
       handleSubmit,
-      handleSocialClick
+      handleSocialClick,
+      handleFacebookResponse
     } = this.props;
     return (
       <PresenterScreen>
@@ -137,7 +141,11 @@ class LoginPresenter extends React.Component<IProps, {}> {
             )}
           </form>
         </MobileLogin>
-        <SocialLogin loginMethod={loginMethod} onClick={handleSocialClick} />
+        <SocialLogin
+          loginMethod={loginMethod}
+          onClick={handleSocialClick}
+          facebookCallback={handleFacebookResponse}
+        />
       </PresenterScreen>
     );
   }

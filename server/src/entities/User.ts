@@ -64,9 +64,6 @@ class User extends BaseEntity {
   @Column({ type: "text", default: "" })
   carPlates: string;
 
-  @Column({ type: "boolean", default: true })
-  profileCompleted: boolean;
-
   @OneToMany(type => Confirmation, confirmation => confirmation.user)
   confirmations: Confirmation[];
 

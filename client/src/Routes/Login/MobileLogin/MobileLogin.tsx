@@ -4,10 +4,6 @@ import posed from "react-pose";
 import styled from "styled-components";
 import { loginMethodType } from "../LoginTypes";
 
-interface IStyledMobile {
-  loginMethod: loginMethodType;
-}
-
 const PosedMobile = posed.div({
   closed: {
     maxHeight: "0px",
@@ -21,7 +17,15 @@ const PosedMobile = posed.div({
   }
 });
 
-const StyledMobile = styled<IStyledMobile, any>(PosedMobile)`
+interface IStyledMobileProps {
+  onClick: () => void;
+  loginMethod: string;
+  pose: string;
+}
+
+const StyledMobile = styled<IStyledMobileProps>(({ loginMethod, ...rest }) => (
+  <PosedMobile {...rest} />
+))`
   background-color: white;
   padding: 0px 15px;
   display: flex;
