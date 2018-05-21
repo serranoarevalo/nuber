@@ -29,11 +29,14 @@ const SocialTitle = styled.h3`
   margin-bottom: 40px;
 `;
 
-const SocialProvider = styled.div`
+const LoginProvider = styled.div`
   font-size: 18px;
   cursor: pointer;
-  & i {
+  margin-bottom: 30px;
+  & i.fa-facebook-square {
     color: #415994;
+  }
+  & i {
     margin-right: 10px;
   }
 `;
@@ -45,14 +48,20 @@ interface IProps {
 
 const SocialLogin: React.SFC<IProps> = ({ loginMethod, onClick }) => (
   <Social loginMethod={loginMethod} onClick={onClick}>
-    {loginMethod === "" && <SocialText>Or connect with social</SocialText>}
+    {loginMethod === "" && (
+      <SocialText>Or connect with Facebook / Email</SocialText>
+    )}
     {loginMethod === "social" && (
       <React.Fragment>
         <SocialTitle>Choose an account</SocialTitle>
-        <SocialProvider>
+        <LoginProvider>
           <i className="fab fa-facebook-square" />
           Facebook
-        </SocialProvider>
+        </LoginProvider>
+        <LoginProvider>
+          <i className="far fa-envelope" />
+          Email
+        </LoginProvider>
       </React.Fragment>
     )}
   </Social>

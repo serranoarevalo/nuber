@@ -8,7 +8,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start:back": "cd server && yarn run dev",
-    "start:front": "cd client && yarn run start"
+    "front:start": "cd client && yarn run start",
+    "back:start": "cd server && yarn run dev",
+    "back:gentypes": "cd server && yarn run types"
   }
 }
