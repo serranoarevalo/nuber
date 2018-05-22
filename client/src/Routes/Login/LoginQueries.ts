@@ -5,7 +5,7 @@ export const FACEBOOK_CONNECT = gql`
     $email: String
     $firstName: String!
     $lastName: String!
-    $userID: Int!
+    $userID: String!
   ) {
     facebookConnect(
       email: $email
@@ -16,7 +16,6 @@ export const FACEBOOK_CONNECT = gql`
       ok
       token
       error
-      user
     }
   }
 `;

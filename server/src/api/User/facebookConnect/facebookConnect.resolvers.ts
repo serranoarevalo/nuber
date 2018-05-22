@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
       //const fbRequest = await request(fbURL);
       //const { id, first_name, last_name, email } = JSON.parse(fbRequest);
       const existingUser: User = await User.findOne({
-        facebookId: Number(userID)
+        facebookId: userID
       });
       if (existingUser) {
         const token: string = createJWT(existingUser.id);
@@ -36,7 +36,7 @@ const resolvers: Resolvers = {
         };
       } else {
         const user: User = await User.create({
-          facebookId: Number(userID),
+          facebookId: userID,
           firstName,
           lastName,
           email: email || `${userID}@facebook.com`,

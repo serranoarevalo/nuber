@@ -1,7 +1,7 @@
 type User {
   id: Int!
   email: String
-  facebookId: Int
+  facebookId: String
   firstName: String
   lastName: String
   age: Int

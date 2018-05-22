@@ -25,8 +25,8 @@ class User extends BaseEntity {
   @IsEmail()
   email: string;
 
-  @Column({ type: "bigint", nullable: true })
-  facebookId: number;
+  @Column({ type: "text", nullable: true })
+  facebookId: string;
 
   @Column({ type: "text" })
   firstName: string;

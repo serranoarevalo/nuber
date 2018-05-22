@@ -23,7 +23,7 @@ class App {
     this.middlewares();
   }
   private middlewares = (): void => {
-    this.app.express.use(cors({ origin: "http://localhost:3000" }));
+    this.app.express.use(cors());
     this.app.express.use(this.appendUserToReq);
     this.app.express.use(logger("dev"));
     this.app.express.use(helmet());
