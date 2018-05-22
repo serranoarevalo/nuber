@@ -41,14 +41,18 @@ class LoginContainer extends React.Component<IProps, IState> {
     );
   }
   private handleMobileClick = (): void => {
-    this.setState({
-      loginMethod: "mobile"
-    });
+    if (this.state.loginMethod === "") {
+      this.setState({
+        loginMethod: "mobile"
+      });
+    }
   };
   private handleSocialClick = (): void => {
-    this.setState({
-      loginMethod: "social"
-    });
+    if (this.state.loginMethod === "") {
+      this.setState({
+        loginMethod: "social"
+      });
+    }
   };
 
   private handleInputChange: React.ChangeEventHandler<

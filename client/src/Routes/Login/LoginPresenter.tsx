@@ -140,11 +140,13 @@ class LoginPresenter extends React.Component<IProps, {}> {
             )}
           </form>
         </MobileLogin>
-        <SocialLogin
-          loginMethod={loginMethod}
-          onClick={handleSocialClick}
-          handleFacebookResponse={handleFacebookResponse}
-        />
+        {loginMethod !== "mobile" && (
+          <SocialLogin
+            loginMethod={loginMethod}
+            onClick={handleSocialClick}
+            handleFacebookResponse={handleFacebookResponse}
+          />
+        )}
       </PresenterScreen>
     );
   }

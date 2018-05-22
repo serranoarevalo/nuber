@@ -16,6 +16,13 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
+"@babel/runtime@7.0.0-beta.46":
+  version "7.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.46.tgz#466a9c0498f6d12d054a185981eef742d59d4871"
+  dependencies:
+    core-js "^2.5.3"
+    regenerator-runtime "^0.11.1"
+
 "@types/async@2.0.49":
   version "2.0.49"
   resolved "https://registry.yarnpkg.com/@types/async/-/async-2.0.49.tgz#92e33d13f74c895cb9a7f38ba97db8431ed14bc0"
@@ -1788,7 +1795,7 @@ core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
-core-js@^2.4.0, core-js@^2.5.0:
+core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.3:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.6.tgz#0fe6d45bf3cac3ac364a9d72de7576f4eb221b9d"
 
@@ -5955,6 +5962,12 @@ react-scripts-ts@2.16.0:
   optionalDependencies:
     fsevents "^1.1.3"
 
+react-spring@^5.1.10:
+  version "5.1.10"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-5.1.10.tgz#6c2c9be2c9222691a92eeeb1fe0ef876889801c5"
+  dependencies:
+    "@babel/runtime" "7.0.0-beta.46"
+
 react-toastify@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-4.0.1.tgz#fb6fe9da9271852eb9f45e1edb88a55d68964552"
@@ -6077,7 +6090,7 @@ regenerate@^1.2.1:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
 

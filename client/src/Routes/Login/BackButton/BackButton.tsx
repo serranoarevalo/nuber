@@ -26,6 +26,8 @@ const StyledBackButton = styled<any, any>(PosedBackButton)`
   width: 40px;
   height: 40px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 `;
 
 interface IProps {

@@ -29,7 +29,7 @@ const StyledMobile = styled<IStyledMobileProps>(({ loginMethod, ...rest }) => (
   background-color: white;
   padding: 0px 15px;
   display: flex;
-  height: 15%;
+  height: ${props => (props.loginMethod === "" ? "15%" : "80%")}
   flex-direction: column;
   overflow: hidden;
   justify-content: ${props =>
