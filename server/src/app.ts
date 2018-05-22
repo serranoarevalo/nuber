@@ -4,6 +4,7 @@ import logger from "morgan";
 import helmet from "helmet";
 import jwt from "jsonwebtoken";
 import schema from "./schema";
+import cors from "cors";
 import entities from "./entities";
 import { JWT_SECRET } from "./keys";
 
@@ -22,6 +23,7 @@ class App {
     this.middlewares();
   }
   private middlewares = (): void => {
+    this.app.express.use(cors({ origin: "http://localhost:3000" }));
     this.app.express.use(this.appendUserToReq);
     this.app.express.use(logger("dev"));
     this.app.express.use(helmet());

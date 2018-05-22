@@ -1,6 +1,8 @@
 import React from "react";
+import { graphql } from "react-apollo";
 import { toast } from "react-toastify";
 import LoginPresenter from "./LoginPresenter";
+import { FACEBOOK_CONNECT } from "./LoginQueries";
 import { loginMethodType } from "./LoginTypes";
 
 interface IState {
@@ -9,8 +11,8 @@ interface IState {
   loginMethod: loginMethodType;
 }
 
-class LoginContainer extends React.Component<{}, IState> {
-  constructor(props: {}) {
+class LoginContainer extends React.Component<any, IState> {
+  constructor(props: any) {
     super(props);
     this.state = {
       countryCode: "+82",
@@ -30,6 +32,7 @@ class LoginContainer extends React.Component<{}, IState> {
         handleInputChange={this.handleInputChange}
         handleSubmit={this.handleSubmit}
         countryCode={countryCode}
+        handleFacebookResponse={this.handleFacebookResponse}
       />
     );
   }
@@ -77,6 +80,21 @@ class LoginContainer extends React.Component<{}, IState> {
       toast.error("Phone number is not valid");
     }
   };
+  private handleFacebookResponse = async (response: any): Promise<void> => {
+    const { facebookConnectMutation } = this.props;
+    if (response.accessToken) {
+      await facebookConnectMutation({
+        variables: {
+          email: response.email ? response.email : null,
+          firstName: response.first_name,
+          lastName: response.last_name,
+          userID: response.userID
+        }
+      });
+    }
+  };
 }
 
-export default LoginContainer;
+export default graphql(FACEBOOK_CONNECT, { name: "facebookConnectMutation" })(
+  LoginContainer
+);

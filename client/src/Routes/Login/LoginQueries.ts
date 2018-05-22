@@ -15,6 +15,8 @@ export const FACEBOOK_CONNECT = gql`
     ) {
       ok
       token
+      error
+      user
     }
   }
 `;

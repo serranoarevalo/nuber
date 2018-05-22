@@ -68,6 +68,7 @@ interface IProps {
   handleMobileClick: () => void;
   handleSocialClick: () => void;
   handleBackButtonClick: () => void;
+  handleFacebookResponse: (response: any) => void;
   handleInputChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
@@ -86,7 +87,8 @@ class LoginPresenter extends React.Component<IProps, {}> {
     handleSocialClick: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     loginMethod: PropTypes.oneOf(["", "mobile", "social"]),
-    phoneNumber: PropTypes.string.isRequired
+    phoneNumber: PropTypes.string.isRequired,
+    handleFacebookResponse: PropTypes.func.isRequired
   };
   textInput: any;
   constructor(props: IProps) {
@@ -100,7 +102,8 @@ class LoginPresenter extends React.Component<IProps, {}> {
       handleInputChange,
       countryCode,
       handleSubmit,
-      handleSocialClick
+      handleSocialClick,
+      handleFacebookResponse
     } = this.props;
     return (
       <PresenterScreen>
@@ -137,7 +140,11 @@ class LoginPresenter extends React.Component<IProps, {}> {
             )}
           </form>
         </MobileLogin>
-        <SocialLogin loginMethod={loginMethod} onClick={handleSocialClick} />
+        <SocialLogin
+          loginMethod={loginMethod}
+          onClick={handleSocialClick}
+          handleFacebookResponse={handleFacebookResponse}
+        />
       </PresenterScreen>
     );
   }
