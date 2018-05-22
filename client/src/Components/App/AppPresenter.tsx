@@ -18,8 +18,6 @@ const LoggedOutRoutes: React.SFC = () => (
   </React.Fragment>
 );
 
-const LoggedInRoutes: React.SFC = () => (
-  <React.Fragment>"Hello"</React.Fragment>
-);
+const LoggedInRoutes: React.SFC = () => <React.Fragment>Hello</React.Fragment>;
 
 export default AppPresenter;
