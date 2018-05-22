@@ -1,4 +1,6 @@
+import { ApolloClient } from "apollo-boost";
 import React from "react";
+import { withApollo } from "react-apollo";
 import { toast } from "react-toastify";
 import LoginPresenter from "./LoginPresenter";
 import { loginMethodType } from "./LoginTypes";
@@ -9,14 +11,19 @@ interface IState {
   loginMethod: loginMethodType;
 }
 
-class LoginContainer extends React.Component<{}, IState> {
-  constructor(props: {}) {
+interface IProps {
+  client: ApolloClient<any>;
+}
+
+class LoginContainer extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       countryCode: "+82",
       loginMethod: "",
       phoneNumber: ""
     };
+    console.log(props);
   }
   render() {
     const { phoneNumber, loginMethod, countryCode } = this.state;
@@ -84,4 +91,4 @@ class LoginContainer extends React.Component<{}, IState> {
   };
 }
 
-export default LoginContainer;
+export default withApollo(LoginContainer);

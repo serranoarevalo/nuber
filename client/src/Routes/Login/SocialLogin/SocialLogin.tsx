@@ -69,7 +69,7 @@ const SocialLogin: React.SFC<IProps> = ({
         <SocialTitle>Choose an account</SocialTitle>
         <FacebookLogin
           appId="1718196768212364"
-          autoLoad={true}
+          autoLoad={false}
           fields="first_name,last_name,name,email,picture"
           callback={facebookCallback}
           render={FacebookLoginComponent}
