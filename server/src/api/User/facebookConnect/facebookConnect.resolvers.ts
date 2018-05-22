@@ -3,7 +3,7 @@ import { Resolvers } from "../../../types/resolvers";
 import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import User from "../../../entities/User";
 import { createJWT } from "../../../utils/createJWT";
-import { FacebookConnectResolver } from "../../../types/graph";
+import { FacebookConnectResponse } from "../../../types/graph";
 
 interface IArgs {
   firstName: string;
@@ -18,7 +18,7 @@ const resolvers: Resolvers = {
       _,
       { email, firstName, lastName, userID }: IArgs,
       { req }
-    ): Promise<FacebookConnectResolver> => {
+    ): Promise<FacebookConnectResponse> => {
       // https://developers.facebook.com/tools/explorer/?method=GET
       //const fbURL = `https://graph.facebook.com/me?access_token=${fbToken}&fields=id,first_name,last_name,email`;
       //const fbRequest = await request(fbURL);
