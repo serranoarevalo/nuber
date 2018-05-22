@@ -7,13 +7,19 @@ interface IAppPresenterProps {
 }
 
 const AppPresenter: React.SFC<IAppPresenterProps> = ({ isLoggedIn }) => (
-  <BrowserRouter>{isLoggedIn ? null : <LoggedInRoutes />}</BrowserRouter>
+  <BrowserRouter>
+    {isLoggedIn ? <LoggedInRoutes /> : <LoggedOutRoutes />}
+  </BrowserRouter>
 );
 
-const LoggedInRoutes: React.SFC = () => (
+const LoggedOutRoutes: React.SFC = () => (
   <React.Fragment>
     <Route exact={true} path="/" component={Login} />
   </React.Fragment>
+);
+
+const LoggedInRoutes: React.SFC = () => (
+  <React.Fragment>"Hello"</React.Fragment>
 );
 
 export default AppPresenter;

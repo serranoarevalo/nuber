@@ -34,6 +34,7 @@ const LoginProvider = styled.div`
   font-size: 18px;
   cursor: pointer;
   margin-bottom: 30px;
+  padding: 10px 0;
   & i.fa-facebook-square {
     color: #415994;
   }

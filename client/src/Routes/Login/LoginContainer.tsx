@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql } from "react-apollo";
+import { graphql, MutationFn } from "react-apollo";
 import { toast } from "react-toastify";
 import LoginPresenter from "./LoginPresenter";
 import { FACEBOOK_CONNECT } from "./LoginQueries";
@@ -11,7 +11,11 @@ interface IState {
   loginMethod: loginMethodType;
 }
 
-class LoginContainer extends React.Component<any, IState> {
+interface IProps {
+  facebookConnectMutation: MutationFn;
+}
+
+class LoginContainer extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -83,18 +87,31 @@ class LoginContainer extends React.Component<any, IState> {
   private handleFacebookResponse = async (response: any): Promise<void> => {
     const { facebookConnectMutation } = this.props;
     if (response.accessToken) {
-      await facebookConnectMutation({
+      facebookConnectMutation({
         variables: {
           email: response.email ? response.email : null,
           firstName: response.first_name,
           lastName: response.last_name,
           userID: response.userID
+        },
+        update: (proxy, { data: { facebookConnect } }) => {
+          if (facebookConnect.ok) {
+            proxy.writeData({
+              data: {
+                user: {
+                  isLoggedIn: true,
+                  token: facebookConnect.token,
+                  __typename: "User"
+                }
+              }
+            });
+          }
         }
       });
     }
   };
 }
 
-export default graphql(FACEBOOK_CONNECT, { name: "facebookConnectMutation" })(
-  LoginContainer
-);
+export default graphql<any, any>(FACEBOOK_CONNECT, {
+  name: "facebookConnectMutation"
+})(LoginContainer);
