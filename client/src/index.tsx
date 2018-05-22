@@ -18,6 +18,10 @@ injectGlobal`
   body {
     font-family: "Maven Pro", sans-serif;
   }
+  a {
+    text-decoration:none;
+    color:inherit;
+  }
 `;
 
 ReactDOM.render(

@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
+import EmailLogin from "../../Routes/EmailLogin";
 import Login from "../../Routes/Login";
 
 interface IAppPresenterProps {
@@ -15,6 +16,7 @@ const AppPresenter: React.SFC<IAppPresenterProps> = ({ isLoggedIn }) => (
 const LoggedOutRoutes: React.SFC = () => (
   <React.Fragment>
     <Route exact={true} path="/" component={Login} />
+    <Route path="/email-login" component={EmailLogin} />
   </React.Fragment>
 );
 

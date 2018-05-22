@@ -1,5 +1,6 @@
 import React from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { loginMethodType } from "../LoginTypes";
 
@@ -79,10 +80,12 @@ const SocialLogin: React.SFC<IProps> = ({
           callback={handleFacebookResponse}
           render={FacebookLoginComponent}
         />
-        <LoginProvider>
-          <i className="far fa-envelope" />
-          Email
-        </LoginProvider>
+        <Link to="/email-login">
+          <LoginProvider>
+            <i className="far fa-envelope" />
+            Email
+          </LoginProvider>
+        </Link>
       </React.Fragment>
     )}
   </Social>

@@ -96,6 +96,7 @@ class LoginContainer extends React.Component<IProps, IState> {
         },
         update: (proxy, { data: { facebookConnect } }) => {
           if (facebookConnect.ok) {
+            localStorage.setItem("jwt", facebookConnect.token);
             proxy.writeData({
               data: {
                 user: {
