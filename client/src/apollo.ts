@@ -16,10 +16,11 @@ const client = new ApolloClient({
           { token }: { token: string },
           { cache }: { cache: ApolloCache<any> }
         ) => {
-          // localStorage.setItem("jwt", token);
-          cache.writeData({
-            data: { user: { __typename: "User", isLoggedIn: true } }
-          });
+          localStorage.setItem("jwt", token);
+          const data = {
+            user: { __typename: "User", isLoggedIn: true }
+          };
+          cache.writeData({ data });
           return null;
         }
       }

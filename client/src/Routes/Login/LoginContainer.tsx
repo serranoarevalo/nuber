@@ -102,6 +102,8 @@ class LoginContainer extends React.Component<IProps, IState> {
               },
               query: LOG_USER_IN
             });
+          } else {
+            toast.error("Couldn't log in with Facebook, try again");
           }
         }
       });
