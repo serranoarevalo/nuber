@@ -13,11 +13,12 @@ const client = new ApolloClient({
       Mutation: {
         logUserIn: (
           { parent }: { parent: any },
-          { isLoggedIn }: { isLoggedIn: boolean },
+          { token }: { token: string },
           { cache }: { cache: ApolloCache<any> }
         ) => {
+          // localStorage.setItem("jwt", token);
           cache.writeData({
-            data: { user: { __typename: "User", isLoggedIn } }
+            data: { user: { __typename: "User", isLoggedIn: true } }
           });
           return null;
         }

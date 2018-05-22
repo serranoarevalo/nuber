@@ -2,7 +2,7 @@ import React from "react";
 import { graphql, MutationFn } from "react-apollo";
 import { toast } from "react-toastify";
 import LoginPresenter from "./LoginPresenter";
-import { FACEBOOK_CONNECT } from "./LoginQueries";
+import { FACEBOOK_CONNECT, LOG_USER_IN } from "./LoginQueries";
 import { loginMethodType } from "./LoginTypes";
 
 interface IState {
@@ -96,14 +96,11 @@ class LoginContainer extends React.Component<IProps, IState> {
         },
         update: (proxy, { data: { facebookConnect } }) => {
           if (facebookConnect.ok) {
-            proxy.writeData({
+            proxy.writeQuery({
               data: {
-                user: {
-                  isLoggedIn: true,
-                  token: facebookConnect.token,
-                  __typename: "User"
-                }
-              }
+                token: facebookConnect.token
+              },
+              query: LOG_USER_IN
             });
           }
         }
