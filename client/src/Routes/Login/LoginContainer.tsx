@@ -1,5 +1,4 @@
 import React from "react";
-import { ReactFacebookLoginInfo } from "react-facebook-login";
 import { toast } from "react-toastify";
 import LoginPresenter from "./LoginPresenter";
 import { loginMethodType } from "./LoginTypes";
@@ -80,7 +79,7 @@ class LoginContainer extends React.Component<{}, IState> {
     }
     // TO DO: Send Graphql query
   };
-  private handleFacebookResponse = (response: ReactFacebookLoginInfo) => {
+  private handleFacebookResponse = (response: any) => {
     console.log(response);
   };
 }

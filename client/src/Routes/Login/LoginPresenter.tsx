@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { ReactFacebookLoginInfo } from "react-facebook-login";
 import styled from "styled-components";
 import countries from "../../countries";
 import BackButton from "./BackButton";
@@ -66,7 +65,7 @@ const PhoneText = PhoneSelect.withComponent("span").extend`
 const PhoneOption = styled.option``;
 
 interface IProps {
-  handleFacebookResponse: (repsonse: ReactFacebookLoginInfo) => void;
+  handleFacebookResponse: (response: any) => void;
   handleMobileClick: () => void;
   handleSocialClick: () => void;
   handleBackButtonClick: () => void;
