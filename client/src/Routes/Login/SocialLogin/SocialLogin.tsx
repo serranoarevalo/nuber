@@ -1,7 +1,9 @@
 import React from "react";
+import { Mutation } from "react-apollo";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import styled from "styled-components";
 import { loginMethodType } from "../LoginTypes";
+import { FACEBOOK_CONNECT } from "./queries";
 
 const Social = styled<any, any>("div")`
   display: flex;
@@ -43,7 +45,6 @@ const LoginProvider = styled.div`
 `;
 
 interface IProps {
-  facebookCallback: (response: any) => void;
   loginMethod: loginMethodType;
   onClick: () => void;
 }
@@ -55,11 +56,7 @@ const FacebookLoginComponent: React.SFC<IProps> = props => (
   </LoginProvider>
 );
 
-const SocialLogin: React.SFC<IProps> = ({
-  loginMethod,
-  onClick,
-  facebookCallback
-}) => (
+const SocialLogin: React.SFC<IProps> = ({ loginMethod, onClick }) => (
   <Social loginMethod={loginMethod} onClick={onClick}>
     {loginMethod === "" && (
       <SocialText>Or connect with Facebook / Email</SocialText>
@@ -67,13 +64,17 @@ const SocialLogin: React.SFC<IProps> = ({
     {loginMethod === "social" && (
       <React.Fragment>
         <SocialTitle>Choose an account</SocialTitle>
-        <FacebookLogin
-          appId="1718196768212364"
-          autoLoad={false}
-          fields="first_name,last_name,name,email,picture"
-          callback={facebookCallback}
-          render={FacebookLoginComponent}
-        />
+        <Mutation mutation={FACEBOOK_CONNECT}>
+          {(facebookConnect, { data }) => (
+            <FacebookLogin
+              appId="1718196768212364"
+              autoLoad={false}
+              fields="first_name,last_name,name,email,picture"
+              callback={facebookConnect}
+              render={FacebookLoginComponent}
+            />
+          )}
+        </Mutation>
         <LoginProvider>
           <i className="far fa-envelope" />
           Email

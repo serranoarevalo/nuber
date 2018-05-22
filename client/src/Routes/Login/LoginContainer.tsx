@@ -1,6 +1,4 @@
-import { ApolloClient } from "apollo-boost";
 import React from "react";
-import { withApollo } from "react-apollo";
 import { toast } from "react-toastify";
 import LoginPresenter from "./LoginPresenter";
 import { loginMethodType } from "./LoginTypes";
@@ -11,19 +9,14 @@ interface IState {
   loginMethod: loginMethodType;
 }
 
-interface IProps {
-  client: ApolloClient<any>;
-}
-
-class LoginContainer extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class LoginContainer extends React.Component<{}, IState> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       countryCode: "+82",
       loginMethod: "",
       phoneNumber: ""
     };
-    console.log(props);
   }
   render() {
     const { phoneNumber, loginMethod, countryCode } = this.state;
@@ -37,7 +30,6 @@ class LoginContainer extends React.Component<IProps, IState> {
         handleInputChange={this.handleInputChange}
         handleSubmit={this.handleSubmit}
         countryCode={countryCode}
-        handleFacebookResponse={this.handleFacebookResponse}
       />
     );
   }
@@ -84,11 +76,7 @@ class LoginContainer extends React.Component<IProps, IState> {
     } else {
       toast.error("Phone number is not valid");
     }
-    // TO DO: Send Graphql query
-  };
-  private handleFacebookResponse = (response: any) => {
-    console.log(response);
   };
 }
 
-export default withApollo(LoginContainer);
+export default LoginContainer;

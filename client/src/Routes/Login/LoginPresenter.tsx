@@ -65,7 +65,6 @@ const PhoneText = PhoneSelect.withComponent("span").extend`
 const PhoneOption = styled.option``;
 
 interface IProps {
-  handleFacebookResponse: (response: any) => void;
   handleMobileClick: () => void;
   handleSocialClick: () => void;
   handleBackButtonClick: () => void;
@@ -86,7 +85,6 @@ class LoginPresenter extends React.Component<IProps, {}> {
     handleMobileClick: PropTypes.func.isRequired,
     handleSocialClick: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    handleFacebookResponse: PropTypes.func.isRequired,
     loginMethod: PropTypes.oneOf(["", "mobile", "social"]),
     phoneNumber: PropTypes.string.isRequired
   };
@@ -102,8 +100,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
       handleInputChange,
       countryCode,
       handleSubmit,
-      handleSocialClick,
-      handleFacebookResponse
+      handleSocialClick
     } = this.props;
     return (
       <PresenterScreen>
@@ -140,11 +137,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
             )}
           </form>
         </MobileLogin>
-        <SocialLogin
-          loginMethod={loginMethod}
-          onClick={handleSocialClick}
-          facebookCallback={handleFacebookResponse}
-        />
+        <SocialLogin loginMethod={loginMethod} onClick={handleSocialClick} />
       </PresenterScreen>
     );
   }
