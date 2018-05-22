@@ -1,5 +1,4 @@
 import ApolloClient, { Operation } from "apollo-boost";
-import { ApolloCache } from "apollo-cache";
 
 const client = new ApolloClient({
   clientState: {
@@ -9,22 +8,7 @@ const client = new ApolloClient({
         isLoggedIn: localStorage.getItem("jwt") === null ? false : true
       }
     },
-    resolvers: {
-      Mutation: {
-        logUserIn: (
-          { parent }: { parent: any },
-          { token }: { token: string },
-          { cache }: { cache: ApolloCache<any> }
-        ) => {
-          localStorage.setItem("jwt", token);
-          const data = {
-            user: { __typename: "User", isLoggedIn: true }
-          };
-          cache.writeData({ data });
-          return null;
-        }
-      }
-    }
+    resolvers: {}
   },
   request: async (operation: Operation) => {
     operation.setContext({

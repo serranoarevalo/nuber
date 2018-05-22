@@ -20,9 +20,16 @@ export const FACEBOOK_CONNECT = gql`
   }
 `;
 
+export const GET_USER = gql`
+  query user {
+    user @client {
+      isLoggedIn
+    }
+  }
+`;
+
 export const LOG_USER_IN = gql`
   mutation {
     logUserIn @client
-    __typename: User
   }
 `;

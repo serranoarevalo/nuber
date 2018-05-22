@@ -135,7 +135,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
               name={"phoneNumber"}
               disabled={loginMethod === ""}
             />
-            {loginMethod !== "" && (
+            {loginMethod === "mobile" && (
               <SubmitButton onClick={handleSubmit as any} />
             )}
           </form>
