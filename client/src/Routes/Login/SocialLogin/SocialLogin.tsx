@@ -53,14 +53,24 @@ interface IProps {
 
 interface IFBProps {
   onClick: () => void;
+  loginMethod: loginMethodType;
 }
 
-const FacebookLoginComponent: React.SFC<IFBProps> = props => (
-  <LoginProvider onClick={props.onClick}>
-    <i className="fab fa-facebook-square" />
-    Facebook
-  </LoginProvider>
-);
+const FacebookLoginComponent: React.SFC<IFBProps> = ({
+  onClick,
+  loginMethod
+}) => {
+  if (loginMethod === "social") {
+    return (
+      <LoginProvider onClick={onClick}>
+        <i className="fab fa-facebook-square" />
+        Facebook
+      </LoginProvider>
+    );
+  } else {
+    return null;
+  }
+};
 
 const SocialLogin: React.SFC<IProps> = ({
   loginMethod,
@@ -78,7 +88,10 @@ const SocialLogin: React.SFC<IProps> = ({
         autoLoad={false}
         fields="first_name,last_name,name,email,picture"
         callback={handleFacebookResponse}
-        render={FacebookLoginComponent}
+        // tslint:disable-next-line jsx-no-lambda
+        render={props => (
+          <FacebookLoginComponent onClick={props} loginMethod={loginMethod} />
+        )}
       />
       {loginMethod === "social" && (
         <Link to="/email-login">
@@ -89,7 +102,6 @@ const SocialLogin: React.SFC<IProps> = ({
         </Link>
       )}
     </React.Fragment>
-    )}
   </Social>
 );
 
