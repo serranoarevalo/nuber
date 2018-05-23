@@ -34,6 +34,7 @@ const StyledMobile = styled<IStyledMobileProps>(({ loginMethod, ...rest }) => (
   overflow: hidden;
   justify-content: ${props =>
     props.loginMethod === "" ? "center" : "flex-start"};
+  will-change: max-height, opacity;
 `;
 
 const Title = styled.div`

@@ -18,6 +18,7 @@ const Social = styled<any, any>("div")`
   opacity: ${props => (props.loginMethod === "mobile" ? "0" : "1")};
   padding: 0 15px;
   cursor:pointer;
+  will-change: justify-content, border-top;
 `;
 
 const SocialText = styled.span`
@@ -70,23 +71,24 @@ const SocialLogin: React.SFC<IProps> = ({
     {loginMethod === "" && (
       <SocialText>Or connect with Facebook / Email</SocialText>
     )}
-    {loginMethod === "social" && (
-      <React.Fragment>
-        <SocialTitle>Choose an account</SocialTitle>
-        <FacebookLogin
-          appId="1718196768212364"
-          autoLoad={false}
-          fields="first_name,last_name,name,email,picture"
-          callback={handleFacebookResponse}
-          render={FacebookLoginComponent}
-        />
+    <React.Fragment>
+      {loginMethod === "social" && <SocialTitle>Choose an account</SocialTitle>}
+      <FacebookLogin
+        appId="1718196768212364"
+        autoLoad={false}
+        fields="first_name,last_name,name,email,picture"
+        callback={handleFacebookResponse}
+        render={FacebookLoginComponent}
+      />
+      {loginMethod === "social" && (
         <Link to="/email-login">
           <LoginProvider>
             <i className="far fa-envelope" />
             Email
           </LoginProvider>
         </Link>
-      </React.Fragment>
+      )}
+    </React.Fragment>
     )}
   </Social>
 );

@@ -1,6 +1,11 @@
 import React from "react";
+import styled from "styled-components";
 
-const Spring = require("react-spring");
+const Container = styled.div`
+  width: 100%;
+  background-color: black;
+  height: 100vh;
+`;
 
 interface IProps {
   email: string;
@@ -8,17 +13,9 @@ interface IProps {
 }
 
 const EmailLoginPresenter: React.SFC<IProps> = ({ email }) => (
-  <Spring.Transition
-    from={{ color: "red" }}
-    enter={{ color: "yellow" }}
-    leave={{ color: "black" }}
-  >
-    {styles => (
-      <div style={styles}>
-        <span>hello</span>
-      </div>
-    )}
-  </Spring.Transition>
+  <Container>
+    <span>hello</span>
+  </Container>
 );
 
 export default EmailLoginPresenter;
