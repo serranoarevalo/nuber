@@ -8,9 +8,13 @@ injectGlobal`
     box-sizing:border-box;
   }
   html,body, #root{
-    height:100%
+    height:100%;
+    width:100%;
   }
   body {
+    position:fixed;
+    overflow:hidden;
+    height:100%;
     font-family: "Maven Pro", sans-serif;
   }
   a {

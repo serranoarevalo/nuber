@@ -3,7 +3,6 @@ import React from "react";
 import FontAwesome from "react-fontawesome";
 import posed from "react-pose";
 import styled from "styled-components";
-import { loginMethodType } from "../LoginTypes";
 
 const PosedBackButton = posed.span({
   hidding: {
@@ -31,15 +30,12 @@ const StyledBackButton = styled<any, any>(PosedBackButton)`
 `;
 
 interface IProps {
-  loginMethod: loginMethodType;
+  showing: boolean;
   onClick: () => void;
 }
 
-const BackButton: React.SFC<IProps> = ({ loginMethod, onClick }) => (
-  <StyledBackButton
-    pose={loginMethod !== "" ? "showing" : "hidding"}
-    onClick={onClick}
-  >
+const BackButton: React.SFC<IProps> = ({ showing, onClick }) => (
+  <StyledBackButton pose={showing ? "showing" : "hidding"} onClick={onClick}>
     <FontAwesome name="arrow-left" />
   </StyledBackButton>
 );

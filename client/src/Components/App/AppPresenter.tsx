@@ -43,11 +43,7 @@ const AppPresenter: React.SFC<IAppPresenterProps> = ({ isLoggedIn }) => (
 const LoggedOutRoutes: React.SFC<any> = ({ location }) => (
   <Wrapper>
     <StyledTransition>
-      <CSSTransition
-        key={location.key}
-        timeout={{ enter: 300, exit: 300 }}
-        classNames="fade"
-      >
+      <CSSTransition key={location.key} timeout={200} classNames="fade">
         <Switch key={location.key}>
           <Route exact={true} path="/" component={Login} />
           <Route path="/email-login" component={EmailLogin} />

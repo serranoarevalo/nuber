@@ -27,6 +27,7 @@ const StyledHeader = styled<any, any>(PosedHeader)`
   align-items: center;
   height: 78%;
   will-change: max-height, opacity;
+  top: 0;
 `;
 
 const Logo = styled.span`

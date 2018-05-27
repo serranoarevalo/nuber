@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import Header from "../../Components/Header";
 
 const Container = styled.div`
   width: 100%;
-  background-color: black;
-  height: 100vh;
+  padding-top: 150px;
+  height: 1000vh;
 `;
+
+const Wrapper = styled.div``;
 
 interface IProps {
   email: string;
@@ -13,9 +16,12 @@ interface IProps {
 }
 
 const EmailLoginPresenter: React.SFC<IProps> = ({ email }) => (
-  <Container>
-    <span>hello</span>
-  </Container>
+  <Wrapper>
+    <Header backTo="/" title={"Login with Email"} />
+    <Container>
+      <span>hello</span>
+    </Container>
+  </Wrapper>
 );
 
 export default EmailLoginPresenter;

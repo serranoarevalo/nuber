@@ -107,7 +107,10 @@ class LoginPresenter extends React.Component<IProps, {}> {
     } = this.props;
     return (
       <PresenterScreen>
-        <BackButton loginMethod={loginMethod} onClick={this.handleBackClick} />
+        <BackButton
+          showing={loginMethod !== ""}
+          onClick={this.handleBackClick}
+        />
         <Header onClick={this.handleMobileClick} loginMethod={loginMethod} />
         <MobileLogin onClick={this.handleMobileClick} loginMethod={loginMethod}>
           <form onSubmit={handleSubmit}>
