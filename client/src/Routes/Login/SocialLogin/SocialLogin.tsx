@@ -90,7 +90,10 @@ const SocialLogin: React.SFC<IProps> = ({
         callback={handleFacebookResponse}
         // tslint:disable-next-line jsx-no-lambda
         render={props => (
-          <FacebookLoginComponent onClick={props} loginMethod={loginMethod} />
+          <FacebookLoginComponent
+            onClick={props.onClick}
+            loginMethod={loginMethod}
+          />
         )}
       />
       {loginMethod === "social" && (
