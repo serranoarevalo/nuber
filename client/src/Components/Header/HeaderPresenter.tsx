@@ -16,10 +16,12 @@ const Container = styled<any, any>("div")`
   color: white;
   padding: 15px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: ${props => (props.scrollHeight < 10 ? "column" : "row")};
+  justify-content: ${props =>
+    props.scrollHeight < 5 ? "space-between" : "flex-start"};
   position: fixed;
   width: 100%;
+  transition: height 0.1s linear;
   box-shadow: ${props =>
       props.scrollHeight > 5
         ? "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);"
@@ -34,13 +36,10 @@ const Title = styled<any, any>("h2")`
   font-size: 30px;
   transition: transform 0.1s linear;
   transform-origin: 0%;
-  transform: ${props => {
-    if (props.scrollHeight > 1) {
-      return "translateX(50px) translateY(-25px) scale(.7)";
-    } else {
-      return "none;";
-    }
-  }};
+  transform: ${props =>
+    props.scrollHeight < 15
+      ? `translateX(${props.scrollHeight * 2.5}px)  scale(.7)`
+      : `translateX(35px)  scale(.7)`};
 `;
 
 interface IProps {
