@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import HeaderPresenter from "./HeaderPresenter";
 
@@ -11,6 +12,11 @@ interface IState {
 }
 
 class HeaderContainer extends React.Component<IProps, IState> {
+  static propTypes = {
+    backTo: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +43,6 @@ class HeaderContainer extends React.Component<IProps, IState> {
   }
   private handleScroll = event => {
     const { target } = event;
-    console.log(target.scrollTop);
     this.setState({
       scrollHeight: target.scrollTop
     });

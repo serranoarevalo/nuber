@@ -1,4 +1,5 @@
 import { tween } from "popmotion";
+import PropTypes from "prop-types";
 import React from "react";
 import posed from "react-pose";
 import styled from "styled-components";
@@ -53,5 +54,10 @@ const Header: React.SFC<IHeader> = ({ onClick, loginMethod }) => (
     <Logo>Nuber</Logo>
   </StyledHeader>
 );
+
+Header.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  loginMethod: PropTypes.string.isRequired
+};
 
 export default Header;

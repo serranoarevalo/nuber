@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { Link } from "react-router-dom";
@@ -72,6 +73,11 @@ const FacebookLoginComponent: React.SFC<IFBProps> = ({
   }
 };
 
+FacebookLoginComponent.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  loginMethod: PropTypes.string.isRequired
+};
+
 const SocialLogin: React.SFC<IProps> = ({
   loginMethod,
   onClick,
@@ -107,5 +113,11 @@ const SocialLogin: React.SFC<IProps> = ({
     </React.Fragment>
   </Social>
 );
+
+SocialLogin.propTypes = {
+  loginMethod: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  handleFacebookResponse: PropTypes.func.isRequired
+};
 
 export default SocialLogin;

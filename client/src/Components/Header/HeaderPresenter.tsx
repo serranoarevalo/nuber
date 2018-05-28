@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import FontAwesome from "react-fontawesome";
 import { Link } from "react-router-dom";
@@ -56,5 +57,11 @@ const HeaderPresenter: React.SFC<IProps> = ({
     <Title scrollHeight={scrollHeight}>{title}</Title>
   </Container>
 );
+
+HeaderPresenter.propTypes = {
+  scrollHeight: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  backTo: PropTypes.string.isRequired
+};
 
 export default HeaderPresenter;

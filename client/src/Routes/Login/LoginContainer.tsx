@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { graphql, MutationFn } from "react-apollo";
 import { toast } from "react-toastify";
@@ -16,6 +17,9 @@ interface IProps {
 }
 
 class LoginContainer extends React.Component<IProps, IState> {
+  static propTypes = {
+    facebookConnectMutation: PropTypes.func.isRequired
+  };
   constructor(props: any) {
     super(props);
     this.state = {

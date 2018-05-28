@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import FontAwesome from "react-fontawesome";
 import styled from "styled-components";
@@ -29,4 +30,9 @@ const SubmitButton: React.SFC<ISubmit> = ({ onClick }) => (
     <FontAwesome name="arrow-right" />
   </Container>
 );
+
+SubmitButton.propTypes = {
+  onClick: PropTypes.func.isRequired
+};
+
 export default SubmitButton;

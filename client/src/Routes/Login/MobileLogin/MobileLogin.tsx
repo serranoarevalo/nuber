@@ -1,4 +1,5 @@
 import { tween } from "popmotion";
+import PropTypes from "prop-types";
 import React from "react";
 import posed from "react-pose";
 import styled from "styled-components";
@@ -59,5 +60,11 @@ const MobileLogin: React.SFC<IProps> = ({ onClick, loginMethod, children }) => (
     <span>{children}</span>
   </StyledMobile>
 );
+
+MobileLogin.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  loginMethod: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired
+};
 
 export default MobileLogin;

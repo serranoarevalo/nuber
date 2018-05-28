@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import Button from "../../Components/Button";
@@ -47,5 +48,11 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
     </Container>
   </Wrapper>
 );
+
+EmailLoginPresenter.propTypes = {
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  handleInputChange: PropTypes.func.isRequired
+};
 
 export default EmailLoginPresenter;

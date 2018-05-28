@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { BrowserRouter, Route, Switch, withRouter } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -39,6 +40,10 @@ const AppPresenter: React.SFC<IAppPresenterProps> = ({ isLoggedIn }) => (
     {isLoggedIn ? <LoggedInRoutes /> : <WrappedLoggedOutRoutes />}
   </BrowserRouter>
 );
+
+AppPresenter.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired
+};
 
 const LoggedOutRoutes: React.SFC<any> = ({ location }) => (
   <Wrapper>

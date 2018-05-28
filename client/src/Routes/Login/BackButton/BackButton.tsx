@@ -1,4 +1,5 @@
 import { tween } from "popmotion";
+import PropTypes from "prop-types";
 import React from "react";
 import FontAwesome from "react-fontawesome";
 import posed from "react-pose";
@@ -39,5 +40,10 @@ const BackButton: React.SFC<IProps> = ({ showing, onClick }) => (
     <FontAwesome name="arrow-left" />
   </StyledBackButton>
 );
+
+BackButton.propTypes = {
+  showing: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired
+};
 
 export default BackButton;
