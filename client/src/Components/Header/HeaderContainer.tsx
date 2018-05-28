@@ -37,10 +37,7 @@ class HeaderContainer extends React.Component<IProps, IState> {
   }
   private handleScroll = event => {
     const { target } = event;
-    const a = target.scrollTop;
-    const b = target.scrollHeight - target.clientHeight;
-    const c = a / b;
-    console.log(`A: ${a} B: ${b} C: ${c}`);
+    console.log(target.scrollTop);
     this.setState({
       scrollHeight: target.scrollTop
     });

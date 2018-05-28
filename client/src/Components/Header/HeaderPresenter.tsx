@@ -6,7 +6,13 @@ import styled from "styled-components";
 const Container = styled<any, any>("div")`
   background-color: black;
   width: 100%;
-  height: ${props => (props.scrollHeight > 50 ? "5vh" : "13vh")};
+  height: ${props => {
+    if (props.scrollHeight < 8) {
+      return `${13 - props.scrollHeight}vh;`;
+    } else {
+      return "5vh;";
+    }
+  }};
   color: white;
   padding: 15px;
   display: flex;
@@ -14,9 +20,8 @@ const Container = styled<any, any>("div")`
   justify-content: space-between;
   position: fixed;
   width: 100%;
-  transition: all 0.3s ease-out;
   box-shadow: ${props =>
-      props.scrollHeight > 50
+      props.scrollHeight > 5
         ? "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);"
         : "none;"}
     span {
@@ -27,11 +32,11 @@ const Container = styled<any, any>("div")`
 
 const Title = styled<any, any>("h2")`
   font-size: 30px;
-  position: relative;
-  z-index: 9;
+  transition: transform 0.1s linear;
+  transform-origin: 0%;
   transform: ${props => {
-    if (props.scrollHeight > 50) {
-      return "translateX(50px) translateY(-25px)";
+    if (props.scrollHeight > 1) {
+      return "translateX(50px) translateY(-25px) scale(.7)";
     } else {
       return "none;";
     }
