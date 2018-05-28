@@ -6,7 +6,7 @@ import styled from "styled-components";
 const Container = styled<any, any>("div")`
   background-color: black;
   width: 100%;
-  height: ${props => (props.scrollHeight < 3 ? "13vh;" : "5vh;")};
+  height: ${props => (props.scrollHeight < 3 ? "110px;" : "50px;")};
   color: white;
   padding: 15px;
   display: flex;

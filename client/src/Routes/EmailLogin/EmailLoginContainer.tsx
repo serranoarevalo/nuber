@@ -3,20 +3,23 @@ import EmailLoginPresenter from "./EmailLoginPresenter";
 
 interface IState {
   email: string;
+  password: string;
 }
 
 class EmailLoginContainer extends React.Component<any, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      email: ""
+      email: "",
+      password: ""
     };
   }
   render() {
-    const { email } = this.state;
+    const { email, password } = this.state;
     return (
       <EmailLoginPresenter
         email={email}
+        password={password}
         handleInputChange={this.handleInputChange}
       />
     );

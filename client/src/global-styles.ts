@@ -17,6 +17,10 @@ injectGlobal`
     height:100%;
     font-family: "Maven Pro", sans-serif;
   }
+  input, 
+  button{
+    font-family: "Maven Pro", sans-serif;
+  }
   a {
     text-decoration:none;
     color:inherit;
