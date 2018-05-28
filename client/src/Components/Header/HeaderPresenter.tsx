@@ -16,9 +16,9 @@ const Container = styled<any, any>("div")`
   width: 100%;
   transition: height 0.1s linear;
   box-shadow: ${props =>
-    props.scrollHeight > 5
-      ? "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);"
-      : "none;"};
+    props.scrollHeight < 5
+      ? "none;"
+      : "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);"};
   span {
     color: white;
     font-size: 18px;
@@ -30,10 +30,10 @@ const Title = styled<any, any>("h2")`
   transform-origin: 0% 0%;
   transition: transform 0.1s linear;
   transform: ${props => {
-    if (props.scrollHeight > 3) {
-      return `translate(50px, -20px) scale(.7);`;
-    } else {
+    if (props.scrollHeight < 3) {
       return `none;`;
+    } else {
+      return `translate(50px, -20px) scale(.7);`;
     }
   }};
 `;
