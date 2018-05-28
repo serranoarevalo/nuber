@@ -18,7 +18,10 @@ class HeaderContainer extends React.Component<IProps, IState> {
     };
   }
   public componentDidMount() {
-    window.addEventListener("scroll", this.handleScroll);
+    const shouldScroll = document.querySelector(".shouldScroll");
+    if (shouldScroll) {
+      shouldScroll.addEventListener("scroll", this.handleScroll);
+    }
   }
 
   render() {
@@ -32,9 +35,14 @@ class HeaderContainer extends React.Component<IProps, IState> {
       />
     );
   }
-  private handleScroll = () => {
+  private handleScroll = event => {
+    const { target } = event;
+    const a = target.scrollTop;
+    const b = target.scrollHeight - target.clientHeight;
+    const c = a / b;
+    console.log(`A: ${a} B: ${b} C: ${c}`);
     this.setState({
-      scrollHeight: window.scrollY
+      scrollHeight: target.scrollTop
     });
   };
 }

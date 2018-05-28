@@ -18,7 +18,7 @@ interface IProps {
 }
 
 const EmailLoginPresenter: React.SFC<IProps> = ({ email }) => (
-  <Wrapper>
+  <Wrapper className={"shouldScroll"}>
     <Header backTo="/" title={"Login with Email"} />
     <Container>
       <div>hello</div>
