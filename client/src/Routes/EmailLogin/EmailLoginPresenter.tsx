@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { Mutation } from "react-apollo";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
+import { EMAIL_LOGIN } from "./EmailQueries";
 
 const Container = styled.div`
   width: 100%;
@@ -30,21 +32,47 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
   <Wrapper className={"shouldScroll"}>
     <Header backTo="/" title={"Login with Email"} />
     <Container>
-      <Input
-        onChange={handleInputChange}
-        value={email}
-        type="email"
-        required={true}
-        name={"Email"}
-      />
-      <Input
-        onChange={handleInputChange}
-        value={password}
-        type="password"
-        required={true}
-        name={"Password"}
-      />
-      <Button onClick={handleInputChange} text={"Log In"} />
+      <Mutation
+        mutation={EMAIL_LOGIN}
+        // tslint:disable-next-line jsx-no-lambda
+        update={(cache, { data: { emailSignIn } }) => {
+          if (emailSignIn.ok) {
+            localStorage.setItem("jwt", emailSignIn.token);
+            cache.writeData({
+              data: {
+                user: {
+                  __typename: "User",
+                  isLoggedIn: true
+                }
+              }
+            });
+          }
+        }}
+      >
+        {(emailLogin, { loading, error }) => (
+          <React.Fragment>
+            <Input
+              onChange={handleInputChange}
+              value={email}
+              type="email"
+              required={true}
+              name={"Email"}
+            />
+            <Input
+              onChange={handleInputChange}
+              value={password}
+              type="password"
+              required={true}
+              name={"Password"}
+            />
+            <Button
+              // tslint:disable-next-line jsx-no-lambda
+              onClick={() => emailLogin({ variables: { email, password } })}
+              text={loading ? "Logging In..." : "Log In"}
+            />
+          </React.Fragment>
+        )}
+      </Mutation>
     </Container>
   </Wrapper>
 );
