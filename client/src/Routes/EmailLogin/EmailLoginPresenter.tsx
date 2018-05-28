@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Mutation } from "react-apollo";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 import Header from "../../Components/Header";
@@ -46,10 +47,12 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
                 }
               }
             });
+          } else {
+            toast.error(emailSignIn.error);
           }
         }}
       >
-        {(emailLogin, { loading, error }) => (
+        {(emailLogin, { loading }) => (
           <React.Fragment>
             <Input
               onChange={handleInputChange}
