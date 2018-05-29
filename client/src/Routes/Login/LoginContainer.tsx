@@ -78,16 +78,23 @@ class LoginContainer extends React.Component<IProps, IState> {
     });
   };
 
-  private handleSubmit: React.FormEventHandler<HTMLFormElement> = (
-    event: React.FormEvent<HTMLFormElement>
+  private handleSubmit = (
+    mutationFn: MutationFn,
+    e?: React.FormEvent<HTMLFormElement>
   ): void => {
     const { phoneNumber, countryCode } = this.state;
-    event.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     const isValid = /^\+[1-9]{1}[0-9]{7,11}$/.test(
       `${countryCode}${phoneNumber}`
     );
     if (isValid) {
-      return;
+      mutationFn({
+        variables: {
+          phoneNumber: `${countryCode}${phoneNumber}`
+        }
+      });
     } else {
       toast.error("Phone number is not valid");
     }

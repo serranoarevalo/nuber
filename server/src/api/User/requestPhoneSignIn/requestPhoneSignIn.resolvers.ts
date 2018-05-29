@@ -14,23 +14,22 @@ const resolvers: Resolvers = {
       _,
       { phoneNumber }: IArgs
     ): Promise<RequestPhoneSignInResponse> => {
-      const user: User = await User.findOne({
-        phoneNumber,
-        verifiedPhoneNumber: true
+      const existingConfirmation: Confirmation = await Confirmation.findOne({
+        payload: phoneNumber,
+        type: "PHONE"
       });
-      if (user) {
-        const existingConfirmation: Confirmation = await Confirmation.findOne({
-          user,
-          type: "PHONE"
-        });
-        if (existingConfirmation) {
-          existingConfirmation.remove();
-        }
-        const confirmation: Confirmation = await Confirmation.create({
-          user,
-          type: "PHONE"
-        }).save();
-        await sendVerificationText(phoneNumber, confirmation.key);
+      if (existingConfirmation) {
+        existingConfirmation.remove();
+      }
+      const confirmation: Confirmation = await Confirmation.create({
+        payload: phoneNumber,
+        type: "PHONE"
+      }).save();
+      const verification = await sendVerificationText(
+        phoneNumber,
+        confirmation.key
+      );
+      if (verification) {
         confirmation.sent = true;
         confirmation.save();
         return {
@@ -40,7 +39,7 @@ const resolvers: Resolvers = {
       } else {
         return {
           ok: false,
-          error: "There is no user registered with that phone number"
+          error: "Couldn't send confirmation SMS"
         };
       }
     }

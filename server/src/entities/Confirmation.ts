@@ -19,7 +19,9 @@ class Confirmation extends BaseEntity {
   @Column({ nullable: true })
   userId: number;
 
-  @ManyToOne(type => User, user => user.confirmations)
+  @ManyToOne(type => User, user => user.confirmations, {
+    nullable: true
+  })
   user: User;
 
   @Column({ type: "boolean", default: false })
@@ -34,6 +36,12 @@ class Confirmation extends BaseEntity {
     default: "email"
   })
   type: string;
+
+  @Column({
+    type: "text",
+    default: ""
+  })
+  payload: string;
 
   @CreateDateColumn() createdAt: string;
   @UpdateDateColumn() updatedAt: string;

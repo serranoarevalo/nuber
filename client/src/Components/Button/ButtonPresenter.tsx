@@ -21,10 +21,13 @@ const Button = styled.button`
 interface IProps {
   onClick: any;
   text: string;
+  disabled: boolean;
 }
 
-const ButtonPresenter: React.SFC<IProps> = ({ onClick, text }) => (
-  <Button onClick={onClick}>{text}</Button>
+const ButtonPresenter: React.SFC<IProps> = ({ onClick, text, disabled }) => (
+  <Button disabled={disabled} onClick={onClick}>
+    {text}
+  </Button>
 );
 
 ButtonPresenter.propTypes = {

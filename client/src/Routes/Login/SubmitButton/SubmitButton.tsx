@@ -3,7 +3,7 @@ import React from "react";
 import FontAwesome from "react-fontawesome";
 import styled from "styled-components";
 
-const Container = styled.div`
+const Container = styled.button`
   background-color: black;
   border-radius: 50%;
   width: 65px;
@@ -19,15 +19,22 @@ const Container = styled.div`
   color: white;
   font-size: 18px;
   transition: all 0.5 linear;
+  border: none;
 `;
 
 interface ISubmit {
   onClick: () => void;
+  disabled: boolean;
+  loading: boolean;
 }
 
-const SubmitButton: React.SFC<ISubmit> = ({ onClick }) => (
-  <Container onClick={onClick}>
-    <FontAwesome name="arrow-right" />
+const SubmitButton: React.SFC<ISubmit> = ({ onClick, disabled, loading }) => (
+  <Container onClick={onClick} disabled={disabled}>
+    {loading ? (
+      <FontAwesome name="spinner fa-spin" />
+    ) : (
+      <FontAwesome name="arrow-right" />
+    )}
   </Container>
 );
 

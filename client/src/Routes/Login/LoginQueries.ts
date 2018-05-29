@@ -20,16 +20,11 @@ export const FACEBOOK_CONNECT = gql`
   }
 `;
 
-export const GET_USER = gql`
-  query user {
-    user @client {
-      isLoggedIn
+export const REQUEST_PHONE_SIGNIN = gql`
+  mutation phoneSignIn($phoneNumber: String!) {
+    requestPhoneSignIn(phoneNumber: $phoneNumber) {
+      ok
+      error
     }
-  }
-`;
-
-export const LOG_USER_IN = gql`
-  mutation {
-    logUserIn @client
   }
 `;

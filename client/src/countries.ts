@@ -200,7 +200,7 @@ const countries = [
   { name: "Iraq", dial_code: "+964", code: "IQ", flag: "🇮🇶" },
   { name: "Ireland", dial_code: "+353", code: "IE", flag: "🇮🇪" },
   { name: "Isle of Man", dial_code: "+44", code: "IM", flag: "🇮🇲" },
-  { name: "Israel", dial_code: "+972", code: "IL", flag: "" },
+  { name: "Israel", dial_code: "+972", code: "IL", flag: "🇮🇱" },
   { name: "Italy", dial_code: "+39", code: "IT", flag: "🇮🇹" },
   { name: "Jamaica", dial_code: "+1876", code: "JM", flag: "🇯🇲" },
   { name: "Japan", dial_code: "+81", code: "JP", flag: "🇯🇵" },

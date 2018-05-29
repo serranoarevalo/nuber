@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { Mutation, MutationFn } from "react-apollo";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import countries from "../../countries";
 import BackButton from "./BackButton";
 import Header from "./Header";
+import { REQUEST_PHONE_SIGNIN } from "./LoginQueries";
 import { loginMethodType } from "./LoginTypes";
 import MobileLogin from "./MobileLogin";
 import SocialLogin from "./SocialLogin";
@@ -72,7 +75,10 @@ interface IProps {
   handleInputChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (
+    mutationFn: MutationFn,
+    e?: React.FormEvent<HTMLFormElement>
+  ) => void;
   phoneNumber: string;
   loginMethod: loginMethodType;
   countryCode: string;
@@ -113,35 +119,59 @@ class LoginPresenter extends React.Component<IProps, {}> {
         />
         <Header onClick={this.handleMobileClick} loginMethod={loginMethod} />
         <MobileLogin onClick={this.handleMobileClick} loginMethod={loginMethod}>
-          <form onSubmit={handleSubmit}>
-            {loginMethod === "" ? (
-              <PhoneText>{findCountry(countryCode)}</PhoneText>
-            ) : (
-              <PhoneSelect
-                onChange={handleInputChange}
-                value={countryCode}
-                name={"countryCode"}
-              >
-                {countries.map((country, index) => (
-                  <PhoneOption key={index} value={country.dial_code}>
-                    {country.flag} {country.name} ({country.dial_code})
-                  </PhoneOption>
-                ))}
-              </PhoneSelect>
-            )}
-            <PhoneInput
-              placeholder="Enter your mobile number"
-              innerRef={this.textInput}
-              type="tel"
-              value={phoneNumber}
-              onChange={handleInputChange}
-              name={"phoneNumber"}
-              disabled={loginMethod === ""}
-            />
-            {loginMethod === "mobile" && (
-              <SubmitButton onClick={handleSubmit as any} />
-            )}
-          </form>
+          <Mutation
+            mutation={REQUEST_PHONE_SIGNIN}
+            // tslint:disable-next-line jsx-no-lambda
+            onError={error => toast.error(error.message)}
+          >
+            {(phoneSignIn, { loading, data, error }) => {
+              if (data) {
+                const { requestPhoneSignIn } = data;
+                if (requestPhoneSignIn.ok) {
+                  toast.success("SMS Sen't redirecting you...");
+                } else if (requestPhoneSignIn.error) {
+                  toast.error(requestPhoneSignIn.error);
+                }
+              }
+              return (
+                // tslint:disable-next-line jsx-no-lambda
+                <form onSubmit={e => handleSubmit(phoneSignIn, e)}>
+                  {loginMethod === "" ? (
+                    <PhoneText>{findCountry(countryCode)}</PhoneText>
+                  ) : (
+                    <PhoneSelect
+                      onChange={handleInputChange}
+                      value={countryCode}
+                      name={"countryCode"}
+                    >
+                      {countries.map((country, index) => (
+                        <PhoneOption key={index} value={country.dial_code}>
+                          {country.flag} {country.name} ({country.dial_code})
+                        </PhoneOption>
+                      ))}
+                    </PhoneSelect>
+                  )}
+                  <PhoneInput
+                    placeholder="Enter your mobile number"
+                    innerRef={this.textInput}
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={handleInputChange}
+                    name={"phoneNumber"}
+                    disabled={loginMethod === ""}
+                  />
+                  {loginMethod === "mobile" && (
+                    <SubmitButton
+                      // tslint:disable-next-line jsx-no-lambda
+                      onClick={() => handleSubmit(phoneSignIn)}
+                      disabled={loading}
+                      loading={loading}
+                    />
+                  )}
+                </form>
+              );
+            }}
+          </Mutation>
         </MobileLogin>
         {loginMethod !== "mobile" && (
           <SocialLogin

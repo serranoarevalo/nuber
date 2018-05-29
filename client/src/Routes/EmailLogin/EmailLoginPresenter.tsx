@@ -72,6 +72,7 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
               // tslint:disable-next-line jsx-no-lambda
               onClick={() => emailLogin({ variables: { email, password } })}
               text={loading ? "Logging In..." : "Log In"}
+              disabled={loading}
             />
           </React.Fragment>
         )}
