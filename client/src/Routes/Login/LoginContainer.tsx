@@ -102,9 +102,7 @@ class LoginContainer extends React.Component<IProps, IState> {
         () =>
           history.push({
             pathname: "/verify-phone",
-            state: {
-              phone: `${countryCode}${phoneNumber}`
-            }
+            search: `?phone=${countryCode}${phoneNumber}`
           }),
         2000
       );
