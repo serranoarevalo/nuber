@@ -63,7 +63,8 @@ EmailLoginPresenter.propTypes = {
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   handleInputChange: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default EmailLoginPresenter;

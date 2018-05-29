@@ -1,9 +1,10 @@
+import { MutationUpdaterFn } from "apollo-boost";
 import PropTypes from "prop-types";
 import React from "react";
-import { graphql, MutationFn } from "react-apollo";
+import { graphql, Mutation, MutationFn } from "react-apollo";
 import { toast } from "react-toastify";
 import LoginPresenter from "./LoginPresenter";
-import { FACEBOOK_CONNECT } from "./LoginQueries";
+import { FACEBOOK_CONNECT, REQUEST_PHONE_SIGNIN } from "./LoginQueries";
 import { loginMethodType } from "./LoginTypes";
 
 interface IState {
@@ -31,17 +32,26 @@ class LoginContainer extends React.Component<IProps, IState> {
   render() {
     const { phoneNumber, loginMethod, countryCode } = this.state;
     return (
-      <LoginPresenter
-        handleMobileClick={this.handleMobileClick}
-        handleSocialClick={this.handleSocialClick}
-        handleBackButtonClick={this.handleBackButtonClick}
-        phoneNumber={phoneNumber}
-        loginMethod={loginMethod}
-        handleInputChange={this.handleInputChange}
-        handleSubmit={this.handleSubmit}
-        countryCode={countryCode}
-        handleFacebookResponse={this.handleFacebookResponse}
-      />
+      <Mutation mutation={REQUEST_PHONE_SIGNIN} update={this.handleAfterSubmit}>
+        {(phoneSignIn, { loading }) => (
+          <LoginPresenter
+            handleMobileClick={this.handleMobileClick}
+            handleSocialClick={this.handleSocialClick}
+            handleBackButtonClick={this.handleBackButtonClick}
+            phoneNumber={phoneNumber}
+            loginMethod={loginMethod}
+            handleInputChange={this.handleInputChange}
+            countryCode={countryCode}
+            handleFacebookResponse={this.handleFacebookResponse}
+            loading={loading}
+            // tslint:disable-next-line jsx-no-lambda
+            onSubmit={event => {
+              event.preventDefault();
+              this.handleSubmit(phoneSignIn, event);
+            }}
+          />
+        )}
+      </Mutation>
     );
   }
   private handleMobileClick = (): void => {
@@ -78,6 +88,18 @@ class LoginContainer extends React.Component<IProps, IState> {
     });
   };
 
+  private handleAfterSubmit: MutationUpdaterFn = (
+    cache,
+    { data }: { data: any }
+  ): void => {
+    const { requestPhoneSignIn } = data;
+    if (requestPhoneSignIn.ok) {
+      toast.success("SMS Sen't redirecting you...");
+    } else if (requestPhoneSignIn.error) {
+      toast.error(requestPhoneSignIn.error);
+    }
+  };
+
   private handleSubmit = (
     mutationFn: MutationFn,
     e?: React.FormEvent<HTMLFormElement>
@@ -99,6 +121,7 @@ class LoginContainer extends React.Component<IProps, IState> {
       toast.error("Phone number is not valid");
     }
   };
+
   private handleFacebookResponse = async (response: any): Promise<void> => {
     const { facebookConnectMutation } = this.props;
     if (response.accessToken) {
