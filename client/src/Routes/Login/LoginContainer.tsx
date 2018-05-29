@@ -15,6 +15,7 @@ interface IState {
 
 interface IProps {
   facebookConnectMutation: MutationFn;
+  history: any;
 }
 
 class LoginContainer extends React.Component<IProps, IState> {
@@ -28,7 +29,6 @@ class LoginContainer extends React.Component<IProps, IState> {
       loginMethod: "",
       phoneNumber: ""
     };
-    console.log(props);
   }
   render() {
     const { phoneNumber, loginMethod, countryCode } = this.state;
@@ -93,9 +93,21 @@ class LoginContainer extends React.Component<IProps, IState> {
     cache,
     { data }: { data: any }
   ): void => {
+    const { phoneNumber, countryCode } = this.state;
+    const { history } = this.props;
     const { requestPhoneSignIn } = data;
     if (requestPhoneSignIn.ok) {
-      toast.success("SMS Sen't redirecting you...");
+      toast.success("SMS Sent. Redirecting you...");
+      setTimeout(
+        () =>
+          history.push({
+            pathname: "/verify-phone",
+            state: {
+              phone: `${countryCode}${phoneNumber}`
+            }
+          }),
+        2000
+      );
     } else if (requestPhoneSignIn.error) {
       toast.error(requestPhoneSignIn.error);
     }

@@ -1,16 +1,21 @@
 import React from "react";
 import VerifyPhoneContainer from "./VerifyPhoneContainer";
 
+interface IProps {
+  location: any;
+}
+
 interface IState {
   verificationKey: string;
 }
 
-class VerifyContainer extends React.Component<{}, IState> {
+class VerifyContainer extends React.Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
       verificationKey: ""
     };
+    // console.log(props.location.state);
   }
   render() {
     const { verificationKey } = this.state;
