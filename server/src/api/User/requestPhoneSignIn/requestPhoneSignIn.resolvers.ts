@@ -25,21 +25,21 @@ const resolvers: Resolvers = {
         payload: phoneNumber,
         type: "PHONE"
       }).save();
-      const verification = await sendVerificationText(
-        phoneNumber,
-        confirmation.key
-      );
-      if (verification) {
+      try {
+        const verification = await sendVerificationText(
+          phoneNumber,
+          confirmation.key
+        );
         confirmation.sent = true;
         confirmation.save();
         return {
           ok: true,
           error: null
         };
-      } else {
+      } catch (error) {
         return {
           ok: false,
-          error: "Couldn't send confirmation SMS"
+          error: error.message
         };
       }
     }
