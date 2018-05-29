@@ -34,6 +34,7 @@ interface IProps {
   type: string;
   value: string;
   required: boolean;
+  displayName: string;
   onChange: (event: ChangeEvent<any>) => void;
 }
 
@@ -42,17 +43,18 @@ const InputPresenter: React.SFC<IProps> = ({
   onChange,
   type,
   name,
-  required
+  required,
+  displayName
 }) => (
   <Container>
-    <Label htmlFor={name}>{name}</Label>
+    <Label htmlFor={name}>{displayName}</Label>
     <Input
       id={name}
       type={type}
       value={value}
       onChange={onChange}
       required={required}
-      name={name.toLocaleLowerCase()}
+      name={name}
     />
   </Container>
 );
@@ -60,7 +62,7 @@ const InputPresenter: React.SFC<IProps> = ({
 InputPresenter.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool.isRequired
 };

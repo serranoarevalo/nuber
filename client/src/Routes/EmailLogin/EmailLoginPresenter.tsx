@@ -12,7 +12,6 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  height: 100%;
   overflow-y: scroll;
 `;
 
@@ -41,6 +40,7 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
           type="email"
           required={true}
           name={"Email"}
+          displayName={"Email"}
         />
         <Input
           onChange={handleInputChange}
@@ -48,6 +48,7 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
           type="password"
           required={true}
           name={"Password"}
+          displayName={"Password"}
         />
         <Button
           onClick={onSubmit}

@@ -28,6 +28,7 @@ class LoginContainer extends React.Component<IProps, IState> {
       loginMethod: "",
       phoneNumber: ""
     };
+    console.log(props);
   }
   render() {
     const { phoneNumber, loginMethod, countryCode } = this.state;

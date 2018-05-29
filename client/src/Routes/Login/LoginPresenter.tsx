@@ -86,7 +86,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
     handleInputChange: PropTypes.func.isRequired,
     handleMobileClick: PropTypes.func.isRequired,
     handleSocialClick: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     loginMethod: PropTypes.oneOf(["", "mobile", "social"]),
     phoneNumber: PropTypes.string.isRequired,
     handleFacebookResponse: PropTypes.func.isRequired,
