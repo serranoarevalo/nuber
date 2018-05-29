@@ -5,6 +5,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import styled from "styled-components";
 import EmailLogin from "../../Routes/EmailLogin";
 import Login from "../../Routes/Login";
+import VerifyPhone from "../../Routes/VerifyPhone";
 
 const StyledTransition = styled(TransitionGroup)`
   height: 100%;
@@ -52,6 +53,7 @@ const LoggedOutRoutes: React.SFC<any> = ({ location }) => (
         <Switch key={location.key}>
           <Route exact={true} path="/" component={Login} />
           <Route path="/email-login" component={EmailLogin} />
+          <Route path="/verify-phone" component={VerifyPhone} />
         </Switch>
       </CSSTransition>
     </StyledTransition>

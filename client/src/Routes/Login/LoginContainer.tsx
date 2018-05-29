@@ -109,10 +109,10 @@ class LoginContainer extends React.Component<IProps, IState> {
           lastName: response.last_name,
           userID: response.userID
         },
-        update: (proxy, { data: { facebookConnect } }) => {
+        update: (cache, { data: { facebookConnect } }) => {
           if (facebookConnect.ok) {
             localStorage.setItem("jwt", facebookConnect.token);
-            proxy.writeData({
+            cache.writeData({
               data: {
                 user: {
                   __typename: "User",
