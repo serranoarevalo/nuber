@@ -1,24 +1,27 @@
 import React from "react";
 import VerifyPhoneContainer from "./VerifyPhoneContainer";
 
-interface IProps {
-  location: any;
-}
-
 interface IState {
   verificationKey: string;
+  phone: string | null;
 }
 
-class VerifyContainer extends React.Component<IProps, IState> {
+class VerifyContainer extends React.Component<any, IState> {
   constructor(props) {
     super(props);
+    const query = new URLSearchParams(props.location.search);
+    const phone = query.get("phone");
     this.state = {
-      verificationKey: ""
+      verificationKey: "",
+      phone
     };
-    // console.log(props.location.state);
   }
   render() {
-    const { verificationKey } = this.state;
+    const { verificationKey, phone } = this.state;
+    const { history } = this.props;
+    if (phone === null) {
+      history.push("/");
+    }
     return (
       <VerifyPhoneContainer
         verificationKey={verificationKey}
