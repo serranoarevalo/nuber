@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch, withRouter } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import styled from "styled-components";
+import CompleteProfile from "../../Routes/CompleteProfile";
 import EmailLogin from "../../Routes/EmailLogin";
 import Login from "../../Routes/Login";
 import VerifyPhone from "../../Routes/VerifyPhone";
@@ -54,6 +55,7 @@ const LoggedOutRoutes: React.SFC<any> = ({ location }) => (
           <Route exact={true} path="/" component={Login} />
           <Route path="/email-login" component={EmailLogin} />
           <Route path="/verify-phone" component={VerifyPhone} />
+          <Route path="/complete-profile" component={CompleteProfile} />
         </Switch>
       </CSSTransition>
     </StyledTransition>

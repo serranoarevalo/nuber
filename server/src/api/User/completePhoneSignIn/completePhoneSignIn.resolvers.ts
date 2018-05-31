@@ -15,7 +15,6 @@ const resolvers: Resolvers = {
       _,
       { key, phone }: IArgs
     ): Promise<CompletePhoneSignInResponse> => {
-      console.log(key, phone);
       const confirmation: Confirmation = await Confirmation.findOne({
         key,
         payload: phone,

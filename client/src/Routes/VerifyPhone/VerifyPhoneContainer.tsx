@@ -6,32 +6,32 @@ import { VERIFY_KEY } from "./VerifyPhoneQueries";
 
 interface IState {
   verificationKey: string;
-  phone: any;
+  phone: string;
 }
 
 class VerifyPhoneContainer extends React.Component<any, IState> {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
-    const query = new URLSearchParams(props.location.search);
-    const phone = query.get("phone");
-    if (phone) {
+    if (!props.location.state) {
+      props.history.push("/");
+    }
+    const {
+      location: { state }
+    } = props;
+    if (state) {
       this.state = {
-        verificationKey: "",
-        phone: `+${phone.replace(/\s/g, "")}`
+        phone: state.phone,
+        verificationKey: ""
       };
     } else {
       this.state = {
-        phone: null,
+        phone: "",
         verificationKey: ""
       };
     }
   }
   render() {
     const { verificationKey, phone } = this.state;
-    const { history } = this.props;
-    if (phone === null) {
-      history.push("/");
-    }
     return (
       <Mutation mutation={VERIFY_KEY} update={this.handlePostSubmit}>
         {(completePhoneSignIn, { loading }) => (
@@ -72,6 +72,7 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
   ) => {
     const { completePhoneSignIn } = data;
     const { history } = this.props;
+    const { phone } = this.state;
     if (completePhoneSignIn.error && !completePhoneSignIn.ok) {
       toast.error(completePhoneSignIn.error);
     } else if (completePhoneSignIn.ok && !completePhoneSignIn.error) {
@@ -88,7 +89,12 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
       } else {
         toast.success("Phone number verified!");
         setTimeout(() => {
-          history.push("/complete-profile");
+          history.push({
+            pathname: "/complete-profile",
+            state: {
+              phone
+            }
+          });
         }, 2000);
       }
     }
