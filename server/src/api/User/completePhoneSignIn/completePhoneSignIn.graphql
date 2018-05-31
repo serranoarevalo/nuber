@@ -5,5 +5,8 @@ type CompletePhoneSignInResponse {
 }
 
 type Mutation {
-  completePhoneSignIn(key: String!): CompletePhoneSignInResponse!
+  completePhoneSignIn(
+    key: String!
+    phone: String!
+  ): CompletePhoneSignInResponse!
 }

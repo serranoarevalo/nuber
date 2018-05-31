@@ -28,7 +28,10 @@ class EmailLoginContainer extends React.Component<any, IState> {
             handleInputChange={this.handleInputChange}
             loading={loading}
             // tslint:disable-next-line jsx-no-lambda
-            onSubmit={() => emailLogin({ variables: { email, password } })}
+            onSubmit={event => {
+              event.preventDefault();
+              emailLogin({ variables: { email, password } });
+            }}
           />
         )}
       </Mutation>

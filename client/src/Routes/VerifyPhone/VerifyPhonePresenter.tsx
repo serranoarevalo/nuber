@@ -19,16 +19,20 @@ interface IProps {
   handleInputChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
+  loading: boolean;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const VerifyPhonePresenter: React.SFC<IProps> = ({
   verificationKey,
-  handleInputChange
+  handleInputChange,
+  loading,
+  onSubmit
 }) => (
   <Wrapper className={"shouldScroll"}>
     <Header backTo="/" title={"Verify your phone"} />
     <Container>
-      <form>
+      <form onSubmit={onSubmit}>
         <Input
           name="verificationKey"
           type={"tel"}
@@ -38,9 +42,9 @@ const VerifyPhonePresenter: React.SFC<IProps> = ({
           displayName={"Enter the verification key sent on the SMS"}
         />
         <Button
-          onClick={handleInputChange}
-          text={"Verify phone"}
-          disabled={false}
+          onClick={onSubmit}
+          text={loading ? "Loading" : "Verify phone"}
+          disabled={loading}
         />
       </form>
     </Container>
@@ -49,7 +53,9 @@ const VerifyPhonePresenter: React.SFC<IProps> = ({
 
 VerifyPhonePresenter.propTypes = {
   verificationKey: PropTypes.string,
-  handleInputChange: PropTypes.func.isRequired
+  handleInputChange: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default VerifyPhonePresenter;

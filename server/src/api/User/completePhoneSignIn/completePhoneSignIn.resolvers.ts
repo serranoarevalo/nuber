@@ -6,28 +6,26 @@ import { createJWT } from "../../../utils/createJWT";
 
 interface IArgs {
   key: string;
+  phone: string;
 }
 
 const resolvers: Resolvers = {
   Mutation: {
     completePhoneSignIn: async (
       _,
-      { key }: IArgs
+      { key, phone }: IArgs
     ): Promise<CompletePhoneSignInResponse> => {
-      const confirmation: Confirmation = await Confirmation.findOne(
-        {
-          key,
-          type: "PHONE"
-        },
-        {
-          relations: ["user"]
-        }
-      );
+      console.log(key, phone);
+      const confirmation: Confirmation = await Confirmation.findOne({
+        key,
+        payload: phone,
+        type: "PHONE"
+      });
       if (confirmation) {
         const user: User = confirmation.user;
         if (user) {
           const token: string = createJWT(user.id);
-          await confirmation.remove();
+          // await confirmation.remove();
           return {
             ok: true,
             token,
@@ -44,7 +42,7 @@ const resolvers: Resolvers = {
         return {
           ok: false,
           token: null,
-          error: "Login token is not valid or has expired."
+          error: "Verification key is not valid or has expired."
         };
       }
     }

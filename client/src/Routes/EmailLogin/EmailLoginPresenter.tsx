@@ -20,7 +20,7 @@ interface IProps {
   password: string;
   loading: boolean;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: () => void;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const EmailLoginPresenter: React.SFC<IProps> = ({
