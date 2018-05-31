@@ -16,6 +16,8 @@ import Ride from "./Ride";
 import Place from "./Place";
 
 const BCRYPT_ROUNDS = 10;
+const EMAIL = "EMAIL";
+const FACEBOOK = "FACEBOOK";
 
 @Entity()
 class User extends BaseEntity {
@@ -43,7 +45,7 @@ class User extends BaseEntity {
   @Column({ type: "boolean", default: false })
   verifiedEmail: boolean;
 
-  @Column({ type: "text", enum: ["FACEBOOK", "EMAIL"], default: "EMAIL" })
+  @Column({ type: "text", enum: [FACEBOOK, EMAIL], default: EMAIL })
   loginType: string;
 
   @Column({ type: "text", nullable: true })
