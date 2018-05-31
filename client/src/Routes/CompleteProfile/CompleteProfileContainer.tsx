@@ -96,6 +96,7 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
     if (!emailSignUp.ok && emailSignUp.error) {
       toast.error(emailSignUp.error);
     } else if (emailSignUp.token) {
+      // TO DO : Redirect to /
       localStorage.setItem("jwt", emailSignUp.token);
       cache.writeData({
         data: {

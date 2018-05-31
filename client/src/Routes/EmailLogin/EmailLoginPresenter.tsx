@@ -39,7 +39,7 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
           value={email}
           type="email"
           required={true}
-          name={"Email"}
+          name={"email"}
           displayName={"Email"}
         />
         <Input
@@ -47,7 +47,7 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
           value={password}
           type="password"
           required={true}
-          name={"Password"}
+          name={"password"}
           displayName={"Password"}
         />
         <Button
