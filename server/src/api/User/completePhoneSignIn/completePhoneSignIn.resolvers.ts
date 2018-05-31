@@ -16,19 +16,30 @@ const resolvers: Resolvers = {
     ): Promise<CompletePhoneSignInResponse> => {
       const confirmation: Confirmation = await Confirmation.findOne(
         {
-          key
+          key,
+          type: "PHONE"
         },
-        { relations: ["user"] }
+        {
+          relations: ["user"]
+        }
       );
       if (confirmation) {
         const user: User = confirmation.user;
-        const token: string = createJWT(user.id);
-        await confirmation.remove();
-        return {
-          ok: true,
-          token,
-          error: null
-        };
+        if (user) {
+          const token: string = createJWT(user.id);
+          await confirmation.remove();
+          return {
+            ok: true,
+            token,
+            error: null
+          };
+        } else {
+          return {
+            ok: true,
+            token: null,
+            error: null
+          };
+        }
       } else {
         return {
           ok: false,

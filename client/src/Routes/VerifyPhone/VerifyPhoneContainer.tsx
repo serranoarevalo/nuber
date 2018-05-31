@@ -1,55 +1,46 @@
-import PropTypes from "prop-types";
 import React from "react";
-import styled from "styled-components";
-import Button from "../../Components/Button";
-import Header from "../../Components/Header";
-import Input from "../../Components/Input";
+import VerifyPhoneContainer from "./VerifyPhoneContainer";
 
-const Wrapper = styled.div`
-  overflow-y: scroll;
-`;
-
-const Container = styled.div`
-  padding: 0 15px;
-  padding-top: 150px;
-`;
-
-interface IProps {
+interface IState {
   verificationKey: string;
-  handleInputChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
+  phone: string | null;
 }
 
-const VerifyPhoneContainer: React.SFC<IProps> = ({
-  verificationKey,
-  handleInputChange
-}) => (
-  <Wrapper className={"shouldScroll"}>
-    <Header backTo="/" title={"Verify your phone"} />
-    <Container>
-      <form>
-        <Input
-          name="verificationKey"
-          type={"tel"}
-          value={verificationKey}
-          required={true}
-          onChange={handleInputChange}
-          displayName={"Enter the verification key sent on the SMS"}
-        />
-        <Button
-          onClick={handleInputChange}
-          text={"Verify phone"}
-          disabled={false}
-        />
-      </form>
-    </Container>
-  </Wrapper>
-);
+class VerifyPhonePresenter extends React.Component<any, IState> {
+  constructor(props) {
+    super(props);
+    const query = new URLSearchParams(props.location.search);
+    const phone = query.get("phone");
+    this.state = {
+      verificationKey: "",
+      phone
+    };
+  }
+  render() {
+    const { verificationKey, phone } = this.state;
+    const { history } = this.props;
+    if (phone === null) {
+      history.push("/");
+    }
+    return (
+      <VerifyPhoneContainer
+        verificationKey={verificationKey}
+        handleInputChange={this.handleInputChange}
+      />
+    );
+  }
+  private handleInputChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ): void => {
+    const {
+      target: { value, name }
+    } = event;
+    this.setState({
+      [name]: value
+    } as any);
+  };
+}
 
-VerifyPhoneContainer.propTypes = {
-  verificationKey: PropTypes.string,
-  handleInputChange: PropTypes.func.isRequired
-};
-
-export default VerifyPhoneContainer;
+export default VerifyPhonePresenter;
