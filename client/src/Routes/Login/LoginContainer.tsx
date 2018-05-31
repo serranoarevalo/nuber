@@ -97,7 +97,7 @@ class LoginContainer extends React.Component<IProps, IState> {
     const { history } = this.props;
     const { requestPhoneSignIn } = data;
     if (requestPhoneSignIn.ok) {
-      toast.success("SMS Sent. Redirecting you...");
+      toast.success("SMS Sent.");
       setTimeout(
         () =>
           history.push({

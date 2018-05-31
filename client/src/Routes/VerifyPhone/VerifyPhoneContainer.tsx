@@ -72,20 +72,25 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
   ) => {
     const { completePhoneSignIn } = data;
     const { history } = this.props;
-    if (completePhoneSignIn.error) {
+    if (completePhoneSignIn.error && !completePhoneSignIn.ok) {
       toast.error(completePhoneSignIn.error);
-    } else if (completePhoneSignIn.token) {
-      localStorage.setItem("jwt", completePhoneSignIn.token);
-      cache.writeData({
-        data: {
-          user: {
-            __typename: "User",
-            isLoggedIn: true
+    } else if (completePhoneSignIn.ok && !completePhoneSignIn.error) {
+      if (completePhoneSignIn.token) {
+        localStorage.setItem("jwt", completePhoneSignIn.token);
+        cache.writeData({
+          data: {
+            user: {
+              __typename: "User",
+              isLoggedIn: true
+            }
           }
-        }
-      });
-    } else if (!completePhoneSignIn.token && completePhoneSignIn.ok) {
-      history.push("/complete-profile");
+        });
+      } else {
+        toast.success("Phone number verified!");
+        setTimeout(() => {
+          history.push("/complete-profile");
+        }, 2000);
+      }
     }
   };
 }
