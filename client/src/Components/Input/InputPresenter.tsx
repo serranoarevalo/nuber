@@ -3,7 +3,7 @@ import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 `;
 
 const Label = styled.label`

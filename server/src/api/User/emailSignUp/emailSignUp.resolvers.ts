@@ -3,6 +3,7 @@ import { Resolvers } from "../../../types/resolvers";
 import User from "../../../entities/User";
 import Confirmation from "../../../entities/Confirmation";
 import { EmailSignUpResponse } from "../../../types/graph";
+import { createJWT } from "../../../utils/createJWT";
 
 interface IArgs {
   email: string;
@@ -10,6 +11,7 @@ interface IArgs {
   lastName: string;
   password: string;
   age: number;
+  phoneNumber: string;
 }
 
 const resolvers: Resolvers = {
@@ -19,8 +21,19 @@ const resolvers: Resolvers = {
       if (existingUser) {
         return {
           ok: false,
-          user: null,
+          token: null,
           error: "User already exists, try to sign in."
+        };
+      }
+      const phoneConfirmation: Confirmation = await Confirmation.findOne({
+        payload: args.phoneNumber,
+        verified: true
+      });
+      if (!phoneConfirmation) {
+        return {
+          ok: false,
+          token: null,
+          error: "Phone Number isn't verified"
         };
       }
       const newUser: User = await User.create(args).save();
@@ -30,9 +43,10 @@ const resolvers: Resolvers = {
       const message = await sendConfirmationEmail(emailConfirmation.key);
       emailConfirmation.sent = true;
       emailConfirmation.save();
+      const token: string = createJWT(newUser.id);
       return {
         ok: true,
-        user: newUser,
+        token,
         error: null
       };
     }

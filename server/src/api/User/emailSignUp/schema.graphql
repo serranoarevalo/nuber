@@ -1,11 +1,12 @@
 type EmailSignUpResponse {
   ok: Boolean!
-  user: User
+  token: String
   error: String
 }
 
 type Mutation {
   emailSignUp(
+    phoneNumber: String!
     email: String!
     firstName: String!
     lastName: String!

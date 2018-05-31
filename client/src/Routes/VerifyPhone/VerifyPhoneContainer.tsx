@@ -18,17 +18,16 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
     const {
       location: { state }
     } = props;
+    let phone = "";
     if (state) {
-      this.state = {
-        phone: state.phone,
-        verificationKey: ""
-      };
+      phone = state.phone;
     } else {
-      this.state = {
-        phone: "",
-        verificationKey: ""
-      };
+      phone = "";
     }
+    this.state = {
+      phone,
+      verificationKey: ""
+    };
   }
   render() {
     const { verificationKey, phone } = this.state;

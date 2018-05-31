@@ -21,10 +21,11 @@ const resolvers: Resolvers = {
         type: "PHONE"
       });
       if (confirmation) {
+        confirmation.verified = true;
+        confirmation.save();
         const user: User = confirmation.user;
         if (user) {
           const token: string = createJWT(user.id);
-          // await confirmation.remove();
           return {
             ok: true,
             token,
