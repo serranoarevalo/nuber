@@ -77,7 +77,7 @@ const LoggedOutRoutes: React.SFC<any> = ({ location }) => (
 
 const WrappedLoggedOutRoutes = withRouter(LoggedOutRoutes);
 
-const LoggedInRoutes: React.SFC<any> = location => (
+const LoggedInRoutes: React.SFC<any> = ({ location }) => (
   <Wrapper>
     <StyledTransition>
       <CSSTransition key={location.key} timeout={200} classNames="fade">
