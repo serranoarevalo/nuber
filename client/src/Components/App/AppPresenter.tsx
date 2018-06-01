@@ -1,6 +1,12 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { BrowserRouter, Route, Switch, withRouter } from "react-router-dom";
+import {
+  BrowserRouter,
+  Redirect,
+  Route,
+  Switch,
+  withRouter
+} from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import styled from "styled-components";
 import CompleteProfile from "../../Routes/CompleteProfile";
@@ -39,7 +45,7 @@ interface IAppPresenterProps {
 
 const AppPresenter: React.SFC<IAppPresenterProps> = ({ isLoggedIn }) => (
   <BrowserRouter>
-    {isLoggedIn ? <LoggedInRoutes /> : <WrappedLoggedOutRoutes />}
+    {isLoggedIn ? <WrappedLoggedInRoutes /> : <WrappedLoggedOutRoutes />}
   </BrowserRouter>
 );
 
@@ -64,6 +70,18 @@ const LoggedOutRoutes: React.SFC<any> = ({ location }) => (
 
 const WrappedLoggedOutRoutes = withRouter(LoggedOutRoutes);
 
-const LoggedInRoutes: React.SFC = () => <React.Fragment>Hello</React.Fragment>;
+const LoggedInRoutes: React.SFC<any> = location => (
+  <Wrapper>
+    <StyledTransition>
+      <CSSTransition key={location.key} timeout={200} classNames="fade">
+        <Switch key={location.key}>
+          <Redirect from={"*"} to={"/"} />
+        </Switch>
+      </CSSTransition>
+    </StyledTransition>
+  </Wrapper>
+);
+
+const WrappedLoggedInRoutes = withRouter(LoggedInRoutes);
 
 export default AppPresenter;
