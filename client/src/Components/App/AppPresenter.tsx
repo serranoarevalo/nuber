@@ -12,6 +12,7 @@ import styled from "styled-components";
 import CompleteProfile from "../../Routes/CompleteProfile";
 import EmailLogin from "../../Routes/EmailLogin";
 import Login from "../../Routes/Login";
+import VerifyEmail from "../../Routes/VerifyEmail";
 import VerifyPhone from "../../Routes/VerifyPhone";
 
 const StyledTransition = styled(TransitionGroup)`
@@ -62,6 +63,7 @@ const LoggedOutRoutes: React.SFC<any> = ({ location }) => (
           <Route path="/email-login" component={EmailLogin} />
           <Route path="/verify-phone" component={VerifyPhone} />
           <Route path="/complete-profile" component={CompleteProfile} />
+          <Redirect from={"*"} to={"/"} />
         </Switch>
       </CSSTransition>
     </StyledTransition>
@@ -75,6 +77,7 @@ const LoggedInRoutes: React.SFC<any> = location => (
     <StyledTransition>
       <CSSTransition key={location.key} timeout={200} classNames="fade">
         <Switch key={location.key}>
+          <Route path="/verify-email/:key" component={VerifyEmail} />
           <Redirect from={"*"} to={"/"} />
         </Switch>
       </CSSTransition>

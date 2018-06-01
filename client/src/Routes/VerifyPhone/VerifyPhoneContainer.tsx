@@ -94,7 +94,7 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
               phone
             }
           });
-        }, 2000);
+        }, 4000);
       }
     }
   };

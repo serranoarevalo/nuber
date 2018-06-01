@@ -12,6 +12,10 @@ import {
 import { IsEmail } from "class-validator";
 import User from "./User";
 
+const EMAIL = "EMAIL";
+const PHONE = "PHONE";
+const PASSWORD = "PASSWORD";
+
 @Entity()
 class Confirmation extends BaseEntity {
   @PrimaryGeneratedColumn() id: number;
@@ -32,8 +36,8 @@ class Confirmation extends BaseEntity {
 
   @Column({
     type: "text",
-    enum: ["EMAIL", "PHONE", "PASSWORD"],
-    default: "email"
+    enum: [EMAIL, PHONE, PASSWORD],
+    default: EMAIL
   })
   type: string;
 

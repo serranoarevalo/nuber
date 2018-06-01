@@ -106,7 +106,7 @@ class LoginContainer extends React.Component<IProps, IState> {
               phone: `${countryCode}${phoneNumber}`
             }
           }),
-        2000
+        4000
       );
     } else if (requestPhoneSignIn.error) {
       toast.error(requestPhoneSignIn.error);
