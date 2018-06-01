@@ -39,7 +39,9 @@ const SubmitButton: React.SFC<ISubmit> = ({ onClick, disabled, loading }) => (
 );
 
 SubmitButton.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default SubmitButton;

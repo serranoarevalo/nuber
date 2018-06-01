@@ -78,6 +78,12 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-sidebar@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@types/react-sidebar/-/react-sidebar-2.3.0.tgz#83d72017bc9da912312573f6e5a93f7954312747"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^16.3.14":
   version "16.3.14"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.14.tgz#f90ac6834de172e13ecca430dcb6814744225d36"
@@ -5974,6 +5980,10 @@ react-side-effect@^1.1.0:
   dependencies:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
+
+react-sidebar@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-sidebar/-/react-sidebar-2.3.2.tgz#ec140bea8a6f5fa3d8ea7a56479665b44cf4f9cf"
 
 react-toastify@^4.0.1:
   version "4.0.1"
