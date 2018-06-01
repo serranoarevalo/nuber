@@ -48,7 +48,7 @@ class LoginContainer extends React.Component<IProps, IState> {
             // tslint:disable-next-line jsx-no-lambda
             onSubmit={event => {
               event.preventDefault();
-              this.handleSubmit(phoneSignIn, event);
+              this.handleSubmit(phoneSignIn);
             }}
           />
         )}
@@ -113,14 +113,8 @@ class LoginContainer extends React.Component<IProps, IState> {
     }
   };
 
-  private handleSubmit = (
-    mutationFn: MutationFn,
-    e?: React.FormEvent<HTMLFormElement>
-  ): void => {
+  private handleSubmit = (mutationFn: MutationFn): void => {
     const { phoneNumber, countryCode } = this.state;
-    if (e) {
-      e.preventDefault();
-    }
     const isValid = /^\+[1-9]{1}[0-9]{7,11}$/.test(
       `${countryCode}${phoneNumber}`
     );

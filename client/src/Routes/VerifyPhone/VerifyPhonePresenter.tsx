@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
@@ -21,7 +22,7 @@ interface IProps {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
   loading: boolean;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: MutationFn;
 }
 
 const VerifyPhonePresenter: React.SFC<IProps> = ({
@@ -36,7 +37,13 @@ const VerifyPhonePresenter: React.SFC<IProps> = ({
     </Helmet>
     <Header backTo="/" title={"Verify your phone"} />
     <Container>
-      <form onSubmit={onSubmit}>
+      <form
+        // tslint:disable-next-line jsx-no-lambda
+        onSubmit={event => {
+          event.preventDefault();
+          onSubmit();
+        }}
+      >
         <Input
           name="verificationKey"
           type={"tel"}

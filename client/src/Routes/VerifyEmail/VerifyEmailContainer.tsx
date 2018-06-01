@@ -13,16 +13,14 @@ class VerifyEmailContainer extends React.Component<any> {
       match: { params }
     } = this.props;
     return (
-      <Mutation mutation={VERIFY_EMAIL} update={this.postVerify}>
+      <Mutation
+        mutation={VERIFY_EMAIL}
+        update={this.postVerify}
+        variables={{ key: params.key }}
+      >
         {(verifyEmail, { loading }) => {
           return (
-            <VerifyEmailPresenter
-              loading={loading}
-              // tslint:disable-next-line jsx-no-lambda
-              verifyEmail={() =>
-                verifyEmail({ variables: { key: params.key } })
-              }
-            />
+            <VerifyEmailPresenter loading={loading} verifyEmail={verifyEmail} />
           );
         }}
       </Mutation>

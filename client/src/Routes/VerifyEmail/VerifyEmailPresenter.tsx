@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
@@ -20,7 +21,7 @@ const Text = styled.span`
 
 interface IProps {
   loading: boolean;
-  verifyEmail: () => void;
+  verifyEmail: MutationFn;
 }
 
 const VerifyEmailPresenter: React.SFC<IProps> = ({ loading, verifyEmail }) => (

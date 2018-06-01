@@ -61,6 +61,7 @@ const HomePresenter: React.SFC<IPros> = ({
 
 HomePresenter.propTypes = {
   openMenu: PropTypes.func.isRequired,
+  isMenuOpen: PropTypes.bool.isRequired,
   closeMenu: PropTypes.func.isRequired
 };
 

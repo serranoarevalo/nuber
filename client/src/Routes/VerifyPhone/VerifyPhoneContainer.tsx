@@ -32,22 +32,17 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
   render() {
     const { verificationKey, phone } = this.state;
     return (
-      <Mutation mutation={VERIFY_KEY} update={this.handlePostSubmit}>
+      <Mutation
+        mutation={VERIFY_KEY}
+        update={this.handlePostSubmit}
+        variables={{ phone, key: verificationKey }}
+      >
         {(completePhoneSignIn, { loading }) => (
           <VerifyPhonePresenter
             verificationKey={verificationKey}
             handleInputChange={this.handleInputChange}
             loading={loading}
-            // tslint:disable-next-line jsx-no-lambda
-            onSubmit={event => {
-              event.preventDefault();
-              completePhoneSignIn({
-                variables: {
-                  phone,
-                  key: verificationKey
-                }
-              });
-            }}
+            onSubmit={completePhoneSignIn}
           />
         )}
       </Mutation>

@@ -32,9 +32,9 @@ const Title = styled<any, any>("h2")`
   transition: transform 0.1s linear;
   transform: ${props => {
     if (props.scrollHeight < 3) {
-      return `none;`;
+      return "none;";
     } else {
-      return `translate(50px, -20px) scale(.7);`;
+      return "translate(50px, -20px) scale(.7);";
     }
   }};
 `;

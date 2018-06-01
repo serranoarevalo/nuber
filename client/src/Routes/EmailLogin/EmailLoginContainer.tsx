@@ -20,18 +20,18 @@ class EmailLoginContainer extends React.Component<any, IState> {
   render() {
     const { email, password } = this.state;
     return (
-      <Mutation mutation={EMAIL_LOGIN} update={this.handleAfterSubmit}>
+      <Mutation
+        mutation={EMAIL_LOGIN}
+        update={this.handleAfterSubmit}
+        variables={{ email, password }}
+      >
         {(emailLogin, { loading }) => (
           <EmailLoginPresenter
             email={email}
             password={password}
             handleInputChange={this.handleInputChange}
             loading={loading}
-            // tslint:disable-next-line jsx-no-lambda
-            onSubmit={event => {
-              event.preventDefault();
-              emailLogin({ variables: { email, password } });
-            }}
+            onSubmit={emailLogin}
           />
         )}
       </Mutation>

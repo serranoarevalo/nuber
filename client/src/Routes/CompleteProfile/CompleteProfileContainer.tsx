@@ -47,7 +47,18 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
       phoneNumber
     } = this.state;
     return (
-      <Mutation mutation={EMAIL_SIGN_UP} update={this.handlePostSubmit}>
+      <Mutation
+        mutation={EMAIL_SIGN_UP}
+        update={this.handlePostSubmit}
+        variables={{
+          phoneNumber,
+          email,
+          firstName,
+          lastName,
+          password,
+          age
+        }}
+      >
         {(emailSignUp, { loading }) => (
           <CompleteProfilePresenter
             email={email}
@@ -57,20 +68,7 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
             age={age}
             handleInputChange={this.handleInputChange}
             loading={loading}
-            // tslint:disable-next-line jsx-no-lambda
-            onSubmit={event => {
-              event.preventDefault();
-              emailSignUp({
-                variables: {
-                  phoneNumber,
-                  email,
-                  firstName,
-                  lastName,
-                  password,
-                  age
-                }
-              });
-            }}
+            onSubmit={emailSignUp}
           />
         )}
       </Mutation>

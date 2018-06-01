@@ -25,14 +25,22 @@ interface IProps {
 }
 
 const ButtonPresenter: React.SFC<IProps> = ({ onClick, text, disabled }) => (
-  <Button disabled={disabled} onClick={onClick}>
+  <Button
+    disabled={disabled}
+    // tslint:disable-next-line jsx-no-lambda
+    onClick={event => {
+      event.preventDefault();
+      onClick();
+    }}
+  >
     {text}
   </Button>
 );
 
 ButtonPresenter.propTypes = {
   onClick: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired
 };
 
 export default ButtonPresenter;

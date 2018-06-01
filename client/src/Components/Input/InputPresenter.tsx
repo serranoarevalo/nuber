@@ -64,7 +64,8 @@ InputPresenter.propTypes = {
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  required: PropTypes.bool.isRequired
+  required: PropTypes.bool.isRequired,
+  displayName: PropTypes.string.isRequired
 };
 
 export default InputPresenter;

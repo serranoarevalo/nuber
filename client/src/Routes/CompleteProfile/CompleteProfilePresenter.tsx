@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
@@ -23,7 +24,7 @@ interface IProps {
   age: string;
   loading: boolean;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: MutationFn;
 }
 
 const CompleteProfilePresenter: React.SFC<IProps> = ({
@@ -42,7 +43,13 @@ const CompleteProfilePresenter: React.SFC<IProps> = ({
     </Helmet>
     <Header backTo={"/"} title={"Complete your profile"} />
     <Container>
-      <form onSubmit={onSubmit}>
+      <form
+        // tslint:disable-next-line jsx-no-lambda
+        onSubmit={event => {
+          event.preventDefault;
+          onSubmit();
+        }}
+      >
         <Input
           name={"firstName"}
           value={firstName}
