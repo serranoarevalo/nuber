@@ -82,7 +82,9 @@ const MenuPresenter: React.SFC<IProps> = ({ loading, data }) => (
         </Placeholder>
       ) : (
         <Grid>
-          <Image src={data.me.user.profilePhoto} />
+          <Link to={"/edit-account"}>
+            <Image src={data.me.user.profilePhoto} />
+          </Link>
           <Text>
             <Name>{data.me.user.fullName}</Name>
             <Rating>4.5</Rating>
@@ -90,9 +92,9 @@ const MenuPresenter: React.SFC<IProps> = ({ loading, data }) => (
         </Grid>
       )}
     </Header>
-    <SLink to="/">Payment</SLink>
-    <SLink to="/">Your Trips</SLink>
-    <SLink to="/">Settings</SLink>
+    <SLink to="/payment">Payment</SLink>
+    <SLink to="/trips">Your Trips</SLink>
+    <SLink to="/settings">Settings</SLink>
   </Container>
 );
 

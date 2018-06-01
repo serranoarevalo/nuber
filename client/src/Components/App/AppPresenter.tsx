@@ -10,9 +10,13 @@ import {
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import styled from "styled-components";
 import CompleteProfile from "../../Routes/CompleteProfile";
+import EditAccount from "../../Routes/EditAccount";
 import EmailLogin from "../../Routes/EmailLogin";
 import Home from "../../Routes/Home";
 import Login from "../../Routes/Login";
+import Payment from "../../Routes/Payment";
+import Settings from "../../Routes/Settings";
+import Trips from "../../Routes/Trips";
 import VerifyEmail from "../../Routes/VerifyEmail";
 import VerifyPhone from "../../Routes/VerifyPhone";
 
@@ -79,6 +83,10 @@ const LoggedInRoutes: React.SFC<any> = location => (
       <CSSTransition key={location.key} timeout={200} classNames="fade">
         <Switch key={location.key}>
           <Route path={"/"} exact={true} component={Home} />
+          <Route path={"/edit-account"} component={EditAccount} />
+          <Route path={"/payment"} component={Payment} />
+          <Route path={"/settings"} component={Settings} />
+          <Route path={"/trips"} component={Trips} />
           <Route path="/verify-email/:key" component={VerifyEmail} />
           <Redirect from={"*"} to={"/"} />
         </Switch>
