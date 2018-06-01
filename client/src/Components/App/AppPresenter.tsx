@@ -11,6 +11,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import styled from "styled-components";
 import CompleteProfile from "../../Routes/CompleteProfile";
 import EmailLogin from "../../Routes/EmailLogin";
+import Home from "../../Routes/Home";
 import Login from "../../Routes/Login";
 import VerifyEmail from "../../Routes/VerifyEmail";
 import VerifyPhone from "../../Routes/VerifyPhone";
@@ -77,6 +78,7 @@ const LoggedInRoutes: React.SFC<any> = location => (
     <StyledTransition>
       <CSSTransition key={location.key} timeout={200} classNames="fade">
         <Switch key={location.key}>
+          <Route path={"/"} exact={true} component={Home} />
           <Route path="/verify-email/:key" component={VerifyEmail} />
           <Redirect from={"*"} to={"/"} />
         </Switch>

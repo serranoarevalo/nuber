@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import countries from "../../countries";
 import BackButton from "./BackButton";
@@ -110,6 +111,9 @@ class LoginPresenter extends React.Component<IProps, {}> {
     } = this.props;
     return (
       <PresenterScreen>
+        <Helmet>
+          <title>Login | Nuber</title>
+        </Helmet>
         <BackButton
           showing={loginMethod !== ""}
           onClick={this.handleBackClick}

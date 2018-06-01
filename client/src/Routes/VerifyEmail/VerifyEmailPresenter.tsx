@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 
@@ -24,6 +25,9 @@ interface IProps {
 
 const VerifyEmailPresenter: React.SFC<IProps> = ({ loading, verifyEmail }) => (
   <Container>
+    <Helmet>
+      <title>Verify Email | Nuber</title>
+    </Helmet>
     <Text>You are all set!</Text>
     <Button
       disabled={loading}

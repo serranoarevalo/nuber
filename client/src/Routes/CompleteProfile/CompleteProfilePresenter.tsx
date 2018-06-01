@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 import Header from "../../Components/Header";
@@ -36,6 +37,9 @@ const CompleteProfilePresenter: React.SFC<IProps> = ({
   loading
 }) => (
   <Wrapper>
+    <Helmet>
+      <title>Complete Profile | Nuber</title>
+    </Helmet>
     <Header backTo={"/"} title={"Complete your profile"} />
     <Container>
       <form onSubmit={onSubmit}>

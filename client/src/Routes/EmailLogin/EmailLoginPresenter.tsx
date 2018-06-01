@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 import Header from "../../Components/Header";
@@ -31,6 +32,9 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
   onSubmit
 }) => (
   <Wrapper className={"shouldScroll"}>
+    <Helmet>
+      <title>Login with Email | Nuber</title>
+    </Helmet>
     <Header backTo="/" title={"Login with Email"} />
     <Container>
       <form onSubmit={onSubmit}>
