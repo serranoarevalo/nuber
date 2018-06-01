@@ -1,2 +1,2 @@
-import MenuPresenter from "./MenuPresenter";
-export default MenuPresenter;
+import MenuContainer from "./MenuContainer";
+export default MenuContainer;

@@ -36,7 +36,10 @@ const resolvers: Resolvers = {
           error: "Phone Number isn't verified"
         };
       }
-      const newUser: User = await User.create(args).save();
+      const newUser: User = await User.create({
+        ...args,
+        verifiedPhoneNumber: true
+      }).save();
       const emailConfirmation: Confirmation = await Confirmation.create({
         user: newUser
       }).save();
