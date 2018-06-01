@@ -4,6 +4,7 @@ import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
+import Form from "../../Components/Form";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
 
@@ -38,13 +39,7 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
     </Helmet>
     <Header backTo="/" title={"Login with Email"} />
     <Container>
-      <form
-        // tslint:disable-next-line jsx-no-lambda
-        onSubmit={event => {
-          event.preventDefault();
-          onSubmit();
-        }}
-      >
+      <Form onSubmit={onSubmit}>
         <Input
           onChange={handleInputChange}
           value={email}
@@ -66,7 +61,7 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
           text={loading ? "Logging In..." : "Log In"}
           disabled={loading}
         />
-      </form>
+      </Form>
     </Container>
   </Wrapper>
 );

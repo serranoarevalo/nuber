@@ -2,10 +2,12 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
+import Form from "../../Components/Form";
 import countries from "../../countries";
 import BackButton from "./BackButton";
 import Header from "./Header";
 import { loginMethodType } from "./LoginTypes";
+
 import MobileLogin from "./MobileLogin";
 import SocialLogin from "./SocialLogin";
 import SubmitButton from "./SubmitButton";
@@ -120,7 +122,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
         />
         <Header onClick={this.handleMobileClick} loginMethod={loginMethod} />
         <MobileLogin onClick={this.handleMobileClick} loginMethod={loginMethod}>
-          <form onSubmit={onSubmit}>
+          <Form onSubmit={onSubmit}>
             {loginMethod === "" ? (
               <PhoneText>{findCountry(countryCode)}</PhoneText>
             ) : (
@@ -152,7 +154,7 @@ class LoginPresenter extends React.Component<IProps, {}> {
                 loading={loading}
               />
             )}
-          </form>
+          </Form>
         </MobileLogin>
         {loginMethod !== "mobile" && (
           <SocialLogin

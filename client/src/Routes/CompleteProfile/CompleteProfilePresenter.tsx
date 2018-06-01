@@ -4,6 +4,7 @@ import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
+import Form from "../../Components/Form";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
 
@@ -43,13 +44,7 @@ const CompleteProfilePresenter: React.SFC<IProps> = ({
     </Helmet>
     <Header backTo={"/"} title={"Complete your profile"} />
     <Container>
-      <form
-        // tslint:disable-next-line jsx-no-lambda
-        onSubmit={event => {
-          event.preventDefault;
-          onSubmit();
-        }}
-      >
+      <Form onSubmit={onSubmit}>
         <Input
           name={"firstName"}
           value={firstName}
@@ -95,7 +90,7 @@ const CompleteProfilePresenter: React.SFC<IProps> = ({
           text={loading ? "Loading" : "Complete Profile"}
           disabled={loading}
         />
-      </form>
+      </Form>
     </Container>
   </Wrapper>
 );
