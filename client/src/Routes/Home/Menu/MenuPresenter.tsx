@@ -1,4 +1,5 @@
 import React from "react";
+import FontAwesome from "react-fontawesome";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -10,11 +11,8 @@ const Header = styled.div`
   background-color: black;
   height: 20%;
   margin-bottom: 30px;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  align-items: center;
   padding: 0 15px;
-  grid-gap: 10px;
+  color: white;
 `;
 
 const SLink = styled(Link)`
@@ -25,11 +23,12 @@ const SLink = styled(Link)`
   font-weight: 400;
 `;
 
-const Image = styled.div`
+const Image = styled.img`
   height: 80px;
   width: 80px;
   background-color: grey;
   border-radius: 40px;
+  overflow: hidden;
 `;
 
 const Name = styled.h2`
@@ -47,10 +46,27 @@ const Rating = styled.h5`
 `;
 
 const Text = styled.span`
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}`;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
+const Placeholder = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 10px;
+  height: 100%;
+  align-items: center;
+`;
 
 interface IProps {
   loading: boolean;
@@ -60,14 +76,18 @@ interface IProps {
 const MenuPresenter: React.SFC<IProps> = ({ loading, data }) => (
   <Container>
     <Header>
-      {!loading && (
-        <React.Fragment>
-          <Image />
+      {loading ? (
+        <Placeholder>
+          <FontAwesome name="spinner fa-spin" />
+        </Placeholder>
+      ) : (
+        <Grid>
+          <Image src={data.me.user.profilePhoto} />
           <Text>
-            <Name>Nicolas Serrano Arevalo</Name>
+            <Name>{data.me.user.fullName}</Name>
             <Rating>4.5</Rating>
           </Text>
-        </React.Fragment>
+        </Grid>
       )}
     </Header>
     <SLink to="/">Payment</SLink>
