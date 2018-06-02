@@ -24,6 +24,7 @@ interface IProps {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: MutationFn;
   loading: boolean;
+  password: string;
 }
 
 const EditAccountPresenter: React.SFC<IProps> = ({
@@ -33,7 +34,8 @@ const EditAccountPresenter: React.SFC<IProps> = ({
   email,
   handleInputChange,
   loading,
-  onSubmit
+  onSubmit,
+  password
 }) => (
   <Wrapper className={"shouldScroll"}>
     <Header backTo="/" title={"Edit Account"} />
@@ -72,11 +74,12 @@ const EditAccountPresenter: React.SFC<IProps> = ({
       />
       <Input
         onChange={handleInputChange}
-        value={"••••••"}
+        value={password}
         name={"password"}
-        type={"tel"}
+        type={"password"}
         required={true}
         displayName={"Password"}
+        placeholder={"••••••"}
       />
       <Button
         onClick={onSubmit}

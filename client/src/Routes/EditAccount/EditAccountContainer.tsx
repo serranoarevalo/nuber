@@ -9,6 +9,7 @@ interface IState {
   lastName: string;
   phoneNumber: string;
   email: string;
+  password: string;
 }
 
 class EditAccountContainer extends React.Component<any, IState> {
@@ -18,7 +19,8 @@ class EditAccountContainer extends React.Component<any, IState> {
       firstName: "",
       lastName: "",
       phoneNumber: "",
-      email: ""
+      email: "",
+      password: ""
     };
   }
 
@@ -41,11 +43,11 @@ class EditAccountContainer extends React.Component<any, IState> {
   }
 
   render() {
-    const { firstName, lastName, phoneNumber, email } = this.state;
+    const { firstName, lastName, phoneNumber, email, password } = this.state;
     return (
       <Mutation
         mutation={UPDATE_ACCOUNT}
-        variables={{ firstName, lastName, phoneNumber, email }}
+        variables={{ firstName, lastName, phoneNumber, email, password }}
         update={this.handlePostSubmit}
       >
         {(updateAccount, { loading }) => (
@@ -57,6 +59,7 @@ class EditAccountContainer extends React.Component<any, IState> {
             handleInputChange={this.handleInputChange}
             onSubmit={updateAccount}
             loading={loading}
+            password={password}
           />
         )}
       </Mutation>
@@ -83,14 +86,13 @@ class EditAccountContainer extends React.Component<any, IState> {
       toast.error(updateUser.error);
     } else if (updateUser.ok) {
       toast.success("Account successfully updated");
-      const me = cache.writeFragment({
+      cache.writeFragment({
         id: "$ROOT_QUERY.me.user",
         fragment: USER_FRAGMENT,
         data: {
           ...updateUser.user
         }
       });
-      console.log(me);
     }
   };
 }

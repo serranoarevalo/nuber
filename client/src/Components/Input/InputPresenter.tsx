@@ -27,16 +27,20 @@ const Input = styled.input`
     border-bottom-color: #2c3e50;
     outline: none;
   }
+  &::placeholder {
+    color: black;
+  }
 `;
 
 interface IProps {
   name: string;
   type: string;
-  value: string;
+  value?: string;
   required: boolean;
   displayName: string;
   onChange: (event: ChangeEvent<any>) => void;
   defaultValue?: string;
+  placeholder?: string;
 }
 
 const InputPresenter: React.SFC<IProps> = ({
@@ -46,7 +50,8 @@ const InputPresenter: React.SFC<IProps> = ({
   name,
   required,
   displayName,
-  defaultValue
+  defaultValue,
+  placeholder
 }) => (
   <Container>
     <Label htmlFor={name}>{displayName}</Label>
@@ -58,6 +63,7 @@ const InputPresenter: React.SFC<IProps> = ({
       required={required}
       name={name}
       defaultValue={defaultValue}
+      placeholder={placeholder}
     />
   </Container>
 );

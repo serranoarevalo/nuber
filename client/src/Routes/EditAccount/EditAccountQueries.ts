@@ -21,12 +21,14 @@ export const UPDATE_ACCOUNT = gql`
     $firstName: String
     $lastName: String
     $phoneNumber: String
+    $password: String
   ) {
     updateUser(
       email: $email
       firstName: $firstName
       lastName: $lastName
       phoneNumber: $phoneNumber
+      password: $password
     ) {
       ok
       error
