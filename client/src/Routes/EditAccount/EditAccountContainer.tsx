@@ -1,7 +1,8 @@
 import React from "react";
-import { graphql } from "react-apollo";
+import { graphql, Mutation, MutationUpdaterFn } from "react-apollo";
+import { toast } from "react-toastify";
 import EditAccountPresenter from "./EditAccountPresenter";
-import { ME } from "./EditAccountQueries";
+import { ME, UPDATE_ACCOUNT, USER_FRAGMENT } from "./EditAccountQueries";
 
 interface IState {
   firstName: string;
@@ -41,15 +42,24 @@ class EditAccountContainer extends React.Component<any, IState> {
 
   render() {
     const { firstName, lastName, phoneNumber, email } = this.state;
-    console.log(this.state);
     return (
-      <EditAccountPresenter
-        firstName={firstName}
-        lastName={lastName}
-        phoneNumber={phoneNumber}
-        email={email}
-        handleInputChange={this.handleInputChange}
-      />
+      <Mutation
+        mutation={UPDATE_ACCOUNT}
+        variables={{ firstName, lastName, phoneNumber, email }}
+        update={this.handlePostSubmit}
+      >
+        {(updateAccount, { loading }) => (
+          <EditAccountPresenter
+            firstName={firstName}
+            lastName={lastName}
+            phoneNumber={phoneNumber}
+            email={email}
+            handleInputChange={this.handleInputChange}
+            onSubmit={updateAccount}
+            loading={loading}
+          />
+        )}
+      </Mutation>
     );
   }
 
@@ -62,6 +72,26 @@ class EditAccountContainer extends React.Component<any, IState> {
     this.setState({
       [name]: value
     } as any);
+  };
+
+  private handlePostSubmit: MutationUpdaterFn = (
+    cache,
+    { data }: { data: any }
+  ) => {
+    const { updateUser } = data;
+    if (!updateUser.ok && updateUser.error) {
+      toast.error(updateUser.error);
+    } else if (updateUser.ok) {
+      toast.success("Account successfully updated");
+      const me = cache.writeFragment({
+        id: "$ROOT_QUERY.me.user",
+        fragment: USER_FRAGMENT,
+        data: {
+          ...updateUser.user
+        }
+      });
+      console.log(me);
+    }
   };
 }
 

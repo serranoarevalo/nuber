@@ -1,5 +1,6 @@
 type UpdateUserResponse {
   ok: Boolean!
+  user: User
   error: String
 }
 
@@ -10,7 +11,7 @@ type Mutation {
     lastName: String
     password: String
     age: Int
-    phoneNumber: Int
+    phoneNumber: String
     profilePhoto: String
   ): UpdateUserResponse!
 }

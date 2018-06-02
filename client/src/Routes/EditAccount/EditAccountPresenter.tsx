@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { MutationFn } from "react-apollo";
 import styled from "styled-components";
+import Button from "../../Components/Button";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
 
@@ -19,8 +21,9 @@ interface IProps {
   lastName: string;
   phoneNumber: string;
   email: string;
-
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: MutationFn;
+  loading: boolean;
 }
 
 const EditAccountPresenter: React.SFC<IProps> = ({
@@ -28,7 +31,9 @@ const EditAccountPresenter: React.SFC<IProps> = ({
   lastName,
   phoneNumber,
   email,
-  handleInputChange
+  handleInputChange,
+  loading,
+  onSubmit
 }) => (
   <Wrapper className={"shouldScroll"}>
     <Header backTo="/" title={"Edit Account"} />
@@ -73,6 +78,11 @@ const EditAccountPresenter: React.SFC<IProps> = ({
         required={true}
         displayName={"Password"}
       />
+      <Button
+        onClick={onSubmit}
+        text={loading ? "Updating Profile" : "Update Profile"}
+        disabled={loading}
+      />
     </Container>
   </Wrapper>
 );
@@ -82,7 +92,8 @@ EditAccountPresenter.propTypes = {
   lastName: PropTypes.string,
   phoneNumber: PropTypes.string,
   email: PropTypes.string,
-  handleInputChange: PropTypes.func.isRequired
+  handleInputChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default EditAccountPresenter;

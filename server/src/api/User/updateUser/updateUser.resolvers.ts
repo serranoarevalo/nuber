@@ -27,13 +27,16 @@ const resolvers: Resolvers = {
         }
         try {
           await User.update(user.id, args);
+          const updatedUser: User = await User.findOne({ id: user.id });
           return {
             ok: true,
+            user: updatedUser,
             error: null
           };
         } catch (error) {
           return {
             ok: false,
+            user: null,
             error: "Couldn't update user"
           };
         }
