@@ -1,13 +1,13 @@
 import React from "react";
-
+import { graphql } from "react-apollo";
 import EditAccountPresenter from "./EditAccountPresenter";
+import { ME } from "./EditAccountQueries";
 
 interface IState {
   firstName: string;
   lastName: string;
   phoneNumber: string;
   email: string;
-  password: string;
 }
 
 class EditAccountContainer extends React.Component<any, IState> {
@@ -17,19 +17,37 @@ class EditAccountContainer extends React.Component<any, IState> {
       firstName: "",
       lastName: "",
       phoneNumber: "",
-      email: "",
-      password: ""
+      email: ""
     };
   }
+
+  componentWillReceiveProps(newProps) {
+    const {
+      data: { me }
+    } = newProps;
+    if (me) {
+      const { ok, user } = me;
+      if (ok) {
+        const { firstName, lastName, phoneNumber, email } = user;
+        this.setState({
+          firstName,
+          lastName,
+          phoneNumber,
+          email
+        });
+      }
+    }
+  }
+
   render() {
-    const { firstName, lastName, phoneNumber, email, password } = this.state;
+    const { firstName, lastName, phoneNumber, email } = this.state;
+    console.log(this.state);
     return (
       <EditAccountPresenter
         firstName={firstName}
         lastName={lastName}
         phoneNumber={phoneNumber}
         email={email}
-        password={password}
         handleInputChange={this.handleInputChange}
       />
     );
@@ -47,4 +65,4 @@ class EditAccountContainer extends React.Component<any, IState> {
   };
 }
 
-export default EditAccountContainer;
+export default graphql(ME)(EditAccountContainer);

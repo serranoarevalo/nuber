@@ -19,7 +19,7 @@ interface IProps {
   lastName: string;
   phoneNumber: string;
   email: string;
-  password: string;
+
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -28,7 +28,6 @@ const EditAccountPresenter: React.SFC<IProps> = ({
   lastName,
   phoneNumber,
   email,
-  password,
   handleInputChange
 }) => (
   <Wrapper className={"shouldScroll"}>
@@ -68,7 +67,7 @@ const EditAccountPresenter: React.SFC<IProps> = ({
       />
       <Input
         onChange={handleInputChange}
-        value={password}
+        value={"••••••"}
         name={"password"}
         type={"tel"}
         required={true}
@@ -83,7 +82,6 @@ EditAccountPresenter.propTypes = {
   lastName: PropTypes.string,
   phoneNumber: PropTypes.string,
   email: PropTypes.string,
-  password: PropTypes.string,
   handleInputChange: PropTypes.func.isRequired
 };
 
