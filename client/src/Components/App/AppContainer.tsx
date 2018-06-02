@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AppPresenter from "./AppPresenter";
-import isLoggedIn from "./AppQueries";
+import { isLoggedIn } from "./AppQueries";
 
 const AppContainer: React.SFC = () => (
   <React.Fragment>

@@ -36,6 +36,7 @@ interface IProps {
   required: boolean;
   displayName: string;
   onChange: (event: ChangeEvent<any>) => void;
+  defaultValue?: string;
 }
 
 const InputPresenter: React.SFC<IProps> = ({
@@ -44,7 +45,8 @@ const InputPresenter: React.SFC<IProps> = ({
   type,
   name,
   required,
-  displayName
+  displayName,
+  defaultValue
 }) => (
   <Container>
     <Label htmlFor={name}>{displayName}</Label>
@@ -55,6 +57,7 @@ const InputPresenter: React.SFC<IProps> = ({
       onChange={onChange}
       required={required}
       name={name}
+      defaultValue={defaultValue}
     />
   </Container>
 );

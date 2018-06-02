@@ -1,7 +1,6 @@
 import React from "react";
-import { Query } from "react-apollo";
+
 import EditAccountPresenter from "./EditAccountPresenter";
-import { ME } from "./EditAccountQueries";
 
 interface IState {
   firstName: string;
@@ -11,7 +10,7 @@ interface IState {
   password: string;
 }
 
-class EditAccountContainer extends React.Component<{}, IState> {
+class EditAccountContainer extends React.Component<any, IState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,18 +24,14 @@ class EditAccountContainer extends React.Component<{}, IState> {
   render() {
     const { firstName, lastName, phoneNumber, email, password } = this.state;
     return (
-      <Query query={ME}>
-        {({ loading, error, data }) => (
-          <EditAccountPresenter
-            firstName={firstName}
-            lastName={lastName}
-            phoneNumber={phoneNumber}
-            email={email}
-            password={password}
-            handleInputChange={this.handleInputChange}
-          />
-        )}
-      </Query>
+      <EditAccountPresenter
+        firstName={firstName}
+        lastName={lastName}
+        phoneNumber={phoneNumber}
+        email={email}
+        password={password}
+        handleInputChange={this.handleInputChange}
+      />
     );
   }
 

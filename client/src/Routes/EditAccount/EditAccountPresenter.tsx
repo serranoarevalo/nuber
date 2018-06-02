@@ -83,7 +83,8 @@ EditAccountPresenter.propTypes = {
   lastName: PropTypes.string,
   phoneNumber: PropTypes.string,
   email: PropTypes.string,
-  password: PropTypes.string
+  password: PropTypes.string,
+  handleInputChange: PropTypes.func.isRequired
 };
 
 export default EditAccountPresenter;

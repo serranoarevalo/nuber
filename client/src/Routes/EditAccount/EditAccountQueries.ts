@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export const ME = gql`
-  mutation me {
+  query me {
     me {
       ok
       user {
