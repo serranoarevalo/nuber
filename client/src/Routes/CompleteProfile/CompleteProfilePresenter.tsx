@@ -4,6 +4,7 @@ import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
+import FileInput from "../../Components/FileInput";
 import Form from "../../Components/Form";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
@@ -45,6 +46,7 @@ const CompleteProfilePresenter: React.SFC<IProps> = ({
     <Header backTo={"/"} title={"Complete your profile"} />
     <Container>
       <Form onSubmit={onSubmit}>
+        <FileInput postUpload={onSubmit} />
         <Input
           name={"firstName"}
           value={firstName}

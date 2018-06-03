@@ -12,5 +12,6 @@ type Mutation {
     lastName: String!
     password: String!
     age: Int!
+    profilePhoto: String!
   ): EmailSignUpResponse!
 }

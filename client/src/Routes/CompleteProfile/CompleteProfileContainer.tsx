@@ -11,6 +11,7 @@ interface IState {
   lastName: string;
   password: string;
   age: string;
+  profilePhoto: string;
 }
 
 class CompleteProfileContainer extends React.Component<{}, IState> {
@@ -34,7 +35,8 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
       firstName: "",
       lastName: "",
       password: "",
-      age: ""
+      age: "",
+      profilePhoto: ""
     };
   }
   render() {
@@ -44,7 +46,8 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
       lastName,
       password,
       age,
-      phoneNumber
+      phoneNumber,
+      profilePhoto
     } = this.state;
     return (
       <Mutation
@@ -56,7 +59,8 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
           firstName,
           lastName,
           password,
-          age
+          age,
+          profilePhoto
         }}
       >
         {(emailSignUp, { loading }) => (

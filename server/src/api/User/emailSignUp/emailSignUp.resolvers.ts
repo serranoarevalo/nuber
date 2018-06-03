@@ -12,6 +12,7 @@ interface IArgs {
   password: string;
   age: number;
   phoneNumber: string;
+  profilePhoto: string;
 }
 
 const resolvers: Resolvers = {
