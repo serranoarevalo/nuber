@@ -1,16 +1,21 @@
 import React from "react";
-import { Mutation, MutationUpdaterFn } from "react-apollo";
+import { graphql, Mutation, MutationFn, MutationUpdaterFn } from "react-apollo";
 import { toast } from "react-toastify";
+import { LOG_USER_IN } from "../../sharedQueries";
 import EmailLoginPresenter from "./EmailLoginPresenter";
-import { EMAIL_LOGIN } from "./EmailQueries";
+import { EMAIL_LOGIN } from "./EmailLoginQueries";
 
 interface IState {
   email: string;
   password: string;
 }
 
-class EmailLoginContainer extends React.Component<any, IState> {
-  constructor(props: any) {
+interface IProps {
+  logUserIn: MutationFn;
+}
+
+class EmailLoginContainer extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       email: "",
@@ -54,20 +59,15 @@ class EmailLoginContainer extends React.Component<any, IState> {
     { data }: { data: any }
   ) => {
     const { emailSignIn } = data;
+    const { logUserIn } = this.props;
     if (emailSignIn.ok) {
-      localStorage.setItem("jwt", emailSignIn.token);
-      cache.writeData({
-        data: {
-          user: {
-            __typename: "User",
-            isLoggedIn: true
-          }
-        }
-      });
+      logUserIn({ variables: { token: emailSignIn.token } });
     } else {
       toast.error(emailSignIn.error);
     }
   };
 }
 
-export default EmailLoginContainer;
+export default graphql<any, any>(LOG_USER_IN, { name: "logUserIn" })(
+  EmailLoginContainer
+);

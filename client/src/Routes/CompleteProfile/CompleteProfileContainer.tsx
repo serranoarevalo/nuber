@@ -1,6 +1,7 @@
 import React from "react";
-import { Mutation, MutationUpdaterFn } from "react-apollo";
+import { graphql, Mutation, MutationFn, MutationUpdaterFn } from "react-apollo";
 import { toast } from "react-toastify";
+import { LOG_USER_IN } from "../../sharedQueries";
 import CompleteProfilePresenter from "./CompleteProfilePresenter";
 import { EMAIL_SIGN_UP } from "./CompleteProfileQueries";
 
@@ -14,10 +15,18 @@ interface IState {
   profilePhoto: string;
 }
 
-class CompleteProfileContainer extends React.Component<{}, IState> {
-  constructor(props) {
-    super(props);
+interface IProps {
+  logUserIn: MutationFn;
+  location: any;
+  history: any;
+}
 
+class CompleteProfileContainer extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    if (!props.location.state) {
+      props.history.push("/");
+    }
     const {
       location: { state }
     } = props;
@@ -94,18 +103,11 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
     { data }: { data: any }
   ) => {
     const { emailSignUp } = data;
+    const { logUserIn } = this.props;
     if (!emailSignUp.ok && emailSignUp.error) {
       toast.error(emailSignUp.error);
     } else if (emailSignUp.token) {
-      localStorage.setItem("jwt", emailSignUp.token);
-      cache.writeData({
-        data: {
-          user: {
-            __typename: "User",
-            isLoggedIn: true
-          }
-        }
-      });
+      logUserIn({ variables: { token: emailSignUp.token } });
     }
   };
 
@@ -115,4 +117,6 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
     });
   };
 }
-export default CompleteProfileContainer;
+export default graphql<any, any>(LOG_USER_IN, { name: "logUserIn" })(
+  CompleteProfileContainer
+);

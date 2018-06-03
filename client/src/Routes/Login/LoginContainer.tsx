@@ -1,8 +1,9 @@
 import { MutationUpdaterFn } from "apollo-boost";
 import PropTypes from "prop-types";
 import React from "react";
-import { graphql, Mutation, MutationFn } from "react-apollo";
+import { compose, graphql, Mutation, MutationFn } from "react-apollo";
 import { toast } from "react-toastify";
+import { LOG_USER_IN } from "../../sharedQueries";
 import LoginPresenter from "./LoginPresenter";
 import { FACEBOOK_CONNECT, REQUEST_PHONE_SIGNIN } from "./LoginQueries";
 import { loginMethodType } from "./LoginTypes";
@@ -14,6 +15,7 @@ interface IState {
 }
 
 interface IProps {
+  logUserIn: MutationFn;
   facebookConnectMutation: MutationFn;
   history: any;
 }
@@ -130,7 +132,7 @@ class LoginContainer extends React.Component<IProps, IState> {
   };
 
   private handleFacebookResponse = async (response: any): Promise<void> => {
-    const { facebookConnectMutation } = this.props;
+    const { facebookConnectMutation, logUserIn } = this.props;
     if (response.accessToken) {
       facebookConnectMutation({
         variables: {
@@ -141,15 +143,7 @@ class LoginContainer extends React.Component<IProps, IState> {
         },
         update: (cache, { data: { facebookConnect } }) => {
           if (facebookConnect.ok) {
-            localStorage.setItem("jwt", facebookConnect.token);
-            cache.writeData({
-              data: {
-                user: {
-                  __typename: "User",
-                  isLoggedIn: true
-                }
-              }
-            });
+            logUserIn({ variables: { token: facebookConnect.token } });
           } else {
             toast.error("Couldn't log in with Facebook, try again");
           }
@@ -159,6 +153,11 @@ class LoginContainer extends React.Component<IProps, IState> {
   };
 }
 
-export default graphql<any, any>(FACEBOOK_CONNECT, {
-  name: "facebookConnectMutation"
-})(LoginContainer);
+export default compose(
+  graphql<any, any>(FACEBOOK_CONNECT, {
+    name: "facebookConnectMutation"
+  }),
+  graphql<any, any>(LOG_USER_IN, {
+    name: "logUserIn"
+  })
+)(LoginContainer);

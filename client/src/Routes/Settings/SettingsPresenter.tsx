@@ -1,4 +1,5 @@
 import React from "react";
+import { MutationFn } from "react-apollo";
 import FontAwesome from "react-fontawesome";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -19,12 +20,6 @@ const Wrapper = styled.div`
   overflow-y: scroll;
 `;
 
-const Details = styled.div`
-  border-bottom: 1px solid #bdc3c7;
-  padding: 0 15px;
-  padding-bottom: 15px;
-`;
-
 const Image = styled.img`
   height: 60px;
   width: 60px;
@@ -43,12 +38,26 @@ const Key = styled.span`
   margin-bottom: 5px;
 `;
 
+const Item = styled<any, any>("div")`
+  border-bottom: 1px solid #bdc3c7;
+  padding: 0 15px;
+  padding-bottom: 15px;
+  &:not(:first-child) {
+    margin-top: 15px;
+  }
+`;
+
 interface IProps {
   loading: boolean;
   data: any;
+  logUserOut: MutationFn;
 }
 
-const SettingsPresenter: React.SFC<IProps> = ({ loading, data }) => (
+const SettingsPresenter: React.SFC<IProps> = ({
+  loading,
+  data,
+  logUserOut
+}) => (
   <Wrapper className={"shouldScroll"}>
     <Header backTo="/" title={"Account Settings"} />
     {loading ? (
@@ -57,7 +66,7 @@ const SettingsPresenter: React.SFC<IProps> = ({ loading, data }) => (
       </Placeholder>
     ) : (
       <Container>
-        <Details>
+        <Item>
           <SLink to={"/edit-account"}>
             <Image src={data.me.user.profilePhoto} />
             <Keys>
@@ -66,7 +75,8 @@ const SettingsPresenter: React.SFC<IProps> = ({ loading, data }) => (
               <Key>{data.me.user.email}</Key>
             </Keys>
           </SLink>
-        </Details>
+        </Item>
+        <Item onClick={logUserOut}>Log Out</Item>
       </Container>
     )}
   </Wrapper>

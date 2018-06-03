@@ -8,7 +8,34 @@ const client = new ApolloClient({
         isLoggedIn: localStorage.getItem("jwt") === null ? false : true
       }
     },
-    resolvers: {}
+    resolvers: {
+      Mutation: {
+        logUserOut: (_, __, { cache }) => {
+          localStorage.removeItem("jwt");
+          cache.writeData({
+            data: {
+              user: {
+                __typename: "User",
+                isLoggedIn: false
+              }
+            }
+          });
+          return null;
+        },
+        logUserIn: (_, { token }, { cache }) => {
+          localStorage.setItem("jwt", token);
+          cache.writeData({
+            data: {
+              user: {
+                __typename: "User",
+                isLoggedIn: true
+              }
+            }
+          });
+          return null;
+        }
+      }
+    }
   },
   request: async (operation: Operation) => {
     operation.setContext({
