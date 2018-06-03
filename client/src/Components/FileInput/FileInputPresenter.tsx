@@ -21,10 +21,19 @@ const Image = styled.label`
   align-items: center;
   justify-content: center;
   font-size: 28px;
+  overflow: hidden;
+  & img {
+    max-width: 100%;
+  }
 `;
 
 const Input = styled.input`
-  display: none;
+  color: white;
+  opacity: 0;
+  height: 1px;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Title = styled.span`
@@ -37,21 +46,18 @@ interface IProps {
   uploaded: boolean;
   fileUrl: string;
   uploading: boolean;
+  required: boolean;
 }
 
 const FileInputPresenter: React.SFC<IProps> = ({
   onChange,
   uploaded,
   uploading,
-  fileUrl
+  fileUrl,
+  required
 }) => (
   <Container>
     <Title>Profile Photo</Title>
-    <Image htmlFor="photo">
-      {!uploading && !uploaded && <FontAwesome name="plus" />}
-      {uploading && !uploaded && <FontAwesome name="spinner fa-spin" />}
-      {!uploading && uploaded && <img src={fileUrl} />}
-    </Image>
     <Input
       onChange={onChange}
       disabled={uploaded && uploading}
@@ -60,7 +66,13 @@ const FileInputPresenter: React.SFC<IProps> = ({
       capture={true}
       id={"photo"}
       name={"photo"}
+      required={required}
     />
+    <Image htmlFor="photo">
+      {!uploading && !uploaded && <FontAwesome name="plus" />}
+      {uploading && !uploaded && <FontAwesome name="spinner fa-spin" />}
+      {!uploading && uploaded && <img src={fileUrl} />}
+    </Image>
   </Container>
 );
 

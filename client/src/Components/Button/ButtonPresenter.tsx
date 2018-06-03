@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-const Button = styled.button`
+const Button = styled.input`
   width: 100%;
   background-color: black;
   color: white;
@@ -26,15 +26,15 @@ interface IProps {
 
 const ButtonPresenter: React.SFC<IProps> = ({ onClick, text, disabled }) => (
   <Button
+    type="submit"
     disabled={disabled}
     // tslint:disable-next-line jsx-no-lambda
-    onClick={event => {
+    onSubmit={event => {
       event.preventDefault();
       onClick();
     }}
-  >
-    {text}
-  </Button>
+    value={text}
+  />
 );
 
 ButtonPresenter.propTypes = {

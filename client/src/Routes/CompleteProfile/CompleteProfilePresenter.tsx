@@ -27,6 +27,7 @@ interface IProps {
   loading: boolean;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: MutationFn;
+  getProfileImage: (url: string) => void;
 }
 
 const CompleteProfilePresenter: React.SFC<IProps> = ({
@@ -37,7 +38,8 @@ const CompleteProfilePresenter: React.SFC<IProps> = ({
   age,
   handleInputChange,
   onSubmit,
-  loading
+  loading,
+  getProfileImage
 }) => (
   <Wrapper>
     <Helmet>
@@ -46,7 +48,7 @@ const CompleteProfilePresenter: React.SFC<IProps> = ({
     <Header backTo={"/"} title={"Complete your profile"} />
     <Container>
       <Form onSubmit={onSubmit}>
-        <FileInput postUpload={onSubmit} />
+        <FileInput required={true} postUpload={getProfileImage} />
         <Input
           name={"firstName"}
           value={firstName}

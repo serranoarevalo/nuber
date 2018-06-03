@@ -17,9 +17,7 @@ interface IState {
 class CompleteProfileContainer extends React.Component<{}, IState> {
   constructor(props) {
     super(props);
-    if (!props.location.state) {
-      props.history.push("/");
-    }
+
     const {
       location: { state }
     } = props;
@@ -73,6 +71,7 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
             handleInputChange={this.handleInputChange}
             loading={loading}
             onSubmit={emailSignUp}
+            getProfileImage={this.getProfileImage}
           />
         )}
       </Mutation>
@@ -98,7 +97,6 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
     if (!emailSignUp.ok && emailSignUp.error) {
       toast.error(emailSignUp.error);
     } else if (emailSignUp.token) {
-      // TO DO : Redirect to /
       localStorage.setItem("jwt", emailSignUp.token);
       cache.writeData({
         data: {
@@ -109,6 +107,12 @@ class CompleteProfileContainer extends React.Component<{}, IState> {
         }
       });
     }
+  };
+
+  private getProfileImage = (url: string): void => {
+    this.setState({
+      profilePhoto: url
+    });
   };
 }
 export default CompleteProfileContainer;
