@@ -3,6 +3,8 @@ import React from "react";
 import { MutationFn } from "react-apollo";
 import styled from "styled-components";
 import Button from "../../Components/Button";
+import FileInput from "../../Components/FileInput";
+import Form from "../../Components/Form";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
 
@@ -25,6 +27,8 @@ interface IProps {
   onSubmit: MutationFn;
   loading: boolean;
   password: string;
+  profilePhoto: string;
+  getProfileImage: (url: string) => void;
 }
 
 const EditAccountPresenter: React.SFC<IProps> = ({
@@ -35,57 +39,66 @@ const EditAccountPresenter: React.SFC<IProps> = ({
   handleInputChange,
   loading,
   onSubmit,
-  password
+  password,
+  profilePhoto,
+  getProfileImage
 }) => (
   <Wrapper className={"shouldScroll"}>
     <Header backTo="/" title={"Edit Account"} />
     <Container>
-      <Input
-        onChange={handleInputChange}
-        value={firstName}
-        name={"firstName"}
-        type={"text"}
-        required={true}
-        displayName={"First Name"}
-      />
-      <Input
-        onChange={handleInputChange}
-        value={lastName}
-        name={"lastName"}
-        type={"text"}
-        required={true}
-        displayName={"Last Name"}
-      />
-      <Input
-        onChange={handleInputChange}
-        value={phoneNumber}
-        name={"phoneNumber"}
-        type={"tel"}
-        required={true}
-        displayName={"Phone Number"}
-      />
-      <Input
-        onChange={handleInputChange}
-        value={email}
-        name={"email"}
-        type={"tel"}
-        required={true}
-        displayName={"Email"}
-      />
-      <Input
-        onChange={handleInputChange}
-        value={password}
-        name={"password"}
-        type={"password"}
-        required={true}
-        displayName={"Password"}
-        placeholder={"••••••"}
-      />
-      <Button
-        onClick={onSubmit}
-        text={loading ? "Updating Profile" : "Update Profile"}
-        disabled={loading}
-      />
+      <Form onSubmit={onSubmit}>
+        <FileInput
+          postUpload={getProfileImage}
+          required={true}
+          previousUrl={profilePhoto}
+        />
+        <Input
+          onChange={handleInputChange}
+          value={firstName}
+          name={"firstName"}
+          type={"text"}
+          required={true}
+          displayName={"First Name"}
+        />
+        <Input
+          onChange={handleInputChange}
+          value={lastName}
+          name={"lastName"}
+          type={"text"}
+          required={true}
+          displayName={"Last Name"}
+        />
+        <Input
+          onChange={handleInputChange}
+          value={phoneNumber}
+          name={"phoneNumber"}
+          type={"tel"}
+          required={true}
+          displayName={"Phone Number"}
+        />
+        <Input
+          onChange={handleInputChange}
+          value={email}
+          name={"email"}
+          type={"tel"}
+          required={true}
+          displayName={"Email"}
+        />
+        <Input
+          onChange={handleInputChange}
+          value={password}
+          name={"password"}
+          type={"password"}
+          required={true}
+          displayName={"Password"}
+          placeholder={"••••••"}
+        />
+        <Button
+          onClick={onSubmit}
+          text={loading ? "Updating Profile" : "Update Profile"}
+          disabled={loading}
+        />
+      </Form>
     </Container>
   </Wrapper>
 );

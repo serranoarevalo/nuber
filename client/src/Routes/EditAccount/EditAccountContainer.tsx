@@ -10,6 +10,7 @@ interface IState {
   phoneNumber: string;
   email: string;
   password: string;
+  profilePhoto: string;
 }
 
 class EditAccountContainer extends React.Component<any, IState> {
@@ -20,7 +21,8 @@ class EditAccountContainer extends React.Component<any, IState> {
       lastName: "",
       phoneNumber: "",
       email: "",
-      password: ""
+      password: "",
+      profilePhoto: ""
     };
   }
 
@@ -31,23 +33,38 @@ class EditAccountContainer extends React.Component<any, IState> {
     if (me) {
       const { ok, user } = me;
       if (ok) {
-        const { firstName, lastName, phoneNumber, email } = user;
+        const { firstName, lastName, phoneNumber, email, profilePhoto } = user;
         this.setState({
           firstName,
           lastName,
           phoneNumber,
-          email
+          email,
+          profilePhoto
         });
       }
     }
   }
 
   render() {
-    const { firstName, lastName, phoneNumber, email, password } = this.state;
+    const {
+      firstName,
+      lastName,
+      phoneNumber,
+      email,
+      password,
+      profilePhoto
+    } = this.state;
     return (
       <Mutation
         mutation={UPDATE_ACCOUNT}
-        variables={{ firstName, lastName, phoneNumber, email, password }}
+        variables={{
+          firstName,
+          lastName,
+          phoneNumber,
+          email,
+          password,
+          profilePhoto
+        }}
         update={this.handlePostSubmit}
       >
         {(updateAccount, { loading }) => (
@@ -60,6 +77,8 @@ class EditAccountContainer extends React.Component<any, IState> {
             onSubmit={updateAccount}
             loading={loading}
             password={password}
+            profilePhoto={profilePhoto}
+            getProfileImage={this.getProfileImage}
           />
         )}
       </Mutation>
@@ -94,6 +113,12 @@ class EditAccountContainer extends React.Component<any, IState> {
         }
       });
     }
+  };
+
+  private getProfileImage = (url: string): void => {
+    this.setState({
+      profilePhoto: url
+    });
   };
 }
 

@@ -9,6 +9,7 @@ interface IProps {
   postUpload: (url: string) => void;
   signS3URLMutation: MutationFn;
   required: boolean;
+  previousUrl: string;
 }
 
 interface IState {
@@ -25,6 +26,14 @@ class FileInputContainer extends React.Component<IProps, IState> {
       fileUrl: "",
       uploading: false
     };
+  }
+  componentWillReceiveProps(newProps) {
+    if (newProps.previousUrl) {
+      this.setState({
+        uploaded: true,
+        fileUrl: newProps.previousUrl
+      });
+    }
   }
   render() {
     const { uploaded, fileUrl, uploading } = this.state;

@@ -9,6 +9,7 @@ export const ME = gql`
         lastName
         phoneNumber
         email
+        profilePhoto
       }
       error
     }
@@ -22,6 +23,7 @@ export const UPDATE_ACCOUNT = gql`
     $lastName: String
     $phoneNumber: String
     $password: String
+    $profilePhoto: String
   ) {
     updateUser(
       email: $email
@@ -29,6 +31,7 @@ export const UPDATE_ACCOUNT = gql`
       lastName: $lastName
       phoneNumber: $phoneNumber
       password: $password
+      profilePhoto: $profilePhoto
     ) {
       ok
       error
@@ -37,6 +40,7 @@ export const UPDATE_ACCOUNT = gql`
         lastName
         phoneNumber
         email
+        profilePhoto
       }
     }
   }
@@ -48,5 +52,6 @@ export const USER_FRAGMENT = gql`
     lastName
     phoneNumber
     email
+    profilePhoto
   }
 `;

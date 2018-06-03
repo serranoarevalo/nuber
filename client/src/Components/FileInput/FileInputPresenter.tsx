@@ -23,7 +23,8 @@ const Image = styled.label`
   font-size: 28px;
   overflow: hidden;
   & img {
-    max-width: 100%;
+    width: 80px;
+    height: 80px;
   }
 `;
 
