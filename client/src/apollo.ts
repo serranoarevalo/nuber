@@ -20,6 +20,7 @@ const client = new ApolloClient({
               }
             }
           });
+          location.reload();
           return null;
         },
         logUserIn: (_, { token }, { cache }) => {
