@@ -13,7 +13,7 @@ interface IState {
 }
 
 class EditAccountContainer extends React.Component<any, IState> {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       firstName: "",

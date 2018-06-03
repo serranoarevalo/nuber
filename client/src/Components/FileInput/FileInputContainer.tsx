@@ -1,8 +1,12 @@
+import axios from "axios";
 import React from "react";
+import { graphql, MutationFn } from "react-apollo";
 import FileInputPresenter from "./FileInputPresenter";
+import { SIGN_S3_URL } from "./FileInputQueries";
 
 interface IProps {
   postUpload: () => void;
+  signS3URLMutation: MutationFn;
 }
 
 interface IState {
@@ -34,7 +38,44 @@ class FileInputContainer extends React.Component<IProps, IState> {
   private onChange: React.ChangeEventHandler<HTMLInputElement> = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log(event);
+    const { signS3URLMutation } = this.props;
+    this.setState({
+      uploading: true
+    });
+    const {
+      target: { files }
+    } = event;
+    if (files) {
+      const file = files[0];
+      const response: any = await signS3URLMutation({
+        variables: {
+          fileName: file.name,
+          fileType: file.type
+        }
+      });
+      const {
+        data: { signS3URL }
+      } = response;
+      if (signS3URL.ok) {
+        const { fileUrl, signedUrl } = signS3URL;
+        try {
+          await axios.put(signedUrl, file, {
+            headers: {
+              "Content-Type": file.type
+            }
+          });
+          this.setState({
+            fileUrl,
+            uploaded: true,
+            uploading: false
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
   };
 }
-export default FileInputContainer;
+export default graphql<any, any>(SIGN_S3_URL, { name: "signS3URLMutation" })(
+  FileInputContainer
+);

@@ -49,6 +49,8 @@ const FileInputPresenter: React.SFC<IProps> = ({
     <Title>Profile Photo</Title>
     <Image htmlFor="photo">
       {!uploading && !uploaded && <FontAwesome name="plus" />}
+      {uploading && !uploaded && <FontAwesome name="spinner fa-spin" />}
+      {!uploading && uploaded && <img src={fileUrl} />}
     </Image>
     <Input
       onChange={onChange}
