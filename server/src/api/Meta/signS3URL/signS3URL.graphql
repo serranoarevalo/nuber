@@ -1,0 +1,10 @@
+type SignS3URLResponse {
+  ok: Boolean!
+  signedUrl: String
+  fileUrl: String
+  error: String
+}
+
+type Mutation {
+  signS3URL(fileName: String!, fileType: String!): SignS3URLResponse!
+}

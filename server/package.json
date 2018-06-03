@@ -28,6 +28,7 @@
     "types": "graphql-to-typescript ./src/api/**/*.graphql ./src/types/graph.d.ts"
   },
   "dependencies": {
+    "aws-sdk": "^2.250.1",
     "bcrypt": "^2.0.1",
     "class-validator": "^0.8.5",
     "graphql": "^0.13.2",
