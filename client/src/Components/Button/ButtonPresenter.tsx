@@ -33,6 +33,11 @@ const ButtonPresenter: React.SFC<IProps> = ({ onClick, text, disabled }) => (
       event.preventDefault();
       onClick();
     }}
+    // tslint:disable-next-line jsx-no-lambda
+    onClick={event => {
+      event.preventDefault();
+      onClick();
+    }}
     value={text}
   />
 );

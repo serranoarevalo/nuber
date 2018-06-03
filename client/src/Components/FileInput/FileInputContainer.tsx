@@ -9,7 +9,7 @@ interface IProps {
   postUpload: (url: string) => void;
   signS3URLMutation: MutationFn;
   required: boolean;
-  previousUrl: string;
+  previousUrl?: string;
 }
 
 interface IState {

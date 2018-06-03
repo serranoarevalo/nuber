@@ -8,7 +8,7 @@ const mailgun = new Mailgun({
 
 export const sendConfirmationEmail = (key: string) => {
   const emailSubject = "Please confirm your email";
-  const emailBody = `Hello please confirm your email by: <a href="http://nuber.co/verify/${key}">clicking here</a>`;
+  const emailBody = `Hello please confirm your email by: <a href="http://localhost:3000/verify-email/${key}">clicking here</a>`;
   return sendMail(emailSubject, emailBody);
 };
 
