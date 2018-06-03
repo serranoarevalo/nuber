@@ -12,10 +12,12 @@ import Input from "../../Components/Input";
 const Container = styled.div`
   padding: 0 15px;
   padding-top: 150px;
+  padding-bottom: 50px;
 `;
 
 const Wrapper = styled.div`
   overflow-y: scroll;
+  height: 100%;
 `;
 
 interface IProps {
@@ -41,7 +43,7 @@ const CompleteProfilePresenter: React.SFC<IProps> = ({
   loading,
   getProfileImage
 }) => (
-  <Wrapper>
+  <Wrapper className={"shouldScroll"}>
     <Helmet>
       <title>Complete Profile | Nuber</title>
     </Helmet>

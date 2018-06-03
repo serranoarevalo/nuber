@@ -10,6 +10,7 @@ import Input from "../../Components/Input";
 
 const Wrapper = styled.div`
   overflow-y: scroll;
+  height: 100%;
 `;
 
 const Container = styled.div`

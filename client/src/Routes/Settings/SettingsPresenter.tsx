@@ -18,6 +18,7 @@ const Placeholder = styled.div`
 
 const Wrapper = styled.div`
   overflow-y: scroll;
+  height: 100%;
 `;
 
 const Image = styled.img`
@@ -76,7 +77,7 @@ const SettingsPresenter: React.SFC<IProps> = ({
             </Keys>
           </SLink>
         </Item>
-        <Item onClick={logUserOut}>Log Out</Item>
+        <Item>Log Out</Item>
       </Container>
     )}
   </Wrapper>
