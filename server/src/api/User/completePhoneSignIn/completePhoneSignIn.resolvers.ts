@@ -25,6 +25,8 @@ const resolvers: Resolvers = {
         confirmation.save();
         const user: User = confirmation.user;
         if (user) {
+          user.verifiedPhoneNumber = true;
+          user.save();
           const token: string = createJWT(user.id);
           return {
             ok: true,

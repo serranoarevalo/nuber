@@ -46,7 +46,7 @@ const AddPhonePresenter: React.SFC<IProps> = ({
         >
           {countries.map((country, index) => (
             <option key={index} value={country.dial_code}>
-              {country.flag} {country.name} ({country.dial_code})
+              {country.flag} ({country.dial_code}) {country.name}
             </option>
           ))}
         </Select>

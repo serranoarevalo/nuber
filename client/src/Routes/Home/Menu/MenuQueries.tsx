@@ -7,7 +7,6 @@ export const ME = gql`
       user {
         fullName
         profilePhoto
-        verifiedPhoneNumber
       }
     }
   }

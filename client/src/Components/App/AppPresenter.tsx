@@ -67,7 +67,11 @@ const LoggedOutRoutes: React.SFC<any> = ({ location }) => (
         <Switch key={location.key}>
           <Route exact={true} path="/" component={Login} />
           <Route path="/email-login" component={EmailLogin} />
-          <Route path="/verify-phone" component={VerifyPhone} />
+          <Route
+            path="/verify-phone"
+            component={VerifyPhone}
+            mutation="completePhoneSignIn"
+          />
           <Route path="/complete-profile" component={CompleteProfile} />
           <Redirect from={"*"} to={"/"} />
         </Switch>
@@ -90,6 +94,11 @@ const LoggedInRoutes: React.SFC<any> = ({ location }) => (
           <Route path={"/trips"} component={Trips} />
           <Route path="/verify-email/:key" component={VerifyEmail} />
           <Route path="/add-phone" component={AddPhone} />
+          <Route
+            path="/verify-phone"
+            component={VerifyPhone}
+            mutation="addPhone"
+          />
           <Redirect from={"*"} to={"/"} />
         </Switch>
       </CSSTransition>

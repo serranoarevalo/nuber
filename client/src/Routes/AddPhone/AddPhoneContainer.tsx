@@ -49,9 +49,21 @@ class AddPhoneContainer extends React.Component<any, IState> {
   };
 
   private handlePostSubmit = (cache, { data }) => {
+    const { countryCode, phoneNumber } = this.state;
     const { addPhone } = data;
+    const { history } = this.props;
     if (addPhone.ok) {
-      toast.success("SMS Sent");
+      toast.success("SMS Sent, redirecting you...");
+      setTimeout(
+        () =>
+          history.push({
+            pathname: "/verify-phone",
+            state: {
+              phone: `${countryCode}${phoneNumber}`
+            }
+          }),
+        2000
+      );
     } else if (!addPhone.ok && addPhone.error) {
       toast.error(addPhone.error);
     }

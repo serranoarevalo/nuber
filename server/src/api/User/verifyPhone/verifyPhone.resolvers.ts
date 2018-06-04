@@ -22,7 +22,7 @@ const resolvers: Resolvers = {
         if (confirmation) {
           user.verifiedPhoneNumber = true;
           user.save();
-          await confirmation.remove();
+          //await confirmation.remove();
           return {
             ok: true,
             error: null

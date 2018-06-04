@@ -2,7 +2,7 @@ import React from "react";
 import { Mutation, MutationUpdaterFn } from "react-apollo";
 import { toast } from "react-toastify";
 import VerifyPhonePresenter from "./VerifyPhonePresenter";
-import { VERIFY_KEY } from "./VerifyPhoneQueries";
+import { CONFIRM_PHONE, USER_FRAGMENT, VERIFY_KEY } from "./VerifyPhoneQueries";
 
 interface IState {
   verificationKey: string;
@@ -31,9 +31,12 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
   }
   render() {
     const { verificationKey, phone } = this.state;
+    const { mutation } = this.props;
     return (
       <Mutation
-        mutation={VERIFY_KEY}
+        mutation={
+          mutation === "completePhoneSignIn" ? VERIFY_KEY : CONFIRM_PHONE
+        }
         update={this.handlePostSubmit}
         variables={{ phone, key: verificationKey }}
       >
@@ -64,32 +67,49 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
     cache,
     { data }: { data: any }
   ) => {
-    const { completePhoneSignIn } = data;
+    const { completePhoneSignIn, verifyPhone } = data;
     const { history } = this.props;
     const { phone } = this.state;
-    if (completePhoneSignIn.error && !completePhoneSignIn.ok) {
-      toast.error(completePhoneSignIn.error);
-    } else if (completePhoneSignIn.ok && !completePhoneSignIn.error) {
-      if (completePhoneSignIn.token) {
-        localStorage.setItem("jwt", completePhoneSignIn.token);
-        cache.writeData({
-          data: {
-            user: {
-              __typename: "User",
-              isLoggedIn: true
-            }
-          }
-        });
-      } else {
-        toast.success("Phone number verified!");
-        setTimeout(() => {
-          history.push({
-            pathname: "/complete-profile",
-            state: {
-              phone
+    if (completePhoneSignIn) {
+      if (completePhoneSignIn.error && !completePhoneSignIn.ok) {
+        toast.error(completePhoneSignIn.error);
+      } else if (completePhoneSignIn.ok && !completePhoneSignIn.error) {
+        if (completePhoneSignIn.token) {
+          localStorage.setItem("jwt", completePhoneSignIn.token);
+          cache.writeData({
+            data: {
+              user: {
+                __typename: "User",
+                isLoggedIn: true
+              }
             }
           });
-        }, 4000);
+        } else {
+          toast.success("Phone number verified!");
+          setTimeout(() => {
+            history.push({
+              pathname: "/complete-profile",
+              state: {
+                phone
+              }
+            });
+          }, 4000);
+        }
+      }
+    } else if (verifyPhone) {
+      if (verifyPhone.error && !verifyPhone.ok) {
+        toast.error(verifyPhone.error);
+      } else if (verifyPhone.ok) {
+        toast.success("Phone number verified");
+        cache.writeFragment({
+          id: "$ROOT_QUERY.me.user",
+          fragment: USER_FRAGMENT,
+          data: {
+            verifiedPhoneNumber: true,
+            phoneNumber: phone,
+            __typename: "User"
+          }
+        });
       }
     }
   };
