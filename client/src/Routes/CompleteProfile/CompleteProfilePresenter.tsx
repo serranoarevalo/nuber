@@ -92,7 +92,6 @@ const CompleteProfilePresenter: React.SFC<IProps> = ({
           onChange={handleInputChange}
         />
         <Button
-          onClick={onSubmit}
           text={loading ? "Loading" : "Complete Profile"}
           disabled={loading}
         />

@@ -58,7 +58,6 @@ const EmailLoginPresenter: React.SFC<IProps> = ({
           displayName={"Password"}
         />
         <Button
-          onClick={onSubmit}
           text={loading ? "Logging In..." : "Log In"}
           disabled={loading}
         />

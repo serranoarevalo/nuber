@@ -95,7 +95,6 @@ const EditAccountPresenter: React.SFC<IProps> = ({
           placeholder={"••••••"}
         />
         <Button
-          onClick={onSubmit}
           text={loading ? "Updating Profile" : "Update Profile"}
           disabled={loading}
         />

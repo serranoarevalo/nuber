@@ -60,12 +60,11 @@ const PhoneSelect = styled<any, any>("select")`
   width: 90%;
 `;
 
+const PhoneOption = styled.option``;
+
 const PhoneText = PhoneSelect.withComponent("span").extend`
   margin-right:20px;
-   
 `;
-
-const PhoneOption = styled.option``;
 
 interface IProps {
   handleMobileClick: () => void;

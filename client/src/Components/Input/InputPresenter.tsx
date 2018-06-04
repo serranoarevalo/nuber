@@ -41,6 +41,7 @@ interface IProps {
   onChange: (event: ChangeEvent<any>) => void;
   defaultValue?: string;
   placeholder?: string;
+  minLenght?: number;
 }
 
 const InputPresenter: React.SFC<IProps> = ({
@@ -51,7 +52,8 @@ const InputPresenter: React.SFC<IProps> = ({
   required,
   displayName,
   defaultValue,
-  placeholder
+  placeholder,
+  minLenght
 }) => (
   <Container>
     <Label htmlFor={name}>{displayName}</Label>
@@ -64,6 +66,7 @@ const InputPresenter: React.SFC<IProps> = ({
       name={name}
       defaultValue={defaultValue}
       placeholder={placeholder}
+      minLength={minLenght}
     />
   </Container>
 );

@@ -19,31 +19,15 @@ const Button = styled.input`
 `;
 
 interface IProps {
-  onClick: any;
   text: string;
   disabled: boolean;
 }
 
-const ButtonPresenter: React.SFC<IProps> = ({ onClick, text, disabled }) => (
-  <Button
-    type="submit"
-    disabled={disabled}
-    // tslint:disable-next-line jsx-no-lambda
-    onSubmit={event => {
-      event.preventDefault();
-      onClick();
-    }}
-    // tslint:disable-next-line jsx-no-lambda
-    onClick={event => {
-      event.preventDefault();
-      onClick();
-    }}
-    value={text}
-  />
+const ButtonPresenter: React.SFC<IProps> = ({ text, disabled }) => (
+  <Button type="submit" disabled={disabled} value={text} />
 );
 
 ButtonPresenter.propTypes = {
-  onClick: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired
 };

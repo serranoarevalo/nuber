@@ -4,6 +4,7 @@ import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
+import Form from "../../Components/Form";
 
 const Container = styled.div`
   height: 100%;
@@ -12,6 +13,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0 15px;
+  & form {
+    width: 100%;
+  }
 `;
 
 const Text = styled.span`
@@ -30,11 +34,12 @@ const VerifyEmailPresenter: React.SFC<IProps> = ({ loading, verifyEmail }) => (
       <title>Verify Email | Nuber</title>
     </Helmet>
     <Text>You are all set!</Text>
-    <Button
-      disabled={loading}
-      text={loading ? "Verifying" : "Verify Email"}
-      onClick={verifyEmail}
-    />
+    <Form onSubmit={verifyEmail}>
+      <Button
+        disabled={loading}
+        text={loading ? "Verifying" : "Verify Email"}
+      />
+    </Form>
   </Container>
 );
 

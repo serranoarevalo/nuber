@@ -24,7 +24,9 @@ interface IProps {
 class CompleteProfileContainer extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-
+    if (!props.location.state) {
+      props.history.push("/");
+    }
     const {
       location: { state }
     } = props;

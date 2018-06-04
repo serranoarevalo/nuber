@@ -20,6 +20,7 @@ Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, Rea
 * JWT (Auth 🔑)
 * Twilio (Sending SMS 📱)
 * Postgresql (DB 📃)
+* S3 (AWS Storage System 🗂)
 
 ### On the frontend:
 

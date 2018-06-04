@@ -49,7 +49,6 @@ const VerifyPhonePresenter: React.SFC<IProps> = ({
           displayName={"Enter the verification key sent on the SMS"}
         />
         <Button
-          onClick={onSubmit}
           text={loading ? "Loading" : "Verify phone"}
           disabled={loading}
         />
