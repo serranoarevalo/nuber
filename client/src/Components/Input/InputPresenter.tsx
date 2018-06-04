@@ -69,12 +69,14 @@ const InputPresenter: React.SFC<IProps> = ({
 );
 
 InputPresenter.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
   required: PropTypes.bool.isRequired,
-  displayName: PropTypes.string.isRequired
+  displayName: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  defaultValue: PropTypes.string,
+  placeholder: PropTypes.string
 };
 
 export default InputPresenter;

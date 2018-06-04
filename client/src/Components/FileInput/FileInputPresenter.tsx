@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import FontAwesome from "react-fontawesome";
 import styled from "styled-components";
@@ -76,5 +77,13 @@ const FileInputPresenter: React.SFC<IProps> = ({
     </Image>
   </Container>
 );
+
+FileInputPresenter.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  uploaded: PropTypes.bool.isRequired,
+  uploading: PropTypes.bool.isRequired,
+  required: PropTypes.bool.isRequired,
+  fileUrl: PropTypes.string
+};
 
 export default FileInputPresenter;

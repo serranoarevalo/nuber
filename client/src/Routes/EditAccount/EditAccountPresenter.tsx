@@ -16,6 +16,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   overflow-y: scroll;
+  height: 100%;
 `;
 
 interface IProps {

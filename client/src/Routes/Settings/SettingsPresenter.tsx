@@ -77,7 +77,7 @@ const SettingsPresenter: React.SFC<IProps> = ({
             </Keys>
           </SLink>
         </Item>
-        <Item>Log Out</Item>
+        <Item onClick={logUserOut}>Log Out</Item>
       </Container>
     )}
   </Wrapper>

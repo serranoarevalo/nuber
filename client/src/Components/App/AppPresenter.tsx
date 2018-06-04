@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import styled from "styled-components";
+import AddPhone from "../../Routes/AddPhone";
 import CompleteProfile from "../../Routes/CompleteProfile";
 import EditAccount from "../../Routes/EditAccount";
 import EmailLogin from "../../Routes/EmailLogin";
@@ -88,6 +89,7 @@ const LoggedInRoutes: React.SFC<any> = ({ location }) => (
           <Route path={"/settings"} component={Settings} />
           <Route path={"/trips"} component={Trips} />
           <Route path="/verify-email/:key" component={VerifyEmail} />
+          <Route path="/add-phone" component={AddPhone} />
           <Redirect from={"*"} to={"/"} />
         </Switch>
       </CSSTransition>
