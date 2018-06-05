@@ -9,6 +9,10 @@ export const ME = gql`
         fullName
         phoneNumber
         email
+        places {
+          name
+          address
+        }
       }
       error
     }

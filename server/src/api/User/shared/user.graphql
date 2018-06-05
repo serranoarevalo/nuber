@@ -20,5 +20,5 @@ type User {
   carPlates: String
   ridesAsPassenger: [Ride]!
   ridesAsDriver: [Ride]!
-  places: [Place]!
+  places: [Place]
 }

@@ -48,6 +48,18 @@ const Item = styled<any, any>("div")`
   }
 `;
 
+const ItemTitle = styled.span`
+  color: #7f8c8d;
+`;
+
+const NoPlaces = styled.div`
+  margin-top: 20px;
+`;
+
+const UnderlineLink = styled(Link)`
+  text-decoration: underline;
+`;
+
 interface IProps {
   loading: boolean;
   data: any;
@@ -78,6 +90,15 @@ const SettingsPresenter: React.SFC<IProps> = ({
           </SLink>
         </Item>
         <Item onClick={logUserOut}>Log Out</Item>
+        <Item>
+          <ItemTitle>Favorites</ItemTitle>
+          {!data.me.user.places && (
+            <NoPlaces>
+              You have no favorite places yet.{" "}
+              <UnderlineLink to={"/add-pace"}>Add one</UnderlineLink>
+            </NoPlaces>
+          )}
+        </Item>
       </Container>
     )}
   </Wrapper>
