@@ -7,7 +7,8 @@ import AppPresenter from "./AppPresenter";
 import { isLoggedIn } from "./AppQueries";
 
 const theme = {
-  grey: "#7f8c8d"
+  grey: "#7f8c8d",
+  blue: "#3498db"
 };
 
 const AppContainer: React.SFC = () => (
