@@ -18,8 +18,11 @@ class Place extends BaseEntity {
   @Column({ type: "text" })
   name: string;
 
-  @Column({ type: "json" })
-  latlong: string;
+  @Column({ type: "text" })
+  lat: string;
+
+  @Column({ type: "text" })
+  long: string;
 
   @Column({ type: "text" })
   address: string;

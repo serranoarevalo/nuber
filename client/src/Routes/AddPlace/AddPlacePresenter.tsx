@@ -23,7 +23,8 @@ interface IProps {
   fav: boolean;
   name: string;
   address: string;
-  latlong: string;
+  lat: string;
+  long: string;
   onSubmit: MutationFn;
   loading: boolean;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -72,7 +73,8 @@ AddPlacePresenter.propTypes = {
   fav: PropTypes.bool,
   name: PropTypes.string,
   address: PropTypes.string,
-  latlong: PropTypes.string,
+  lat: PropTypes.string,
+  long: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired
 };

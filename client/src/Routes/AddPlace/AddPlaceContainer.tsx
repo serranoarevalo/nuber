@@ -6,7 +6,8 @@ import { ADD_PLACE } from "./AddPlaceQueries";
 interface IState {
   address: string;
   name: string;
-  latlong: string;
+  lat: string;
+  long: string;
   fav: boolean;
 }
 
@@ -17,22 +18,24 @@ class AddPlaceContainer extends React.Component<any, IState> {
       fav: false,
       name: "",
       address: "",
-      latlong: ""
+      lat: "",
+      long: ""
     };
   }
   render() {
-    const { fav, name, address, latlong } = this.state;
+    const { fav, name, address, lat, long } = this.state;
     return (
       <Mutation
         mutation={ADD_PLACE}
-        variables={{ variables: { fav, name, address, latlong } }}
+        variables={{ variables: { fav, name, address, lat, long } }}
       >
         {(addPlace, { loading }) => (
           <AddPlacePresenter
             fav={fav}
             name={name}
             address={address}
-            latlong={latlong}
+            lat={lat}
+            long={long}
             onSubmit={addPlace}
             loading={loading}
             handleInputChange={this.handleInputChange}

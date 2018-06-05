@@ -1,7 +1,8 @@
 type Place {
   id: Int!
   name: String!
-  latlong: String!
+  lat: String!
+  long: String!
   address: String!
   fav: Boolean!
   user: User!

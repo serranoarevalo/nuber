@@ -7,7 +7,8 @@ import Place from "../../../entities/Place";
 interface IArgs {
   address: string;
   name: string;
-  latlong: string;
+  lat: string;
+  long: string;
   fav: boolean;
 }
 
