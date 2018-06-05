@@ -99,7 +99,7 @@ const SettingsPresenter: React.SFC<IProps> = ({
           {!data.me.user.places && (
             <NoPlaces>
               You have no favorite places yet.{" "}
-              <UnderlineLink to={"/places"}>Add one</UnderlineLink>
+              <UnderlineLink to={"/add-place"}>Add one</UnderlineLink>
             </NoPlaces>
           )}
         </Item>

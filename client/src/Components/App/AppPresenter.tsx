@@ -10,6 +10,7 @@ import {
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import styled from "styled-components";
 import AddPhone from "../../Routes/AddPhone";
+import AddPlace from "../../Routes/AddPlace";
 import CompleteProfile from "../../Routes/CompleteProfile";
 import EditAccount from "../../Routes/EditAccount";
 import EmailLogin from "../../Routes/EmailLogin";
@@ -93,6 +94,7 @@ const LoggedInRoutes: React.SFC<any> = ({ location }) => (
           <Route path={"/payment"} component={Payment} />
           <Route path={"/settings"} component={Settings} />
           <Route path={"/places"} component={Places} />
+          <Route path={"/add-place"} component={AddPlace} />
           <Route path={"/trips"} component={Trips} />
           <Route path="/verify-email/:key" component={VerifyEmail} />
           <Route path="/add-phone" component={AddPhone} />
