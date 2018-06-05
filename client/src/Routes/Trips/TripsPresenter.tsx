@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Header from "../../Components/Header";
 
@@ -15,6 +16,9 @@ const Wrapper = styled.div`
 
 const TripsPresenter: React.SFC = () => (
   <Wrapper className={"shouldScroll"}>
+    <Helmet>
+      <title> Trips | Nuber</title>
+    </Helmet>
     <Header backTo="/" title={"Your Trips"} />
     <Container />
   </Wrapper>

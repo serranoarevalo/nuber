@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { MutationFn } from "react-apollo";
 import FontAwesome from "react-fontawesome";
@@ -107,5 +108,11 @@ const SettingsPresenter: React.SFC<IProps> = ({
     )}
   </Wrapper>
 );
+
+SettingsPresenter.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  data: PropTypes.object,
+  logUserOut: PropTypes.func.isRequired
+};
 
 export default SettingsPresenter;

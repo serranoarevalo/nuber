@@ -87,7 +87,9 @@ const HomePresenter: React.SFC<IPros> = ({
 HomePresenter.propTypes = {
   openMenu: PropTypes.func.isRequired,
   isMenuOpen: PropTypes.bool.isRequired,
-  closeMenu: PropTypes.func.isRequired
+  closeMenu: PropTypes.func.isRequired,
+  redirectToVerify: PropTypes.func.isRequired,
+  verifiedPhoneNumber: PropTypes.bool.isRequired
 };
 
 export default HomePresenter;

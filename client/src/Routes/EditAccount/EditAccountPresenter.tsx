@@ -113,7 +113,11 @@ EditAccountPresenter.propTypes = {
   phoneNumber: PropTypes.string,
   email: PropTypes.string,
   handleInputChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  password: PropTypes.string,
+  profilePhoto: PropTypes.string,
+  getProfileImage: PropTypes.func.isRequired
 };
 
 export default EditAccountPresenter;

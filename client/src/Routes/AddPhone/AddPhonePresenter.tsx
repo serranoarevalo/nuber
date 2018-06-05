@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { MutationFn } from "react-apollo";
 import styled from "styled-components";
@@ -66,5 +67,13 @@ const AddPhonePresenter: React.SFC<IProps> = ({
     </Container>
   </Wrapper>
 );
+
+AddPhonePresenter.propTypes = {
+  countryCode: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
+  handleInputChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
+};
 
 export default AddPhonePresenter;

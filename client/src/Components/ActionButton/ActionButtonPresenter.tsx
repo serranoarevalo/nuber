@@ -23,25 +23,25 @@ const Container = styled.button`
 `;
 
 interface ISubmit {
-  onClick: () => void;
+  onClick: any;
   disabled: boolean;
-  loading: boolean;
+  icon: string;
 }
 
-const SubmitButton: React.SFC<ISubmit> = ({ onClick, disabled, loading }) => (
+const ActionButtonPresenter: React.SFC<ISubmit> = ({
+  onClick,
+  disabled,
+  icon
+}) => (
   <Container onClick={onClick} disabled={disabled}>
-    {loading ? (
-      <FontAwesome name="spinner fa-spin" />
-    ) : (
-      <FontAwesome name="arrow-right" />
-    )}
+    <FontAwesome name={icon} />
   </Container>
 );
 
-SubmitButton.propTypes = {
+ActionButtonPresenter.propTypes = {
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired
+  icon: PropTypes.string.isRequired
 };
 
-export default SubmitButton;
+export default ActionButtonPresenter;

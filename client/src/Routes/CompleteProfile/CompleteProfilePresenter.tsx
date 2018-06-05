@@ -108,7 +108,8 @@ CompleteProfilePresenter.propTypes = {
   age: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   handleInputChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  getProfileImage: PropTypes.func.isRequired
 };
 
 export default CompleteProfilePresenter;

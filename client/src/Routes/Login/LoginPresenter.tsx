@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
+import ActionButton from "../../Components/ActionButton";
 import Form from "../../Components/Form";
 import countries from "../../countries";
 import BackButton from "./BackButton";
@@ -10,7 +11,6 @@ import { loginMethodType } from "./LoginTypes";
 
 import MobileLogin from "./MobileLogin";
 import SocialLogin from "./SocialLogin";
-import SubmitButton from "./SubmitButton";
 
 const findCountry = (code: string): string => {
   const foundCountry = countries.find(country => country.dial_code === code);
@@ -147,10 +147,10 @@ class LoginPresenter extends React.Component<IProps, {}> {
               disabled={loginMethod === ""}
             />
             {loginMethod === "mobile" && (
-              <SubmitButton
-                onClick={onSubmit as any}
+              <ActionButton
+                onClick={onSubmit}
                 disabled={loading}
-                loading={loading}
+                icon={loading ? "spinner fa-spin" : "arrow-right"}
               />
             )}
           </Form>
