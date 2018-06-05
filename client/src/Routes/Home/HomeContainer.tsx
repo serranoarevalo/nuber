@@ -19,7 +19,7 @@ class HomeContainer extends React.Component<any, IState> {
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps;
     if (data) {
-      const { me: { user: { verifiedPhoneNumber = {} } = {} } = {} } = data;
+      const { me: { user: { verifiedPhoneNumber = false } = {} } = {} } = data;
       this.setState({
         verifiedPhoneNumber
       });

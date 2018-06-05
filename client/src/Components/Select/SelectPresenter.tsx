@@ -6,7 +6,7 @@ const Container = styled.div`
 `;
 
 const Label = styled.label`
-  color: #7f8c8d;
+  color: ${props => props.theme.grey};
   display: block;
   margin-bottom: 30px;
 `;

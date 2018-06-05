@@ -7,14 +7,14 @@ const Container = styled.div`
 `;
 
 const Label = styled.label`
-  color: #7f8c8d;
+  color: ${props => props.theme.grey};
   display: block;
   margin-bottom: 30px;
 `;
 
 const Input = styled.input`
   border: none;
-  border-bottom: 2px solid #7f8c8d;
+  border-bottom: 2px solid ${props => props.theme.grey};
   font-size: 20px;
   width: 100%;
   padding-bottom: 10px;

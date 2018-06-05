@@ -39,7 +39,7 @@ const Input = styled.input`
 `;
 
 const Title = styled.span`
-  color: #7f8c8d;
+  color: ${props => props.theme.grey};
   margin-bottom: 20px;
 `;
 

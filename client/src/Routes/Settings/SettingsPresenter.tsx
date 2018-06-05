@@ -51,7 +51,7 @@ const Item = styled<any, any>("div")`
 `;
 
 const ItemTitle = styled.span`
-  color: #7f8c8d;
+  color: ${props => props.theme.grey};
 `;
 
 const NoPlaces = styled.div`

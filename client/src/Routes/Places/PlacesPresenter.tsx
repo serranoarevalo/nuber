@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import ActionButton from "../../Components/ActionButton";
 import Header from "../../Components/Header";
 
 const Container = styled.div`
@@ -13,10 +14,16 @@ const Wrapper = styled.div`
   height: 100%;
 `;
 
-const PlacesPresenter: React.SFC = () => (
+interface IProps {
+  addPlaceRedirect: () => void;
+}
+
+const PlacesPresenter: React.SFC<IProps> = ({ addPlaceRedirect }) => (
   <Wrapper className={"shouldScroll"}>
     <Header backTo="/" title={"Saved Places"} />
-    <Container />
+    <Container>
+      <ActionButton onClick={addPlaceRedirect} icon={"plus"} disabled={false} />
+    </Container>
   </Wrapper>
 );
 
