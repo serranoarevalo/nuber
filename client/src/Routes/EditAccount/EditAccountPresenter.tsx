@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { MutationFn } from "react-apollo";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 import FileInput from "../../Components/FileInput";
@@ -45,6 +46,9 @@ const EditAccountPresenter: React.SFC<IProps> = ({
   getProfileImage
 }) => (
   <Wrapper className={"shouldScroll"}>
+    <Helmet>
+      <title>Edit Account | Nuber</title>
+    </Helmet>
     <Header backTo="/" title={"Edit Account"} />
     <Container>
       <Form onSubmit={onSubmit}>

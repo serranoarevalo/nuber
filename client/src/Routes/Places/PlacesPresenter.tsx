@@ -1,5 +1,4 @@
 import React from "react";
-import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Header from "../../Components/Header";
 
@@ -14,14 +13,11 @@ const Wrapper = styled.div`
   height: 100%;
 `;
 
-const PaymentPresenter: React.SFC = () => (
+const PlacesPresenter: React.SFC = () => (
   <Wrapper className={"shouldScroll"}>
-    <Helmet>
-      <title>Payment | Nuber</title>
-    </Helmet>
-    <Header backTo="/" title={"Payment"} />
+    <Header backTo="/" title={"Saved Places"} />
     <Container />
   </Wrapper>
 );
 
-export default PaymentPresenter;
+export default PlacesPresenter;

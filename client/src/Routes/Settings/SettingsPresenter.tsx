@@ -1,6 +1,7 @@
 import React from "react";
 import { MutationFn } from "react-apollo";
 import FontAwesome from "react-fontawesome";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../Components/Header";
@@ -72,6 +73,9 @@ const SettingsPresenter: React.SFC<IProps> = ({
   logUserOut
 }) => (
   <Wrapper className={"shouldScroll"}>
+    <Helmet>
+      <title>Account Settings | Nuber</title>
+    </Helmet>
     <Header backTo="/" title={"Account Settings"} />
     {loading ? (
       <Placeholder>
@@ -89,16 +93,16 @@ const SettingsPresenter: React.SFC<IProps> = ({
             </Keys>
           </SLink>
         </Item>
-        <Item onClick={logUserOut}>Log Out</Item>
         <Item>
           <ItemTitle>Favorites</ItemTitle>
           {!data.me.user.places && (
             <NoPlaces>
               You have no favorite places yet.{" "}
-              <UnderlineLink to={"/add-pace"}>Add one</UnderlineLink>
+              <UnderlineLink to={"/places"}>Add one</UnderlineLink>
             </NoPlaces>
           )}
         </Item>
+        <Item onClick={logUserOut}>Log Out</Item>
       </Container>
     )}
   </Wrapper>
