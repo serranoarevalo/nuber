@@ -26,16 +26,34 @@ const Icon = styled.button`
   }
 `;
 
+const PhoneError = styled.div`
+  background-color: #e74c3c;
+  width: 100%;
+  color: white;
+  padding: 30px 15px;
+  position: absolute;
+  cursor: pointer;
+  bottom: 0;
+`;
+
+const FakeLink = styled.span`
+  text-decoration: underline;
+`;
+
 interface IPros {
   openMenu: () => void;
   closeMenu: () => void;
   isMenuOpen: boolean;
+  verifiedPhoneNumber: boolean;
+  redirectToVerify: () => void;
 }
 
 const HomePresenter: React.SFC<IPros> = ({
   openMenu,
   isMenuOpen,
-  closeMenu
+  closeMenu,
+  verifiedPhoneNumber,
+  redirectToVerify
 }) => (
   <Container>
     <Helmet>
@@ -52,10 +70,17 @@ const HomePresenter: React.SFC<IPros> = ({
       }}
       onSetOpen={closeMenu}
     >
-      <Icon onClick={openMenu}>
-        <FontAwesome name={"bars"} />
-      </Icon>
+      {verifiedPhoneNumber && (
+        <Icon onClick={openMenu}>
+          <FontAwesome name={"bars"} />
+        </Icon>
+      )}
     </Sidebar>
+    {!verifiedPhoneNumber && (
+      <PhoneError onClick={redirectToVerify}>
+        You need to verify your phone, <FakeLink>tap here to do it</FakeLink>
+      </PhoneError>
+    )}
   </Container>
 );
 
