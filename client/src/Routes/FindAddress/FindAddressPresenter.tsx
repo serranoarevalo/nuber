@@ -23,6 +23,12 @@ class FindAddressPresenter extends React.Component<IProps> {
   componentDidMount() {
     this.loadMap();
   }
+  componentWillReceiveProps(nextProps: IProps) {
+    const { lat, lng } = nextProps;
+    if (lat || lng) {
+      this.map.setCenter({ lat, lng });
+    }
+  }
   render() {
     return <Map innerRef={this.mapRef} />;
   }
