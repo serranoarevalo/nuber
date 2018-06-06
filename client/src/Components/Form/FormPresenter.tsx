@@ -1,29 +1,37 @@
 import PropTypes from "prop-types";
 import React from "react";
+import styled from "styled-components";
 
 interface IProps {
-  onSubmit: any;
+  onSubmit?: any;
   children: any;
+  width?: string;
 }
 
-const FormPresenter: React.SFC<IProps> = ({ onSubmit, children }) => (
-  <form
+const Form = styled<IProps, any>("form")`
+  width: ${props => props.width};
+`;
+
+const FormPresenter: React.SFC<IProps> = ({ onSubmit, children, width }) => (
+  <Form
     // tslint:disable-next-line jsx-no-lambda
     onSubmit={event => {
       event.preventDefault();
       onSubmit();
     }}
+    width={width}
   >
     {children}
-  </form>
+  </Form>
 );
 
 FormPresenter.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired
+  ]).isRequired,
+  width: PropTypes.string
 };
 
 export default FormPresenter;

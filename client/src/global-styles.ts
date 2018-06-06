@@ -20,6 +20,10 @@ injectGlobal`
   input, 
   button{
     font-family: "Maven Pro", sans-serif;
+    &:focus,
+    &:active{
+      outline:none;
+    }
   }
   a {
     text-decoration:none;

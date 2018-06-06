@@ -1,3 +1,4 @@
+import throttle from "lodash.throttle";
 import React from "react";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
@@ -49,7 +50,10 @@ class FindAddressContainer extends React.Component<any, IState> {
       disableDefaultUI: true
     };
     this.map = new maps.Map(node, mapConfig);
-    this.map.addListener("center_changed", this.handleCenterChange);
+    this.map.addListener(
+      "center_changed",
+      throttle(this.handleCenterChange, 2000)
+    );
   };
   private handleCenterChange = () => {
     const center = this.map.getCenter();
