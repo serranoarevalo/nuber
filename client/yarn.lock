@@ -20,6 +20,10 @@
   version "2.0.49"
   resolved "https://registry.yarnpkg.com/@types/async/-/async-2.0.49.tgz#92e33d13f74c895cb9a7f38ba97db8431ed14bc0"
 
+"@types/googlemaps@^3.30.9":
+  version "3.30.9"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.30.9.tgz#893eb307bfcbff95ef6c9ce70f72e6f9a2068cc4"
+
 "@types/graphql@0.12.6":
   version "0.12.6"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.12.6.tgz#3d619198585fcabe5f4e1adfb5cf5f3388c66c13"

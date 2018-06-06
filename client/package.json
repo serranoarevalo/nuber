@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/googlemaps": "^3.30.9",
     "apollo-boost": "^0.1.6",
     "axios": "^0.18.0",
     "cors": "^2.8.4",

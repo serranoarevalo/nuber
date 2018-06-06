@@ -15,7 +15,7 @@ interface IProps {
 
 class FindAddressPresenter extends React.Component<IProps> {
   mapRef: any;
-  map: any;
+  map: google.maps.Map;
   constructor(props: any) {
     super(props);
     this.mapRef = React.createRef();
