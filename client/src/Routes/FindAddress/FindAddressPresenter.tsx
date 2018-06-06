@@ -43,6 +43,11 @@ class FindAddressPresenter extends React.Component<IProps> {
       disableDefaultUI: true
     };
     this.map = new maps.Map(node, mapConfig);
+    this.map.addListener("center_changed", this.handleCenterChange);
+  };
+  private handleCenterChange = () => {
+    const center = this.map.getCenter();
+    console.log(center.lat(), center.lng());
   };
 }
 
