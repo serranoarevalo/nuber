@@ -31,12 +31,9 @@ interface IProps {
   fav: boolean;
   name: string;
   address: string;
-  lat: string;
-  long: string;
   onSubmit: MutationFn;
   loading: boolean;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  saveAddress: (addressObj) => void;
 }
 
 const AddPlacePresenter: React.SFC<IProps> = ({
@@ -61,8 +58,16 @@ const AddPlacePresenter: React.SFC<IProps> = ({
           required={true}
           displayName={"Name"}
         />
+        <Input
+          value={address}
+          onChange={handleInputChange}
+          type={"text"}
+          name={"address"}
+          required={true}
+          displayName={"Address"}
+        />
         {address === "" && (
-          <SLink to="/find-address">Find address on map</SLink>
+          <SLink to="/find-address#add-place">Find address on map</SLink>
         )}
         <Button
           disabled={loading}
@@ -77,8 +82,6 @@ AddPlacePresenter.propTypes = {
   fav: PropTypes.bool,
   name: PropTypes.string,
   address: PropTypes.string,
-  lat: PropTypes.string,
-  long: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired
 };

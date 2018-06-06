@@ -56,17 +56,24 @@ interface IProps {
   address: string;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   geoCode: () => void;
+  pickAddress: () => void;
 }
 
 class FindAddressPresenter extends React.Component<IProps> {
   static propTypes = {
-    mapRef: PropTypes.node,
+    mapRef: PropTypes.object.isRequired,
     address: PropTypes.string.isRequired,
     handleInputChange: PropTypes.func.isRequired,
     geoCode: PropTypes.func.isRequired
   };
   render() {
-    const { mapRef, address, handleInputChange, geoCode } = this.props;
+    const {
+      mapRef,
+      address,
+      handleInputChange,
+      geoCode,
+      pickAddress
+    } = this.props;
     return (
       <Container>
         <AbsContainer top={true}>
@@ -82,7 +89,12 @@ class FindAddressPresenter extends React.Component<IProps> {
           <FontAwesome name={"map-marker"} />
         </Marker>
         <AbsContainer top={false}>
-          <Button text="Pick place" disabled={false} width="80%" />
+          <Button
+            onClick={pickAddress}
+            text="Pick place"
+            disabled={false}
+            width="80%"
+          />
         </AbsContainer>
         <Map innerRef={mapRef} />
       </Container>

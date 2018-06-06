@@ -11,7 +11,13 @@ interface IState {
   address: string;
 }
 
-class FindAddressContainer extends React.Component<any, IState> {
+interface IProps {
+  google: any;
+  history: any;
+  location: any;
+}
+
+class FindAddressContainer extends React.Component<IProps, IState> {
   mapRef: any;
   map: google.maps.Map;
   constructor(props) {
@@ -38,6 +44,7 @@ class FindAddressContainer extends React.Component<any, IState> {
         address={address}
         handleInputChange={this.handleInputChange}
         geoCode={this.geoCode}
+        pickAddress={this.pickAddress}
       />
     );
   }
@@ -124,6 +131,16 @@ class FindAddressContainer extends React.Component<any, IState> {
       });
       this.map.panTo({ lat, lng });
     }
+  };
+  private pickAddress = () => {
+    const { location, history } = this.props;
+    const { lat, lng, address } = this.state;
+    const { hash } = location;
+    const pathname = hash.replace("#", "/");
+    history.push({
+      pathname,
+      state: { address, lat, lng }
+    });
   };
 }
 

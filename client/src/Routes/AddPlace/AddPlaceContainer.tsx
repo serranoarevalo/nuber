@@ -7,45 +7,43 @@ interface IState {
   address: string;
   name: string;
   lat: string;
-  long: string;
+  lng: string;
   fav: boolean;
 }
 
-interface IAddress {
+/* interface IAddress {
   address: string;
   lat: string;
-  long: string;
-}
+  lng: string;
+} */
 
 class AddPlaceContainer extends React.Component<any, IState> {
   constructor(props: any) {
     super(props);
+    console.log(props);
     this.state = {
       fav: false,
       name: "",
       address: "",
       lat: "",
-      long: ""
+      lng: ""
     };
   }
   render() {
-    const { fav, name, address, lat, long } = this.state;
+    const { fav, name, address, lat, lng } = this.state;
     return (
       <Mutation
         mutation={ADD_PLACE}
-        variables={{ variables: { fav, name, address, lat, long } }}
+        variables={{ variables: { fav, name, address, lat, lng } }}
       >
         {(addPlace, { loading }) => (
           <AddPlacePresenter
             fav={fav}
             name={name}
             address={address}
-            lat={lat}
-            long={long}
             onSubmit={addPlace}
             loading={loading}
             handleInputChange={this.handleInputChange}
-            saveAddress={this.saveAddress}
           />
         )}
       </Mutation>
@@ -61,15 +59,6 @@ class AddPlaceContainer extends React.Component<any, IState> {
     this.setState({
       [name]: value
     } as any);
-  };
-
-  private saveAddress = (addressObj: IAddress): void => {
-    const { lat, long, address } = addressObj;
-    this.setState({
-      lat,
-      long,
-      address
-    });
   };
 }
 
