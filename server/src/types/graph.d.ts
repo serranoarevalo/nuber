@@ -1,11 +1,11 @@
 export const typeDefs = [
   "type SignS3URLResponse {\n  ok: Boolean!\n  signedUrl: String\n  fileUrl: String\n  error: String\n}\n\ntype Mutation {\n  signS3URL(fileName: String!, fileType: String!): SignS3URLResponse!\n}\n",
-  "type AddPlaceResponse {\n  ok: Boolean!\n  place: Place\n  error: String\n}\n\ntype Mutation {\n  addPlace(\n    address: String!\n    name: String!\n    latlong: String!\n    fav: Boolean\n  ): AddPlaceResponse!\n}\n",
+  "type AddPlaceResponse {\n  ok: Boolean!\n  place: Place\n  error: String\n}\n\ntype Mutation {\n  addPlace(\n    address: String!\n    name: String!\n    lat: Int!\n    lng: Int!\n    fav: Boolean\n  ): AddPlaceResponse!\n}\n",
   "type DeletePlaceResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  deletePlace(placeId: Int!): DeletePlaceResponse!\n}\n",
   "type EditPlaceResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  editPlace(\n    placeId: Int!\n    name: String\n    latlong: String\n    address: String\n    fav: Boolean\n  ): EditPlaceResponse!\n}\n",
   "type GetPlaceResponse {\n  ok: Boolean!\n  place: Place\n  error: String\n}\n\ntype Query {\n  getPlace(placeId: Int!): GetPlaceResponse!\n}\n",
   "type GetPlacesResponse {\n  ok: Boolean!\n  places: [Place]\n  error: String\n}\n\ntype Query {\n  getPlaces: GetPlacesResponse!\n}\n",
-  "type Place {\n  id: Int!\n  name: String!\n  lat: String!\n  long: String!\n  address: String!\n  fav: Boolean!\n  user: User!\n  createdAt: String!\n  updatedAt: String!\n}\n",
+  "type Place {\n  id: Int!\n  name: String!\n  lat: Int!\n  lng: Int!\n  address: String!\n  fav: Boolean!\n  user: User!\n  createdAt: String!\n  updatedAt: String!\n}\n",
   "type GetRideResponse {\n  ok: Boolean!\n  ride: Ride\n  error: String\n}\n\ntype Query {\n  getRide(rideId: Int!): GetRideResponse!\n}\n",
   "type GetRideHistoryResponse {\n  ok: Boolean!\n  rides: [Ride]\n  error: String\n}\n\ntype Query {\n  getRideHistory: GetRideHistoryResponse!\n}\n",
   "type RequestRideResponse {\n  ok: Boolean!\n  ride: Ride\n  error: String\n}\n\ntype Mutation {\n  requestRide(\n    pickUpLocation: String!\n    pickUpCoords: String!\n    dropOffLocation: String!\n    paymentMethod: String!\n    price: Float!\n  ): RequestRideResponse!\n}\n",
@@ -95,8 +95,8 @@ export interface Ride {
 export interface Place {
   id: number;
   name: string;
-  lat: string;
-  long: string;
+  lat: number;
+  lng: number;
   address: string;
   fav: boolean;
   user: User;

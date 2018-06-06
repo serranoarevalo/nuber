@@ -135,10 +135,11 @@ class FindAddressContainer extends React.Component<IProps, IState> {
   private pickAddress = () => {
     const { location, history } = this.props;
     const { lat, lng, address } = this.state;
-    const { hash } = location;
-    const pathname = hash.replace("#", "/");
+    const {
+      state: { backTo }
+    } = location;
     history.push({
-      pathname,
+      pathname: backTo,
       state: { address, lat, lng }
     });
   };

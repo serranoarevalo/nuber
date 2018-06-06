@@ -4,20 +4,28 @@ export const ADD_PLACE = gql`
   mutation addPlace(
     $address: String!
     $name: String!
-    $lat: String!
-    $long: String!
+    $lat: Float!
+    $lng: Float!
     $fav: Boolean!
   ) {
-    addPlace(
-      address: $address
-      name: $name
-      lat: $lat
-      long: $long
-      fav: $fav
-    ) {
+    addPlace(address: $address, name: $name, lat: $lat, lng: $lng, fav: $fav) {
       ok
-      place
+      place {
+        name
+        address
+        fav
+      }
       error
+    }
+  }
+`;
+
+export const USER_PLACES_FRAGMENT = gql`
+  fragment userPlaces on User {
+    places {
+      name
+      address
+      fav
     }
   }
 `;

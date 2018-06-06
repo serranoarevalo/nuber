@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 import Form from "../../Components/Form";
@@ -20,7 +19,7 @@ const Wrapper = styled.div`
   height: 100%;
 `;
 
-const SLink = styled(Link)`
+const FakeLink = styled.span`
   text-decoration: underline;
   color: ${props => props.theme.blue};
   margin-bottom: 40px;
@@ -34,6 +33,7 @@ interface IProps {
   onSubmit: MutationFn;
   loading: boolean;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  goToFindAddress: () => void;
 }
 
 const AddPlacePresenter: React.SFC<IProps> = ({
@@ -41,11 +41,12 @@ const AddPlacePresenter: React.SFC<IProps> = ({
   name,
   address,
   loading,
-  onSubmit
+  onSubmit,
+  goToFindAddress
 }) => (
   <Wrapper className={"shouldScroll"}>
     <Helmet>
-      <title>Payment | Nuber</title>
+      <title>Add Place | Nuber</title>
     </Helmet>
     <Header backTo="/" title={"Add Place"} />
     <Container>
@@ -67,7 +68,7 @@ const AddPlacePresenter: React.SFC<IProps> = ({
           displayName={"Address"}
         />
 
-        <SLink to="/find-address#add-place">Find address on map</SLink>
+        <FakeLink onClick={goToFindAddress}>Find address on map</FakeLink>
 
         <Button
           disabled={loading}
@@ -83,7 +84,9 @@ AddPlacePresenter.propTypes = {
   name: PropTypes.string,
   address: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  goToFindAddress: PropTypes.func.isRequired
 };
 
 export default AddPlacePresenter;

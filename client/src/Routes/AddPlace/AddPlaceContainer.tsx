@@ -1,7 +1,8 @@
 import React from "react";
-import { Mutation } from "react-apollo";
+import { Mutation, MutationUpdaterFn } from "react-apollo";
+import { toast } from "react-toastify";
 import AddPlacePresenter from "./AddPlacePresenter";
-import { ADD_PLACE } from "./AddPlaceQueries";
+import { ADD_PLACE, USER_PLACES_FRAGMENT } from "./AddPlaceQueries";
 
 interface IState {
   address: string;
@@ -48,7 +49,8 @@ class AddPlaceContainer extends React.Component<any, IState> {
     return (
       <Mutation
         mutation={ADD_PLACE}
-        variables={{ variables: { fav, name, address, lat, lng } }}
+        variables={{ fav, name, address, lat, lng }}
+        update={this.handlePostSubmit}
       >
         {(addPlace, { loading }) => (
           <AddPlacePresenter
@@ -58,11 +60,22 @@ class AddPlaceContainer extends React.Component<any, IState> {
             onSubmit={addPlace}
             loading={loading}
             handleInputChange={this.handleInputChange}
+            goToFindAddress={this.goToFindAddress}
           />
         )}
       </Mutation>
     );
   }
+
+  private goToFindAddress = () => {
+    const { history } = this.props;
+    history.push({
+      pathname: "/find-address",
+      state: {
+        backTo: "/add-place"
+      }
+    });
+  };
 
   private handleInputChange: React.ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
@@ -73,6 +86,34 @@ class AddPlaceContainer extends React.Component<any, IState> {
     this.setState({
       [name]: value
     } as any);
+  };
+
+  private handlePostSubmit: MutationUpdaterFn = (
+    cache,
+    { data }: { data: any }
+  ) => {
+    const { addPlace } = data;
+    if (!addPlace.ok && addPlace.error) {
+      toast.error(addPlace.error);
+    } else if (addPlace.ok) {
+      toast.success("Place created");
+      const placesFragment: any = cache.readFragment({
+        fragment: USER_PLACES_FRAGMENT,
+        id: "$ROOT_QUERY.me.user"
+      });
+      if (placesFragment) {
+        const places = placesFragment.places;
+        console.log(places);
+        cache.writeFragment({
+          id: "$ROOT_QUERY.me.user",
+          fragment: USER_PLACES_FRAGMENT,
+          data: {
+            places: places ? places.push(addPlace.place) : [addPlace.place],
+            __typename: "User"
+          }
+        });
+      }
+    }
   };
 }
 

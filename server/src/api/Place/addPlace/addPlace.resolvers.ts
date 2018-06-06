@@ -7,8 +7,8 @@ import Place from "../../../entities/Place";
 interface IArgs {
   address: string;
   name: string;
-  lat: string;
-  long: string;
+  lat: number;
+  lng: number;
   fav: boolean;
 }
 
@@ -18,7 +18,7 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, args: IArgs, { req }): Promise<AddPlaceResponse> => {
         const { user }: { user: User } = req;
-        const newPlace: Place = await Place.create({ ...args, user }).save();
+        const newPlace: Place = await Place.create({ ...args, user });
         if (newPlace) {
           return {
             ok: true,

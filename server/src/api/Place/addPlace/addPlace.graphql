@@ -8,7 +8,8 @@ type Mutation {
   addPlace(
     address: String!
     name: String!
-    latlong: String!
+    lat: Float!
+    lng: Float!
     fav: Boolean
   ): AddPlaceResponse!
 }
