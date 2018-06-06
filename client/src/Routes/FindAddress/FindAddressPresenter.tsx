@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import styled from "styled-components";
 
 const Map = styled.div`
@@ -8,47 +7,14 @@ const Map = styled.div`
 `;
 
 interface IProps {
-  lat: number;
-  lng: number;
-  google: any;
+  mapRef: any;
 }
 
 class FindAddressPresenter extends React.Component<IProps> {
-  mapRef: any;
-  map: google.maps.Map;
-  constructor(props: any) {
-    super(props);
-    this.mapRef = React.createRef();
-  }
-  componentDidMount() {
-    this.loadMap();
-  }
-  componentWillReceiveProps(nextProps: IProps) {
-    const { lat, lng } = nextProps;
-    if (lat || lng) {
-      this.map.setCenter({ lat, lng });
-    }
-  }
   render() {
-    return <Map innerRef={this.mapRef} />;
+    const { mapRef } = this.props;
+    return <Map innerRef={mapRef} />;
   }
-  private loadMap = () => {
-    const { google, lat, lng } = this.props;
-    const maps = google.maps;
-    const node = ReactDOM.findDOMNode(this.mapRef.current);
-    const mapConfig = {
-      center: { lat, lng },
-      zoom: 11,
-      mapTypeId: "roadmap",
-      disableDefaultUI: true
-    };
-    this.map = new maps.Map(node, mapConfig);
-    this.map.addListener("center_changed", this.handleCenterChange);
-  };
-  private handleCenterChange = () => {
-    const center = this.map.getCenter();
-    console.log(center.lat(), center.lng());
-  };
 }
 
 export default FindAddressPresenter;

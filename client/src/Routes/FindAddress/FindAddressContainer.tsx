@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
 import FindAddressPresenter from "./FindAddressPresenter";
 
@@ -8,12 +9,15 @@ interface IState {
 }
 
 class FindAddressContainer extends React.Component<any, IState> {
+  mapRef: any;
+  map: google.maps.Map;
   constructor(props) {
     super(props);
     this.state = {
       lat: 37.5665,
       lng: 126.978
     };
+    this.mapRef = React.createRef();
   }
 
   componentDidMount() {
@@ -23,22 +27,33 @@ class FindAddressContainer extends React.Component<any, IState> {
     );
   }
   render() {
-    const { google } = this.props;
-    const { lat, lng } = this.state;
-    return <FindAddressPresenter lat={lat} lng={lng} google={google} />;
+    return <FindAddressPresenter mapRef={this.mapRef} />;
   }
   private handleGeoError = error => {
     toast.error(`Can't get address, ${error.message}`);
   };
   private handleGeoSuccess = (position: Position) => {
-    toast.success("Located you! Refreshing...");
     const {
       coords: { latitude, longitude }
     } = position;
-    this.setState({
-      lat: latitude,
-      lng: longitude
-    });
+    this.loadMap(latitude, longitude);
+  };
+  private loadMap = (lat, lng) => {
+    const { google } = this.props;
+    const maps = google.maps;
+    const node = ReactDOM.findDOMNode(this.mapRef.current);
+    const mapConfig = {
+      center: { lat, lng },
+      zoom: 11,
+      mapTypeId: "roadmap",
+      disableDefaultUI: true
+    };
+    this.map = new maps.Map(node, mapConfig);
+    this.map.addListener("center_changed", this.handleCenterChange);
+  };
+  private handleCenterChange = () => {
+    const center = this.map.getCenter();
+    console.log(center.lat(), center.lng());
   };
 }
 
