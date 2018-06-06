@@ -44,7 +44,7 @@ class FindAddressContainer extends React.Component<any, IState> {
     const node = ReactDOM.findDOMNode(this.mapRef.current);
     const mapConfig = {
       center: { lat, lng },
-      zoom: 11,
+      zoom: 13,
       mapTypeId: "roadmap",
       disableDefaultUI: true
     };
