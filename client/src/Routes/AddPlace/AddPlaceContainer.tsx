@@ -11,6 +11,12 @@ interface IState {
   fav: boolean;
 }
 
+interface IAddress {
+  address: string;
+  lat: string;
+  long: string;
+}
+
 class AddPlaceContainer extends React.Component<any, IState> {
   constructor(props: any) {
     super(props);
@@ -39,6 +45,7 @@ class AddPlaceContainer extends React.Component<any, IState> {
             onSubmit={addPlace}
             loading={loading}
             handleInputChange={this.handleInputChange}
+            saveAddress={this.saveAddress}
           />
         )}
       </Mutation>
@@ -54,6 +61,15 @@ class AddPlaceContainer extends React.Component<any, IState> {
     this.setState({
       [name]: value
     } as any);
+  };
+
+  private saveAddress = (addressObj: IAddress): void => {
+    const { lat, long, address } = addressObj;
+    this.setState({
+      lat,
+      long,
+      address
+    });
   };
 }
 

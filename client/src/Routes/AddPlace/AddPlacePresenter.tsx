@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 import Form from "../../Components/Form";
@@ -19,6 +20,13 @@ const Wrapper = styled.div`
   height: 100%;
 `;
 
+const SLink = styled(Link)`
+  text-decoration: underline;
+  color: ${props => props.theme.blue};
+  margin-bottom: 40px;
+  display: block;
+`;
+
 interface IProps {
   fav: boolean;
   name: string;
@@ -28,6 +36,7 @@ interface IProps {
   onSubmit: MutationFn;
   loading: boolean;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  saveAddress: (addressObj) => void;
 }
 
 const AddPlacePresenter: React.SFC<IProps> = ({
@@ -41,7 +50,7 @@ const AddPlacePresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Payment | Nuber</title>
     </Helmet>
-    <Header backTo="/places" title={"Add Place"} />
+    <Header backTo="/" title={"Add Place"} />
     <Container>
       <Form onSubmit={onSubmit}>
         <Input
@@ -52,14 +61,9 @@ const AddPlacePresenter: React.SFC<IProps> = ({
           required={true}
           displayName={"Name"}
         />
-        <Input
-          value={address}
-          onChange={handleInputChange}
-          type={"text"}
-          name={"address"}
-          required={true}
-          displayName={"Address"}
-        />
+        {address === "" && (
+          <SLink to="/find-address">Find address on map</SLink>
+        )}
         <Button
           disabled={loading}
           text={loading ? "Adding place" : "Add place"}

@@ -14,6 +14,7 @@ import AddPlace from "../../Routes/AddPlace";
 import CompleteProfile from "../../Routes/CompleteProfile";
 import EditAccount from "../../Routes/EditAccount";
 import EmailLogin from "../../Routes/EmailLogin";
+import FindAddress from "../../Routes/FindAddress";
 import Home from "../../Routes/Home";
 import Login from "../../Routes/Login";
 import Payment from "../../Routes/Payment";
@@ -98,6 +99,7 @@ const LoggedInRoutes: React.SFC<any> = ({ location }) => (
           <Route path={"/trips"} component={Trips} />
           <Route path="/verify-email/:key" component={VerifyEmail} />
           <Route path="/add-phone" component={AddPhone} />
+          <Route path="/find-address" component={FindAddress} />
           <Route
             path="/verify-phone"
             component={VerifyPhone}

@@ -16,6 +16,9 @@ const Button = styled.input`
   &:focus {
     outline: none;
   }
+  &:disabled {
+    opacity: 0.8;
+  }
 `;
 
 interface IProps {
