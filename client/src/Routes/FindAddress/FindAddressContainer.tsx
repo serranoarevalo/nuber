@@ -32,7 +32,14 @@ class FindAddressContainer extends React.Component<any, IState> {
   }
   render() {
     const { address } = this.state;
-    return <FindAddressPresenter mapRef={this.mapRef} address={address} />;
+    return (
+      <FindAddressPresenter
+        mapRef={this.mapRef}
+        address={address}
+        handleInputChange={this.handleInputChange}
+        geoCode={this.geoCode}
+      />
+    );
   }
   private handleGeoError = error => {
     toast.error(`Can't get address, ${error.message}`);
@@ -87,6 +94,35 @@ class FindAddressContainer extends React.Component<any, IState> {
       this.setState({
         address
       });
+    }
+  };
+  private handleInputChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const {
+      target: { value, name }
+    } = event;
+    this.setState({
+      [name]: value
+    } as any);
+  };
+  private geoCode = async () => {
+    const { address } = this.state;
+    const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_MAPS_API}`;
+    const { status, data } = await axios.get(URL);
+    if (status === 200) {
+      const { results } = data;
+      const place = results[0];
+      const {
+        geometry: {
+          location: { lat, lng }
+        }
+      } = place;
+      this.setState({
+        lat,
+        lng
+      });
+      this.map.panTo({ lat, lng });
     }
   };
 }

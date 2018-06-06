@@ -25,6 +25,7 @@ const Marker = styled.span`
   right: 0;
   z-index: 2;
   color: ${props => props.theme.blue};
+  font-size: 20px;
 `;
 
 const AddressBar = styled.input`
@@ -51,16 +52,22 @@ const FormContainer = styled.div`
 interface IProps {
   mapRef: any;
   address: string;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  geoCode: () => void;
 }
 
 class FindAddressPresenter extends React.Component<IProps> {
   render() {
-    const { mapRef, address } = this.props;
+    const { mapRef, address, handleInputChange, geoCode } = this.props;
     return (
       <Container>
         <FormContainer>
-          <Form width={"80%"}>
-            <AddressBar value={address} />
+          <Form width={"80%"} onSubmit={geoCode}>
+            <AddressBar
+              name={"address"}
+              value={address}
+              onChange={handleInputChange}
+            />
           </Form>
         </FormContainer>
         <Marker>
