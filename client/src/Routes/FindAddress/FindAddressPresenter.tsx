@@ -1,6 +1,8 @@
+import PropTypes from "prop-types";
 import React from "react";
 import FontAwesome from "react-fontawesome";
 import styled from "styled-components";
+import Button from "../../Components/Button";
 import Form from "../../Components/Form";
 
 const Container = styled.div`
@@ -37,12 +39,12 @@ const AddressBar = styled.input`
   width: 100%;
   border: 0;
   font-size: 16px;
-  padding: 10px 5px;
+  padding: 15px 10px;
 `;
 
-const FormContainer = styled.div`
+const AbsContainer = styled<any, any>("div")`
   position: absolute;
-  top: 50px;
+  ${props => (props.top ? "top: 50px;" : "bottom: 50px;")};
   width: 100%;
   z-index: 2;
   display: flex;
@@ -57,11 +59,17 @@ interface IProps {
 }
 
 class FindAddressPresenter extends React.Component<IProps> {
+  static propTypes = {
+    mapRef: PropTypes.node,
+    address: PropTypes.string.isRequired,
+    handleInputChange: PropTypes.func.isRequired,
+    geoCode: PropTypes.func.isRequired
+  };
   render() {
     const { mapRef, address, handleInputChange, geoCode } = this.props;
     return (
       <Container>
-        <FormContainer>
+        <AbsContainer top={true}>
           <Form width={"80%"} onSubmit={geoCode}>
             <AddressBar
               name={"address"}
@@ -69,10 +77,13 @@ class FindAddressPresenter extends React.Component<IProps> {
               onChange={handleInputChange}
             />
           </Form>
-        </FormContainer>
+        </AbsContainer>
         <Marker>
           <FontAwesome name={"map-marker"} />
         </Marker>
+        <AbsContainer top={false}>
+          <Button text="Pick place" disabled={false} width="80%" />
+        </AbsContainer>
         <Map innerRef={mapRef} />
       </Container>
     );
