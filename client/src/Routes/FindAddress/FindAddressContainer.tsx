@@ -1,12 +1,14 @@
-import throttle from "lodash.throttle";
+import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
+import { GOOGLE_MAPS_API } from "../../keys";
 import FindAddressPresenter from "./FindAddressPresenter";
 
 interface IState {
   lat: number;
   lng: number;
+  address: string;
 }
 
 class FindAddressContainer extends React.Component<any, IState> {
@@ -16,7 +18,8 @@ class FindAddressContainer extends React.Component<any, IState> {
     super(props);
     this.state = {
       lat: 37.5665,
-      lng: 126.978
+      lng: 126.978,
+      address: ""
     };
     this.mapRef = React.createRef();
   }
@@ -28,7 +31,8 @@ class FindAddressContainer extends React.Component<any, IState> {
     );
   }
   render() {
-    return <FindAddressPresenter mapRef={this.mapRef} />;
+    const { address } = this.state;
+    return <FindAddressPresenter mapRef={this.mapRef} address={address} />;
   }
   private handleGeoError = error => {
     toast.error(`Can't get address, ${error.message}`);
@@ -37,10 +41,17 @@ class FindAddressContainer extends React.Component<any, IState> {
     const {
       coords: { latitude, longitude }
     } = position;
-    this.loadMap(latitude, longitude);
+    this.setState(
+      {
+        lat: latitude,
+        lng: longitude
+      },
+      this.loadMap
+    );
   };
-  private loadMap = (lat, lng) => {
+  private loadMap = () => {
     const { google } = this.props;
+    const { lat, lng } = this.state;
     const maps = google.maps;
     const node = ReactDOM.findDOMNode(this.mapRef.current);
     const mapConfig = {
@@ -50,14 +61,33 @@ class FindAddressContainer extends React.Component<any, IState> {
       disableDefaultUI: true
     };
     this.map = new maps.Map(node, mapConfig);
-    this.map.addListener(
-      "center_changed",
-      throttle(this.handleCenterChange, 2000)
-    );
+    this.reverseGeocode();
+    this.map.addListener("dragend", this.handleCenterChange);
   };
   private handleCenterChange = () => {
     const center = this.map.getCenter();
-    console.log(center.lat(), center.lng());
+    const lat = center.lat();
+    const lng = center.lng();
+    this.setState(
+      {
+        lat,
+        lng
+      },
+      this.reverseGeocode
+    );
+  };
+  private reverseGeocode = async () => {
+    const { lat, lng } = this.state;
+    const URL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_API}`;
+    const { status, data } = await axios.get(URL);
+    if (status === 200) {
+      const { results } = data;
+      const firstAddress = results[0];
+      const address = firstAddress.formatted_address;
+      this.setState({
+        address
+      });
+    }
   };
 }
 

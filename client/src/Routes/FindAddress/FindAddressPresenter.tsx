@@ -50,16 +50,17 @@ const FormContainer = styled.div`
 
 interface IProps {
   mapRef: any;
+  address: string;
 }
 
 class FindAddressPresenter extends React.Component<IProps> {
   render() {
-    const { mapRef } = this.props;
+    const { mapRef, address } = this.props;
     return (
       <Container>
         <FormContainer>
           <Form width={"80%"}>
-            <AddressBar />
+            <AddressBar value={address} />
           </Form>
         </FormContainer>
         <Marker>
