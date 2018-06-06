@@ -70,7 +70,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     const node = ReactDOM.findDOMNode(this.mapRef.current);
     const mapConfig = {
       center: { lat, lng },
-      zoom: 13,
+      zoom: 16,
       mapTypeId: "roadmap",
       disableDefaultUI: true
     };

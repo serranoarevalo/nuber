@@ -20,14 +20,28 @@ interface IState {
 class AddPlaceContainer extends React.Component<any, IState> {
   constructor(props: any) {
     super(props);
-    console.log(props);
-    this.state = {
-      fav: false,
-      name: "",
-      address: "",
-      lat: "",
-      lng: ""
-    };
+    if (!props.location.state) {
+      this.state = {
+        fav: false,
+        name: "",
+        address: "",
+        lat: "",
+        lng: ""
+      };
+    } else {
+      const {
+        location: {
+          state: { address, lat, lng }
+        }
+      } = props;
+      this.state = {
+        fav: false,
+        name: "",
+        address,
+        lat,
+        lng
+      };
+    }
   }
   render() {
     const { fav, name, address, lat, lng } = this.state;

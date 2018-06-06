@@ -66,9 +66,9 @@ const AddPlacePresenter: React.SFC<IProps> = ({
           required={true}
           displayName={"Address"}
         />
-        {address === "" && (
-          <SLink to="/find-address#add-place">Find address on map</SLink>
-        )}
+
+        <SLink to="/find-address#add-place">Find address on map</SLink>
+
         <Button
           disabled={loading}
           text={loading ? "Adding place" : "Add place"}
