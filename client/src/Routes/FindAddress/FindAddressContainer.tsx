@@ -1,44 +1,44 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import styled from "styled-components";
+import { toast } from "react-toastify";
+import FindAddressPresenter from "./FindAddressPresenter";
 
-const Map = styled.div`
-  height: 100vh;
-  width: 100vw;
-`;
+interface IState {
+  lat: number;
+  lng: number;
+}
 
-class FindAddressContainer extends React.Component<any, any> {
-  mapRef: any;
-  map: any;
-  constructor(props: any) {
+class FindAddressContainer extends React.Component<any, IState> {
+  constructor(props) {
     super(props);
-    this.mapRef = React.createRef();
+    this.state = {
+      lat: 37.5665,
+      lng: 126.978
+    };
   }
+
   componentDidMount() {
-    const { google, loaded } = this.props;
-    if (google && loaded) {
-      this.loadMap();
-    }
-  }
-  componentWillReceiveProps(nextProps) {
-    const { google, loaded } = this.props;
-    if (google && loaded) {
-      this.loadMap();
-    }
+    navigator.geolocation.getCurrentPosition(
+      this.handleGeoSuccess,
+      this.handleGeoError
+    );
   }
   render() {
-    return <Map innerRef={this.mapRef} />;
-  }
-  private loadMap = () => {
     const { google } = this.props;
-    const maps = google.maps;
-    const node = ReactDOM.findDOMNode(this.mapRef.current);
-    const mapConfig = {
-      center: { lat: 40.7485722, lng: -74.0068633 },
-      zoom: 11,
-      mapTypeId: "roadmap"
-    };
-    this.map = new maps.Map(node, mapConfig);
+    const { lat, lng } = this.state;
+    return <FindAddressPresenter lat={lat} lng={lng} google={google} />;
+  }
+  private handleGeoError = error => {
+    toast.error(`Can't get address, ${error.message}`);
+  };
+  private handleGeoSuccess = (position: Position) => {
+    toast.success("Located you! Refreshing...");
+    const {
+      coords: { latitude, longitude }
+    } = position;
+    this.setState({
+      lat: latitude,
+      lng: longitude
+    });
   };
 }
 
