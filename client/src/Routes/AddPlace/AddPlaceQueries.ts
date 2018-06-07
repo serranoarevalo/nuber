@@ -20,12 +20,14 @@ export const ADD_PLACE = gql`
   }
 `;
 
-export const USER_PLACES_FRAGMENT = gql`
-  fragment userPlaces on User {
-    places {
-      name
-      address
-      fav
+export const PLACES = gql`
+  query {
+    getPlaces {
+      places {
+        name
+        address
+        fav
+      }
     }
   }
 `;

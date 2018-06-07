@@ -8,4 +8,5 @@ type Place {
   user: User!
   createdAt: String!
   updatedAt: String!
+  typename: Place
 }

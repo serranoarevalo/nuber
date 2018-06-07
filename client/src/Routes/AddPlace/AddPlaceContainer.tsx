@@ -2,13 +2,13 @@ import React from "react";
 import { Mutation, MutationUpdaterFn } from "react-apollo";
 import { toast } from "react-toastify";
 import AddPlacePresenter from "./AddPlacePresenter";
-import { ADD_PLACE, USER_PLACES_FRAGMENT } from "./AddPlaceQueries";
+import { ADD_PLACE, PLACES } from "./AddPlaceQueries";
 
 interface IState {
   address: string;
   name: string;
-  lat: string;
-  lng: string;
+  lat?: number;
+  lng?: number;
   fav: boolean;
 }
 
@@ -25,9 +25,7 @@ class AddPlaceContainer extends React.Component<any, IState> {
       this.state = {
         fav: false,
         name: "",
-        address: "",
-        lat: "",
-        lng: ""
+        address: ""
       };
     } else {
       const {
@@ -59,6 +57,8 @@ class AddPlaceContainer extends React.Component<any, IState> {
             address={address}
             onSubmit={addPlace}
             loading={loading}
+            lat={lat}
+            lng={lng}
             handleInputChange={this.handleInputChange}
             goToFindAddress={this.goToFindAddress}
           />
@@ -96,23 +96,14 @@ class AddPlaceContainer extends React.Component<any, IState> {
     if (!addPlace.ok && addPlace.error) {
       toast.error(addPlace.error);
     } else if (addPlace.ok) {
-      toast.success("Place created");
-      const placesFragment: any = cache.readFragment({
-        fragment: USER_PLACES_FRAGMENT,
-        id: "$ROOT_QUERY.me.user"
+      const query: any = cache.readQuery({
+        query: PLACES
       });
-      if (placesFragment) {
-        const places = placesFragment.places;
-        console.log(places);
-        cache.writeFragment({
-          id: "$ROOT_QUERY.me.user",
-          fragment: USER_PLACES_FRAGMENT,
-          data: {
-            places: places ? places.push(addPlace.place) : [addPlace.place],
-            __typename: "User"
-          }
-        });
-      }
+      query.getPlaces.places.push(addPlace.place);
+      cache.writeQuery({
+        query: PLACES,
+        data: query
+      });
     }
   };
 }

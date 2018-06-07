@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
-export const ME = gql`
-  query me {
+export const ACCOUNT_QUERY = gql`
+  query {
     me {
       ok
       user {
@@ -9,11 +9,15 @@ export const ME = gql`
         fullName
         phoneNumber
         email
-        places {
-          name
-          address
-        }
       }
+      error
+    }
+    getPlaces {
+      places {
+        name
+        address
+      }
+      ok
       error
     }
   }

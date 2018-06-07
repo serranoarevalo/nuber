@@ -24,6 +24,7 @@ const FakeLink = styled.span`
   color: ${props => props.theme.blue};
   margin-bottom: 40px;
   display: block;
+  cursor: pointer;
 `;
 
 interface IProps {
@@ -34,6 +35,8 @@ interface IProps {
   loading: boolean;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   goToFindAddress: () => void;
+  lat: number | undefined;
+  lng: number | undefined;
 }
 
 const AddPlacePresenter: React.SFC<IProps> = ({
@@ -42,7 +45,9 @@ const AddPlacePresenter: React.SFC<IProps> = ({
   address,
   loading,
   onSubmit,
-  goToFindAddress
+  goToFindAddress,
+  lat,
+  lng
 }) => (
   <Wrapper className={"shouldScroll"}>
     <Helmet>
@@ -59,19 +64,22 @@ const AddPlacePresenter: React.SFC<IProps> = ({
           required={true}
           displayName={"Name"}
         />
-        <Input
-          value={address}
-          onChange={handleInputChange}
-          type={"text"}
-          name={"address"}
-          required={true}
-          displayName={"Address"}
-        />
+        {lat &&
+          lng && (
+            <Input
+              value={address}
+              onChange={handleInputChange}
+              type={"text"}
+              name={"address"}
+              required={true}
+              displayName={"Address"}
+            />
+          )}
 
         <FakeLink onClick={goToFindAddress}>Find address on map</FakeLink>
 
         <Button
-          disabled={loading}
+          disabled={loading || !lat || !lng}
           text={loading ? "Adding place" : "Add place"}
         />
       </Form>
