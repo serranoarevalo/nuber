@@ -18,7 +18,7 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, args: IArgs, { req }): Promise<AddPlaceResponse> => {
         const { user }: { user: User } = req;
-        const newPlace: Place = await Place.create({ ...args, user });
+        const newPlace: Place = await Place.create({ ...args, user }).save();
         if (newPlace) {
           return {
             ok: true,

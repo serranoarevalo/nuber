@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../Components/Header";
+import Place from "./Place";
 
 const Container = styled.div`
   width: 100%;
@@ -29,7 +30,7 @@ const Image = styled.img`
   border-radius: 50%;
 `;
 
-const SLink = styled(Link)`
+const GridLink = styled(Link)`
   display: grid;
   grid-template-columns: 1fr 4fr;
 `;
@@ -58,9 +59,13 @@ const NoPlaces = styled.div`
   margin-top: 20px;
 `;
 
-const UnderlineLink = styled(Link)`
-  text-decoration: underline;
+const SLink = styled<any, any>(Link)`
+  color: ${props => props.theme.blue};
+  margin-top: 30px;
+  display: block;
 `;
+
+const FakeLink = SLink.withComponent("span");
 
 interface IProps {
   loading: boolean;
@@ -85,24 +90,34 @@ const SettingsPresenter: React.SFC<IProps> = ({
     ) : (
       <Container>
         <Item>
-          <SLink to={"/edit-account"}>
+          <GridLink to={"/edit-account"}>
             <Image src={data.me.user.profilePhoto} />
             <Keys>
               <Key>{data.me.user.fullName}</Key>
               <Key>{data.me.user.phoneNumber}</Key>
               <Key>{data.me.user.email}</Key>
             </Keys>
-          </SLink>
+          </GridLink>
         </Item>
         <Item>
-          <ItemTitle>Favorites</ItemTitle>
-          <span>{data.getPlaces.places.length || 0}</span>
-          {data.getPlaces.places.length < 1 && (
-            <NoPlaces>
-              You have no favorite places yet.{" "}
-              <UnderlineLink to={"/add-place"}>Add one</UnderlineLink>
-            </NoPlaces>
-          )}
+          <Link to={"/places"}>
+            <ItemTitle>Favorites</ItemTitle>
+            {data.getPlaces.places.length < 1 ? (
+              <NoPlaces>
+                You have no favorite places yet.{" "}
+                <SLink to={"/add-place"}>Add one</SLink>
+              </NoPlaces>
+            ) : (
+              <React.Fragment>
+                <Place
+                  name={data.getPlaces.places[0].name}
+                  fav={data.getPlaces.places[0].fav}
+                  address={data.getPlaces.places[0].address}
+                />
+                <FakeLink>More Saved Places</FakeLink>
+              </React.Fragment>
+            )}
+          </Link>
         </Item>
         <Item onClick={logUserOut}>Log Out</Item>
       </Container>

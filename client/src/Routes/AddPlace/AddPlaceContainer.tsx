@@ -94,6 +94,7 @@ class AddPlaceContainer extends React.Component<any, IState> {
     { data }: { data: any }
   ) => {
     const { addPlace } = data;
+    const { history } = this.props;
     if (!addPlace.ok && addPlace.error) {
       toast.error(addPlace.error);
     } else if (addPlace.ok) {
@@ -106,6 +107,7 @@ class AddPlaceContainer extends React.Component<any, IState> {
         query: GET_PLACES,
         data: query
       });
+      history.back();
     }
   };
 }

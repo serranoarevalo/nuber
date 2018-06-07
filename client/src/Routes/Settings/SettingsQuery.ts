@@ -16,6 +16,7 @@ export const ACCOUNT_QUERY = gql`
       places {
         name
         address
+        fav
       }
       ok
       error
