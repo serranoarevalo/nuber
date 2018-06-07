@@ -1,8 +1,9 @@
 import React from "react";
 import { Mutation, MutationUpdaterFn } from "react-apollo";
 import { toast } from "react-toastify";
+import { GET_PLACES } from "../../sharedQueries";
 import AddPlacePresenter from "./AddPlacePresenter";
-import { ADD_PLACE, PLACES } from "./AddPlaceQueries";
+import { ADD_PLACE } from "./AddPlaceQueries";
 
 interface IState {
   address: string;
@@ -96,12 +97,13 @@ class AddPlaceContainer extends React.Component<any, IState> {
     if (!addPlace.ok && addPlace.error) {
       toast.error(addPlace.error);
     } else if (addPlace.ok) {
+      toast.success("Place created!");
       const query: any = cache.readQuery({
-        query: PLACES
+        query: GET_PLACES
       });
       query.getPlaces.places.push(addPlace.place);
       cache.writeQuery({
-        query: PLACES,
+        query: GET_PLACES,
         data: query
       });
     }

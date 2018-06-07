@@ -54,7 +54,7 @@ const EditAccountPresenter: React.SFC<IProps> = ({
       <Form onSubmit={onSubmit}>
         <FileInput
           postUpload={getProfileImage}
-          required={true}
+          required={false}
           previousUrl={profilePhoto}
         />
         <Input

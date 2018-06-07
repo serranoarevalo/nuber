@@ -5,3 +5,15 @@ export const LOG_USER_IN = gql`
     logUserIn(token: $token) @client
   }
 `;
+
+export const GET_PLACES = gql`
+  query {
+    getPlaces {
+      places {
+        name
+        address
+        fav
+      }
+    }
+  }
+`;

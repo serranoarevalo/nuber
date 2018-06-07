@@ -2,7 +2,7 @@ import React from "react";
 import { graphql, Mutation, MutationUpdaterFn } from "react-apollo";
 import { toast } from "react-toastify";
 import EditAccountPresenter from "./EditAccountPresenter";
-import { ME, UPDATE_ACCOUNT, USER_FRAGMENT } from "./EditAccountQueries";
+import { ME, UPDATE_ACCOUNT } from "./EditAccountQueries";
 
 interface IState {
   firstName: string;
@@ -105,12 +105,11 @@ class EditAccountContainer extends React.Component<any, IState> {
       toast.error(updateUser.error);
     } else if (updateUser.ok) {
       toast.success("Account successfully updated");
-      cache.writeFragment({
-        id: "$ROOT_QUERY.me.user",
-        fragment: USER_FRAGMENT,
-        data: {
-          ...updateUser.user
-        }
+      const query: any = cache.readQuery({ query: ME });
+      query.me.user = updateUser.user;
+      cache.writeQuery({
+        query: ME,
+        data: query
       });
     }
   };

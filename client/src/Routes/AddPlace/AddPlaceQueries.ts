@@ -19,15 +19,3 @@ export const ADD_PLACE = gql`
     }
   }
 `;
-
-export const PLACES = gql`
-  query {
-    getPlaces {
-      places {
-        name
-        address
-        fav
-      }
-    }
-  }
-`;
