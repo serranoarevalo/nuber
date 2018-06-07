@@ -18,10 +18,3 @@ export const CONFIRM_PHONE = gql`
     }
   }
 `;
-
-export const USER_FRAGMENT = gql`
-  fragment userPhone on User {
-    verifiedPhoneNumber
-    phoneNumber
-  }
-`;

@@ -3,8 +3,8 @@ import ApolloClient, { Operation } from "apollo-boost";
 const client = new ApolloClient({
   clientState: {
     defaults: {
-      user: {
-        __typename: "User",
+      auth: {
+        __typename: "Auth",
         isLoggedIn: localStorage.getItem("jwt") === null ? false : true
       }
     },
@@ -14,8 +14,8 @@ const client = new ApolloClient({
           localStorage.removeItem("jwt");
           cache.writeData({
             data: {
-              user: {
-                __typename: "User",
+              auth: {
+                __typename: "Auth",
                 isLoggedIn: false
               }
             }
@@ -27,8 +27,8 @@ const client = new ApolloClient({
           localStorage.setItem("jwt", token);
           cache.writeData({
             data: {
-              user: {
-                __typename: "User",
+              auth: {
+                __typename: "Auth",
                 isLoggedIn: true
               }
             }

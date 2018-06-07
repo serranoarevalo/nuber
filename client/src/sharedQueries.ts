@@ -17,3 +17,21 @@ export const GET_PLACES = gql`
     }
   }
 `;
+
+export const ME = gql`
+  query me {
+    me {
+      ok
+      user {
+        fullName
+        firstName
+        lastName
+        phoneNumber
+        email
+        profilePhoto
+        verifiedPhoneNumber
+      }
+      error
+    }
+  }
+`;

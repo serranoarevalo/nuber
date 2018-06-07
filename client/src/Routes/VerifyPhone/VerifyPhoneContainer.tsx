@@ -1,8 +1,9 @@
 import React from "react";
 import { Mutation, MutationUpdaterFn } from "react-apollo";
 import { toast } from "react-toastify";
+import { ME } from "../../sharedQueries";
 import VerifyPhonePresenter from "./VerifyPhonePresenter";
-import { CONFIRM_PHONE, USER_FRAGMENT, VERIFY_KEY } from "./VerifyPhoneQueries";
+import { CONFIRM_PHONE, VERIFY_KEY } from "./VerifyPhoneQueries";
 
 interface IState {
   verificationKey: string;
@@ -101,15 +102,8 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
         toast.error(verifyPhone.error);
       } else if (verifyPhone.ok) {
         toast.success("Phone number verified");
-        cache.writeFragment({
-          id: "$ROOT_QUERY.me.user",
-          fragment: USER_FRAGMENT,
-          data: {
-            verifiedPhoneNumber: true,
-            phoneNumber: phone,
-            __typename: "User"
-          }
-        });
+        cache.readQuery({ query: ME });
+        console.log(cache);
       }
     }
   };

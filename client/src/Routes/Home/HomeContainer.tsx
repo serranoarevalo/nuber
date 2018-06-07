@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "react-apollo";
+import { ME } from "../../sharedQueries";
 import HomePresenter from "./HomePresenter";
-import { ME } from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;

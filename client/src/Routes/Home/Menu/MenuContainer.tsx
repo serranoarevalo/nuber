@@ -1,8 +1,8 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { withRouter } from "react-router-dom";
+import { ME } from "../../../sharedQueries";
 import MenuPresenter from "./MenuPresenter";
-import { ME } from "./MenuQueries";
 
 class MenuContainer extends React.Component<any, any> {
   render() {

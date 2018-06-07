@@ -1,21 +1,5 @@
 import gql from "graphql-tag";
 
-export const ME = gql`
-  query me {
-    me {
-      ok
-      user {
-        firstName
-        lastName
-        phoneNumber
-        email
-        profilePhoto
-      }
-      error
-    }
-  }
-`;
-
 export const UPDATE_ACCOUNT = gql`
   mutation updateUser(
     $email: String
@@ -43,15 +27,5 @@ export const UPDATE_ACCOUNT = gql`
         profilePhoto
       }
     }
-  }
-`;
-
-export const USER_FRAGMENT = gql`
-  fragment user on User {
-    firstName
-    lastName
-    phoneNumber
-    email
-    profilePhoto
   }
 `;

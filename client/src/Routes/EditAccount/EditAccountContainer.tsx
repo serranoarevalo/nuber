@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql, Mutation, MutationUpdaterFn } from "react-apollo";
 import { toast } from "react-toastify";
+import { ME } from "../../sharedQueries";
 import EditAccountPresenter from "./EditAccountPresenter";
-import { ME, UPDATE_ACCOUNT } from "./EditAccountQueries";
+import { UPDATE_ACCOUNT } from "./EditAccountQueries";
 
 interface IState {
   firstName: string;
