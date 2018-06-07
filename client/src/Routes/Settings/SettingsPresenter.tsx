@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../Components/Header";
-import Place from "./Place";
+import Place from "../../Components/Place";
 
 const Container = styled.div`
   width: 100%;
@@ -91,18 +91,18 @@ const SettingsPresenter: React.SFC<IProps> = ({
       <Container>
         <Item>
           <GridLink to={"/edit-account"}>
-            <Image src={data.me.user.profilePhoto} />
+            <Image src={data.user.profilePhoto} />
             <Keys>
-              <Key>{data.me.user.fullName}</Key>
-              <Key>{data.me.user.phoneNumber}</Key>
-              <Key>{data.me.user.email}</Key>
+              <Key>{data.user.fullName}</Key>
+              <Key>{data.user.phoneNumber}</Key>
+              <Key>{data.user.email}</Key>
             </Keys>
           </GridLink>
         </Item>
         <Item>
           <Link to={"/places"}>
             <ItemTitle>Favorites</ItemTitle>
-            {data.getPlaces.places.length < 1 ? (
+            {data.places.length < 1 ? (
               <NoPlaces>
                 You have no favorite places yet.{" "}
                 <SLink to={"/add-place"}>Add one</SLink>
@@ -110,9 +110,9 @@ const SettingsPresenter: React.SFC<IProps> = ({
             ) : (
               <React.Fragment>
                 <Place
-                  name={data.getPlaces.places[0].name}
-                  fav={data.getPlaces.places[0].fav}
-                  address={data.getPlaces.places[0].address}
+                  name={data.places[0].name}
+                  fav={data.places[0].fav}
+                  address={data.places[0].address}
                 />
                 <FakeLink>More Saved Places</FakeLink>
               </React.Fragment>

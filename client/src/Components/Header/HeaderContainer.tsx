@@ -1,10 +1,13 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { withRouter } from "react-router-dom";
 import HeaderPresenter from "./HeaderPresenter";
 
 interface IProps {
   backTo: string;
   title: string;
+  history?: any | undefined;
+  goBack?: boolean | undefined;
 }
 
 interface IState {
@@ -13,7 +16,7 @@ interface IState {
 
 class HeaderContainer extends React.Component<IProps, IState> {
   static propTypes = {
-    backTo: PropTypes.string.isRequired,
+    backTo: PropTypes.string,
     title: PropTypes.string.isRequired
   };
 
@@ -32,12 +35,14 @@ class HeaderContainer extends React.Component<IProps, IState> {
 
   render() {
     const { scrollHeight } = this.state;
-    const { title, backTo } = this.props;
+    const { title, backTo, goBack } = this.props;
     return (
       <HeaderPresenter
         scrollHeight={scrollHeight}
         title={title}
         backTo={backTo}
+        goBackFn={this.goBack}
+        goBack={goBack}
       />
     );
   }
@@ -47,6 +52,10 @@ class HeaderContainer extends React.Component<IProps, IState> {
       scrollHeight: target.scrollTop
     });
   };
+  private goBack = () => {
+    const { history } = this.props;
+    history.back();
+  };
 }
 
-export default HeaderContainer;
+export default withRouter(HeaderContainer) as typeof HeaderContainer;

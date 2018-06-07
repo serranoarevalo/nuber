@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/googlemaps": "^3.30.9",
     "apollo-boost": "^0.1.6",
     "axios": "^0.18.0",
     "cors": "^2.8.4",
@@ -35,6 +34,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/googlemaps": "^3.30.9",
     "@types/jest": "^22.2.3",
     "@types/node": "^10.1.2",
     "@types/prop-types": "^15.5.3",
@@ -42,7 +42,7 @@
     "@types/react-dom": "^16.0.5",
     "@types/react-facebook-login": "^3.6.3",
     "@types/react-fontawesome": "^1.6.3",
-    "@types/react-router-dom": "^4.2.6",
+    "@types/react-router-dom": "^4.2.7",
     "@types/react-sidebar": "^2.3.0",
     "typescript": "^2.8.3"
   }

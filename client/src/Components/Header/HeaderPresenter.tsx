@@ -39,21 +39,33 @@ const Title = styled<any, any>("h2")`
   }};
 `;
 
+const FakeLink = styled.span``;
+
 interface IProps {
   scrollHeight: number;
   title: string;
   backTo: string;
+  goBackFn?: () => void;
+  goBack: boolean | undefined;
 }
 
 const HeaderPresenter: React.SFC<IProps> = ({
   scrollHeight,
   title,
-  backTo
+  backTo,
+  goBack,
+  goBackFn
 }) => (
   <Container scrollHeight={scrollHeight}>
-    <Link to={backTo}>
-      <FontAwesome name="arrow-left" />
-    </Link>
+    {goBack ? (
+      <FakeLink onClick={goBackFn}>
+        <FontAwesome name="arrow-left" />
+      </FakeLink>
+    ) : (
+      <Link to={backTo}>
+        <FontAwesome name="arrow-left" />
+      </Link>
+    )}
     <Title scrollHeight={scrollHeight}>{title}</Title>
   </Container>
 );
