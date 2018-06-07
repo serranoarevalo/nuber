@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ActionButton from "../../Components/ActionButton";
 import Header from "../../Components/Header";
+import Place from "../../Components/Place";
+import Section from "../../Components/Section";
 
 const Container = styled.div`
   width: 100%;
-  padding: 0 15px;
   padding-top: 150px;
 `;
 
@@ -35,12 +36,39 @@ const PlacesPresenter: React.SFC<IProps> = ({
   loading
 }) => (
   <Wrapper className={"shouldScroll"}>
-    <Header backTo="/" title={"Saved Places"} />
+    <Header backTo="/settings" title={"Saved Places"} />
     <Container>
-      {places.length === 0 && (
+      {places.length === 0 ? (
         <NoPlaces>
           You have no saved places. <SLink to="/add-place">Add one now</SLink>
         </NoPlaces>
+      ) : (
+        <React.Fragment>
+          <Section first={true} title={"Favorites"}>
+            {places
+              .filter((place: any) => place.fav === true)
+              .map((place: any) => (
+                <Place
+                  name={place.name}
+                  address={place.address}
+                  fav={true}
+                  key={place.address}
+                />
+              ))}
+          </Section>
+          <Section title={"Other Saved Places"}>
+            {places
+              .filter((place: any) => place.fav === false)
+              .map((place: any) => (
+                <Place
+                  name={place.name}
+                  address={place.address}
+                  fav={false}
+                  key={place.address}
+                />
+              ))}
+          </Section>
+        </React.Fragment>
       )}
       <ActionButton onClick={addPlaceRedirect} icon={"plus"} disabled={false} />
     </Container>

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../Components/Header";
 import Place from "../../Components/Place";
+import Section from "../../Components/Section";
 
 const Container = styled.div`
   width: 100%;
@@ -42,18 +43,7 @@ const Key = styled.span`
   margin-bottom: 5px;
 `;
 
-const Item = styled<any, any>("div")`
-  border-bottom: 1px solid #bdc3c7;
-  padding: 0 15px;
-  padding-bottom: 15px;
-  &:not(:first-child) {
-    margin-top: 15px;
-  }
-`;
-
-const ItemTitle = styled.span`
-  color: ${props => props.theme.grey};
-`;
+const Item = styled<any, any>("div")``;
 
 const NoPlaces = styled.div`
   margin-top: 20px;
@@ -89,7 +79,7 @@ const SettingsPresenter: React.SFC<IProps> = ({
       </Placeholder>
     ) : (
       <Container>
-        <Item>
+        <Section first={true}>
           <GridLink to={"/edit-account"}>
             <Image src={data.user.profilePhoto} />
             <Keys>
@@ -98,10 +88,10 @@ const SettingsPresenter: React.SFC<IProps> = ({
               <Key>{data.user.email}</Key>
             </Keys>
           </GridLink>
-        </Item>
-        <Item>
-          <Link to={"/places"}>
-            <ItemTitle>Favorites</ItemTitle>
+        </Section>
+
+        <Link to={"/places"}>
+          <Section title="Favorites">
             {data.places.length < 1 ? (
               <NoPlaces>
                 You have no favorite places yet.{" "}
@@ -117,9 +107,11 @@ const SettingsPresenter: React.SFC<IProps> = ({
                 <FakeLink>More Saved Places</FakeLink>
               </React.Fragment>
             )}
-          </Link>
-        </Item>
-        <Item onClick={logUserOut}>Log Out</Item>
+          </Section>
+        </Link>
+        <Section last={true}>
+          <Item onClick={logUserOut}>Log Out</Item>
+        </Section>
       </Container>
     )}
   </Wrapper>
