@@ -8,8 +8,6 @@ import FindAddressPresenter from "./FindAddressPresenter";
 interface IState {
   lat: number;
   lng: number;
-  userLat: number;
-  userLng: number;
   address: string;
 }
 
@@ -27,13 +25,10 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     this.state = {
       lat: 37.5665,
       lng: 126.978,
-      address: "",
-      userLng: 0,
-      userLat: 0
+      address: ""
     };
     this.mapRef = React.createRef();
   }
-
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       this.handleGeoSuccess,
@@ -41,7 +36,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     );
   }
   render() {
-    const { address, userLat, userLng } = this.state;
+    const { address } = this.state;
     return (
       <FindAddressPresenter
         mapRef={this.mapRef}
@@ -49,8 +44,6 @@ class FindAddressContainer extends React.Component<IProps, IState> {
         handleInputChange={this.handleInputChange}
         geoCode={this.geoCode}
         pickAddress={this.pickAddress}
-        userLat={userLat}
-        userLng={userLng}
       />
     );
   }
@@ -64,9 +57,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     this.setState(
       {
         lat: latitude,
-        lng: longitude,
-        userLat: latitude,
-        userLng: longitude
+        lng: longitude
       },
       this.loadMap
     );
@@ -85,6 +76,18 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     this.map = new maps.Map(node, mapConfig);
     this.reverseGeocode();
     this.map.addListener("dragend", this.handleCenterChange);
+    const userMarker = new google.maps.Marker({
+      position: {
+        lat,
+        lng
+      },
+      icon: {
+        url: require("../../images/marker.png"),
+        scaledSize: new google.maps.Size(20, 20)
+      },
+      title: "You"
+    });
+    userMarker.setMap(this.map);
   };
   private handleCenterChange = () => {
     const center = this.map.getCenter();
