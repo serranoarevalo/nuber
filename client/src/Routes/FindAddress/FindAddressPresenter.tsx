@@ -57,6 +57,8 @@ interface IProps {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   geoCode: () => void;
   pickAddress: () => void;
+  userLat: number;
+  userLng: number;
 }
 
 class FindAddressPresenter extends React.Component<IProps> {

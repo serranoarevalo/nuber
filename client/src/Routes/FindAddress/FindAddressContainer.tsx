@@ -8,6 +8,8 @@ import FindAddressPresenter from "./FindAddressPresenter";
 interface IState {
   lat: number;
   lng: number;
+  userLat: number;
+  userLng: number;
   address: string;
 }
 
@@ -25,7 +27,9 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     this.state = {
       lat: 37.5665,
       lng: 126.978,
-      address: ""
+      address: "",
+      userLng: 0,
+      userLat: 0
     };
     this.mapRef = React.createRef();
   }
@@ -37,7 +41,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     );
   }
   render() {
-    const { address } = this.state;
+    const { address, userLat, userLng } = this.state;
     return (
       <FindAddressPresenter
         mapRef={this.mapRef}
@@ -45,6 +49,8 @@ class FindAddressContainer extends React.Component<IProps, IState> {
         handleInputChange={this.handleInputChange}
         geoCode={this.geoCode}
         pickAddress={this.pickAddress}
+        userLat={userLat}
+        userLng={userLng}
       />
     );
   }
@@ -58,7 +64,9 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     this.setState(
       {
         lat: latitude,
-        lng: longitude
+        lng: longitude,
+        userLat: latitude,
+        userLng: longitude
       },
       this.loadMap
     );
