@@ -17,7 +17,6 @@ import EmailLogin from "../../Routes/EmailLogin";
 import FindAddress from "../../Routes/FindAddress";
 import Home from "../../Routes/Home";
 import Login from "../../Routes/Login";
-import Payment from "../../Routes/Payment";
 import Places from "../../Routes/Places";
 import Settings from "../../Routes/Settings";
 import Trips from "../../Routes/Trips";
@@ -92,7 +91,6 @@ const LoggedInRoutes: React.SFC<any> = ({ location }) => (
         <Switch key={location.key}>
           <Route path={"/"} exact={true} component={Home} />
           <Route path={"/edit-account"} component={EditAccount} />
-          <Route path={"/payment"} component={Payment} />
           <Route path={"/settings"} component={Settings} />
           <Route path={"/places"} component={Places} />
           <Route path={"/add-place"} component={AddPlace} />

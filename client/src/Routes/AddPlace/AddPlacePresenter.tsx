@@ -53,7 +53,7 @@ const AddPlacePresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Add Place | Nuber</title>
     </Helmet>
-    <Header backTo="/" title={"Add Place"} />
+    <Header backTo="/places" title={"Add Place"} />
     <Container>
       <Form onSubmit={onSubmit}>
         {lat &&

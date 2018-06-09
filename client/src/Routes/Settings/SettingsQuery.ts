@@ -14,6 +14,7 @@ export const ACCOUNT_QUERY = gql`
     }
     getPlaces {
       places {
+        id
         name
         address
         fav

@@ -107,7 +107,7 @@ class AddPlaceContainer extends React.Component<any, IState> {
         query: GET_PLACES,
         data: query
       });
-      history.back();
+      history.push("/places");
     }
   };
 }

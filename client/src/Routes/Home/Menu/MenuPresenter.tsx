@@ -92,7 +92,6 @@ const MenuPresenter: React.SFC<IProps> = ({ loading, data }) => (
         </Grid>
       )}
     </Header>
-    <SLink to="/payment">Payment</SLink>
     <SLink to="/trips">Your Trips</SLink>
     <SLink to="/settings">Settings</SLink>
   </Container>
