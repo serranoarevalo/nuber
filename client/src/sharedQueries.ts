@@ -10,6 +10,7 @@ export const GET_PLACES = gql`
   query {
     getPlaces {
       places {
+        id
         name
         address
         fav

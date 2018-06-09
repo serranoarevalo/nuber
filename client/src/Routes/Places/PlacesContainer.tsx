@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
+import { GET_PLACES } from "../../sharedQueries";
 import PlacesPresenter from "./PlacesPresenter";
-import { PLACES } from "./PlacesQueries";
 
 class PlacesContainer extends React.Component<any, any> {
   constructor(props) {
@@ -9,7 +9,7 @@ class PlacesContainer extends React.Component<any, any> {
   }
   render() {
     return (
-      <Query query={PLACES}>
+      <Query query={GET_PLACES}>
         {({ loading, data, error }) => {
           const { getPlaces: { places = [] } = {} } = data;
           return (

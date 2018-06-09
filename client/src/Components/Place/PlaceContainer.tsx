@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Mutation } from "react-apollo";
+import { GET_PLACES } from "../../sharedQueries";
 import PlacePresenter from "./PlacePresenter";
 import { TOGGLE_FAV } from "./PlaceQueries";
 
@@ -21,7 +22,11 @@ class PlaceContainer extends React.Component<IProps> {
   render() {
     const { fav, name, address, id } = this.props;
     return (
-      <Mutation mutation={TOGGLE_FAV} variables={{ id, fav: !fav }}>
+      <Mutation
+        mutation={TOGGLE_FAV}
+        variables={{ id, fav: !fav }}
+        refetchQueries={[{ query: GET_PLACES }]}
+      >
         {(editPlace, { loading }) => (
           <PlacePresenter
             editPlace={editPlace}

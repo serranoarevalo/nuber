@@ -92,7 +92,7 @@ const SettingsPresenter: React.SFC<IProps> = ({
 
         <Link to={"/places"}>
           <Section title="Favorites">
-            {data.places.length < 1 ? (
+            {data.places.length === 0 ? (
               <NoPlaces>
                 You have no favorite places yet.{" "}
                 <SLink to={"/add-place"}>Add one</SLink>
