@@ -16,11 +16,7 @@ const resolvers: Resolvers = {
   Mutation: {
     editPlace: makeMiddleware(
       authMiddleware,
-      async (
-        _,
-        { args }: { args: IArgs },
-        { req }
-      ): Promise<EditPlaceResponse> => {
+      async (_, args: IArgs, { req }): Promise<EditPlaceResponse> => {
         const { user }: { user: User } = req;
         try {
           await Place.update({ user, id: args.placeId }, args);

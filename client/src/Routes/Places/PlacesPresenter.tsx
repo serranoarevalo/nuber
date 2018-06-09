@@ -52,7 +52,8 @@ const PlacesPresenter: React.SFC<IProps> = ({
                   name={place.name}
                   address={place.address}
                   fav={true}
-                  key={place.address}
+                  key={place.id}
+                  id={place.id}
                 />
               ))}
           </Section>
@@ -64,7 +65,8 @@ const PlacesPresenter: React.SFC<IProps> = ({
                   name={place.name}
                   address={place.address}
                   fav={false}
-                  key={place.address}
+                  key={place.id}
+                  id={place.id}
                 />
               ))}
           </Section>

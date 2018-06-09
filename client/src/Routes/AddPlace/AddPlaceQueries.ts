@@ -11,6 +11,7 @@ export const ADD_PLACE = gql`
     addPlace(address: $address, name: $name, lat: $lat, lng: $lng, fav: $fav) {
       ok
       place {
+        id
         name
         address
         fav

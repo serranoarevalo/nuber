@@ -56,14 +56,17 @@ const AddPlacePresenter: React.SFC<IProps> = ({
     <Header backTo="/" title={"Add Place"} />
     <Container>
       <Form onSubmit={onSubmit}>
-        <Input
-          value={name}
-          onChange={handleInputChange}
-          type={"text"}
-          name={"name"}
-          required={true}
-          displayName={"Name"}
-        />
+        {lat &&
+          lng && (
+            <Input
+              value={name}
+              onChange={handleInputChange}
+              type={"text"}
+              name={"name"}
+              required={true}
+              displayName={"Name"}
+            />
+          )}
         {lat &&
           lng && (
             <Input

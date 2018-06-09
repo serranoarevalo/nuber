@@ -103,6 +103,7 @@ const SettingsPresenter: React.SFC<IProps> = ({
                   name={data.places[0].name}
                   fav={data.places[0].fav}
                   address={data.places[0].address}
+                  id={data.places[0].id}
                 />
                 <FakeLink>More Saved Places</FakeLink>
               </React.Fragment>

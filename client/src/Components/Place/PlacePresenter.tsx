@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { MutationFn } from "react-apollo";
 import styled from "styled-components";
 
 const Place = styled.div`
@@ -19,6 +20,8 @@ const Name = styled.span`
   display: block;
 `;
 
+const Icon = styled.span``;
+
 const Address = styled.span`
   color: ${props => props.theme.grey};
   font-size: 14px;
@@ -28,11 +31,21 @@ interface IProps {
   fav: boolean;
   name: string;
   address: string;
+  editPlace: MutationFn;
+  loading: boolean;
 }
 
-const PlacePresenter: React.SFC<IProps> = ({ fav, name, address }) => (
+const PlacePresenter: React.SFC<IProps> = ({
+  fav,
+  name,
+  address,
+  editPlace,
+  loading
+}) => (
   <Place>
-    <i className={fav ? "fas fa-star" : "far fa-star"} />
+    <Icon onClick={editPlace as any}>
+      <i className={fav ? "fas fa-star" : "far fa-star"} />
+    </Icon>
     <Container>
       <Name>{name}</Name>
       <Address>{address}</Address>
@@ -43,7 +56,9 @@ const PlacePresenter: React.SFC<IProps> = ({ fav, name, address }) => (
 PlacePresenter.propTypes = {
   fav: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired
+  address: PropTypes.string.isRequired,
+  editPlace: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default PlacePresenter;
