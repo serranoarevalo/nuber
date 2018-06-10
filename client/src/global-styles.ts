@@ -32,4 +32,7 @@ injectGlobal`
     text-decoration:none;
     color:inherit;
   }
+  #markerLayer > div:last-child {
+    transition: all .1s linear;
+  }
 `;

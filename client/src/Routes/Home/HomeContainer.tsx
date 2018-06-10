@@ -91,11 +91,12 @@ class HomeContainer extends React.Component<any, IState> {
       disableDefaultUI: true
     };
     this.map = new maps.Map(node, mapConfig);
-    const userMarker = new google.maps.Marker({
+    const userMarker: google.maps.Marker = new google.maps.Marker({
       position: {
         lat,
         lng
       },
+      optimized: false,
       icon: {
         url: require("../../images/marker.png"),
         scaledSize: new google.maps.Size(20, 20)
@@ -103,11 +104,18 @@ class HomeContainer extends React.Component<any, IState> {
     });
     this.userMarker = userMarker;
     userMarker.setMap(this.map);
+    const Overlay: google.maps.OverlayView = new google.maps.OverlayView();
+
+    Overlay.draw = () => {
+      Overlay.getPanes().markerLayer.id = "markerLayer";
+    };
+    Overlay.setMap(this.map);
     const locationOptions: PositionOptions = {
       enableHighAccuracy: true,
       timeout: 5000,
       maximumAge: 0
     };
+
     navigator.geolocation.watchPosition(
       this.updatePosition,
       this.handleGeoError,
