@@ -104,12 +104,6 @@ class HomeContainer extends React.Component<any, IState> {
     });
     this.userMarker = userMarker;
     userMarker.setMap(this.map);
-    const Overlay: google.maps.OverlayView = new google.maps.OverlayView();
-
-    Overlay.draw = () => {
-      Overlay.getPanes().markerLayer.id = "markerLayer";
-    };
-    Overlay.setMap(this.map);
     const locationOptions: PositionOptions = {
       enableHighAccuracy: true,
       timeout: 5000,
