@@ -1,12 +1,11 @@
 import React from "react";
-import { graphql } from "react-apollo";
+import { graphql, Query } from "react-apollo";
 import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
 import HomePresenter from "./HomePresenter";
 
 interface IState {
   isMenuOpen: boolean;
-  verifiedPhoneNumber: boolean;
   lat: number;
   lng: number;
 }
@@ -18,7 +17,6 @@ class HomeContainer extends React.Component<any, IState> {
     super(props);
     this.state = {
       isMenuOpen: false,
-      verifiedPhoneNumber: true,
       lat: 0,
       lng: 0
     };
@@ -36,25 +34,21 @@ class HomeContainer extends React.Component<any, IState> {
       options
     );
   }
-  componentWillReceiveProps(nextProps) {
-    const { data } = nextProps;
-    if (data) {
-      const { me: { user: { verifiedPhoneNumber = false } = {} } = {} } = data;
-      this.setState({
-        verifiedPhoneNumber
-      });
-    }
-  }
   render() {
-    const { isMenuOpen, verifiedPhoneNumber } = this.state;
+    const { isMenuOpen } = this.state;
     return (
-      <HomePresenter
-        isMenuOpen={isMenuOpen}
-        openMenu={this.openMenu}
-        closeMenu={this.closeMenu}
-        verifiedPhoneNumber={verifiedPhoneNumber}
-        redirectToVerify={this.redirectToVerify}
-      />
+      <Query query={ME}>
+        {({ loading, data }) => (
+          <HomePresenter
+            isMenuOpen={isMenuOpen}
+            openMenu={this.openMenu}
+            closeMenu={this.closeMenu}
+            redirectToVerify={this.redirectToVerify}
+            data={data}
+            loading={loading}
+          />
+        )}
+      </Query>
     );
   }
   private redirectToVerify = () => {

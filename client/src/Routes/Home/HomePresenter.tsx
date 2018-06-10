@@ -44,8 +44,9 @@ interface IProps {
   openMenu: () => void;
   closeMenu: () => void;
   isMenuOpen: boolean;
-  verifiedPhoneNumber: boolean;
+  data: any;
   redirectToVerify: () => void;
+  loading: boolean;
 }
 
 class HomePresenter extends React.Component<IProps> {
@@ -54,16 +55,19 @@ class HomePresenter extends React.Component<IProps> {
     isMenuOpen: PropTypes.bool.isRequired,
     closeMenu: PropTypes.func.isRequired,
     redirectToVerify: PropTypes.func.isRequired,
-    verifiedPhoneNumber: PropTypes.bool.isRequired
+    data: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired
   };
   render() {
     const {
       openMenu,
       isMenuOpen,
       closeMenu,
-      verifiedPhoneNumber,
-      redirectToVerify
+      redirectToVerify,
+      data,
+      loading
     } = this.props;
+    console.log(data);
     return (
       <Container>
         <Helmet>
@@ -80,18 +84,20 @@ class HomePresenter extends React.Component<IProps> {
           }}
           onSetOpen={closeMenu}
         >
-          {verifiedPhoneNumber && (
-            <Icon onClick={openMenu}>
-              <FontAwesome name={"bars"} />
-            </Icon>
-          )}
+          {!loading &&
+            data.me.user.verifiedPhoneNumber && (
+              <Icon onClick={openMenu}>
+                <FontAwesome name={"bars"} />
+              </Icon>
+            )}
         </Sidebar>
-        {!verifiedPhoneNumber && (
-          <PhoneError onClick={redirectToVerify}>
-            You need to verify your phone,{" "}
-            <FakeLink>tap here to do it</FakeLink>
-          </PhoneError>
-        )}
+        {!loading &&
+          !data.me.user.verifiedPhoneNumber && (
+            <PhoneError onClick={redirectToVerify}>
+              You need to verify your phone,{" "}
+              <FakeLink>tap here to do it</FakeLink>
+            </PhoneError>
+          )}
       </Container>
     );
   }
