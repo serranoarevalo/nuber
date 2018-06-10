@@ -84,8 +84,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
       icon: {
         url: require("../../images/marker.png"),
         scaledSize: new google.maps.Size(20, 20)
-      },
-      title: "You"
+      }
     });
     userMarker.setMap(this.map);
   };

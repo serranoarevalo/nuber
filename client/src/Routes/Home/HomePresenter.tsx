@@ -20,6 +20,8 @@ const Icon = styled.button`
   appearance: none;
   -webkit-appearance: none;
   border: 0;
+  z-index: 1;
+  background-color: transparent;
   cursor: pointer;
   &:focus {
     outline: none;
@@ -40,6 +42,13 @@ const FakeLink = styled.span`
   text-decoration: underline;
 `;
 
+const Map = styled.div`
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+`;
+
 interface IProps {
   openMenu: () => void;
   closeMenu: () => void;
@@ -47,6 +56,7 @@ interface IProps {
   data: any;
   redirectToVerify: () => void;
   loading: boolean;
+  mapRef: any;
 }
 
 class HomePresenter extends React.Component<IProps> {
@@ -65,9 +75,9 @@ class HomePresenter extends React.Component<IProps> {
       closeMenu,
       redirectToVerify,
       data,
-      loading
+      loading,
+      mapRef
     } = this.props;
-    console.log(data);
     return (
       <Container>
         <Helmet>
@@ -94,10 +104,11 @@ class HomePresenter extends React.Component<IProps> {
         {!loading &&
           !data.me.user.verifiedPhoneNumber && (
             <PhoneError onClick={redirectToVerify}>
-              You need to verify your phone,{" "}
+              You need to verify your phone
               <FakeLink>tap here to do it</FakeLink>
             </PhoneError>
           )}
+        <Map innerRef={mapRef} />
       </Container>
     );
   }
