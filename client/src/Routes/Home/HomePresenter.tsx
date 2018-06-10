@@ -40,7 +40,7 @@ const FakeLink = styled.span`
   text-decoration: underline;
 `;
 
-interface IPros {
+interface IProps {
   openMenu: () => void;
   closeMenu: () => void;
   isMenuOpen: boolean;
@@ -48,48 +48,53 @@ interface IPros {
   redirectToVerify: () => void;
 }
 
-const HomePresenter: React.SFC<IPros> = ({
-  openMenu,
-  isMenuOpen,
-  closeMenu,
-  verifiedPhoneNumber,
-  redirectToVerify
-}) => (
-  <Container>
-    <Helmet>
-      <title>Home | Nuber</title>
-    </Helmet>
-    <Sidebar
-      open={isMenuOpen}
-      sidebar={<Menu />}
-      styles={{
-        sidebar: {
-          width: "80%",
-          backgroundColor: "white"
-        }
-      }}
-      onSetOpen={closeMenu}
-    >
-      {verifiedPhoneNumber && (
-        <Icon onClick={openMenu}>
-          <FontAwesome name={"bars"} />
-        </Icon>
-      )}
-    </Sidebar>
-    {!verifiedPhoneNumber && (
-      <PhoneError onClick={redirectToVerify}>
-        You need to verify your phone, <FakeLink>tap here to do it</FakeLink>
-      </PhoneError>
-    )}
-  </Container>
-);
-
-HomePresenter.propTypes = {
-  openMenu: PropTypes.func.isRequired,
-  isMenuOpen: PropTypes.bool.isRequired,
-  closeMenu: PropTypes.func.isRequired,
-  redirectToVerify: PropTypes.func.isRequired,
-  verifiedPhoneNumber: PropTypes.bool.isRequired
-};
+class HomePresenter extends React.Component<IProps> {
+  static propTypes = {
+    openMenu: PropTypes.func.isRequired,
+    isMenuOpen: PropTypes.bool.isRequired,
+    closeMenu: PropTypes.func.isRequired,
+    redirectToVerify: PropTypes.func.isRequired,
+    verifiedPhoneNumber: PropTypes.bool.isRequired
+  };
+  render() {
+    const {
+      openMenu,
+      isMenuOpen,
+      closeMenu,
+      verifiedPhoneNumber,
+      redirectToVerify
+    } = this.props;
+    return (
+      <Container>
+        <Helmet>
+          <title>Home | Nuber</title>
+        </Helmet>
+        <Sidebar
+          open={isMenuOpen}
+          sidebar={<Menu />}
+          styles={{
+            sidebar: {
+              width: "80%",
+              backgroundColor: "white"
+            }
+          }}
+          onSetOpen={closeMenu}
+        >
+          {verifiedPhoneNumber && (
+            <Icon onClick={openMenu}>
+              <FontAwesome name={"bars"} />
+            </Icon>
+          )}
+        </Sidebar>
+        {!verifiedPhoneNumber && (
+          <PhoneError onClick={redirectToVerify}>
+            You need to verify your phone,{" "}
+            <FakeLink>tap here to do it</FakeLink>
+          </PhoneError>
+        )}
+      </Container>
+    );
+  }
+}
 
 export default HomePresenter;

@@ -47,10 +47,10 @@ class FindAddressContainer extends React.Component<IProps, IState> {
       />
     );
   }
-  private handleGeoError = error => {
+  private handleGeoError: PositionErrorCallback = (error: PositionError) => {
     toast.error(`Can't get address, ${error.message}`);
   };
-  private handleGeoSuccess = (position: Position) => {
+  private handleGeoSuccess: PositionCallback = (position: Position) => {
     const {
       coords: { latitude, longitude }
     } = position;
@@ -143,7 +143,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
       this.map.panTo({ lat, lng });
     }
   };
-  private pickAddress = () => {
+  private pickAddress = (): void => {
     const { location, history } = this.props;
     const { lat, lng, address } = this.state;
     const {
