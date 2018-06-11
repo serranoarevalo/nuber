@@ -21,6 +21,7 @@ interface IProps {
   name: string;
   placeholder?: string;
   width: string;
+  disabled?: boolean;
 }
 
 const AddressInputPresenter: React.SFC<IProps> = ({
@@ -29,7 +30,8 @@ const AddressInputPresenter: React.SFC<IProps> = ({
   onChange,
   name,
   placeholder = "",
-  width
+  width,
+  disabled = false
 }) => (
   <Form width={width} onSubmit={onSubmit}>
     <AddressBar
@@ -37,6 +39,7 @@ const AddressInputPresenter: React.SFC<IProps> = ({
       name={name}
       value={value}
       onChange={onChange}
+      disabled={disabled}
     />
   </Form>
 );

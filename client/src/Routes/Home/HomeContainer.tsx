@@ -22,6 +22,7 @@ class HomeContainer extends React.Component<any, IState> {
   map: google.maps.Map;
   userMarker: google.maps.Marker;
   toMarker: google.maps.Marker;
+  directionRenderer: google.maps.DirectionsRenderer;
 
   constructor(props: any) {
     super(props);
@@ -64,6 +65,7 @@ class HomeContainer extends React.Component<any, IState> {
             mapChoosing={mapChoosing}
             toggleMapChoosing={this.toggleMapChoosing}
             chooseMapAddres={this.chooseMapAddres}
+            requestRide={this.requestRide}
           />
         )}
       </Query>
@@ -120,7 +122,7 @@ class HomeContainer extends React.Component<any, IState> {
     };
     this.map = new maps.Map(node, mapConfig);
     this.map.addListener("dragend", this.handleCenterChange);
-    const userMarker: google.maps.Marker = new google.maps.Marker({
+    this.userMarker = new google.maps.Marker({
       position: {
         lat,
         lng
@@ -130,8 +132,7 @@ class HomeContainer extends React.Component<any, IState> {
         scaledSize: new google.maps.Size(20, 20)
       }
     });
-    this.userMarker = userMarker;
-    userMarker.setMap(this.map);
+    this.userMarker.setMap(this.map);
     const locationOptions: PositionOptions = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -165,18 +166,20 @@ class HomeContainer extends React.Component<any, IState> {
   };
 
   private submitAddress = async () => {
-    const { toAddress } = this.state;
+    const { toAddress, mapChoosing } = this.state;
     const { lat, lng, error } = await geocode(toAddress);
-    if (!error) {
-      this.setState(
-        {
-          toLat: lat,
-          toLng: lng
-        },
-        this.createToMarket
-      );
-    } else {
-      toast.error("Cant get location");
+    if (!mapChoosing) {
+      if (!error) {
+        this.setState(
+          {
+            toLat: lat,
+            toLng: lng
+          },
+          this.createToMarket
+        );
+      } else {
+        toast.error("Cant get location");
+      }
     }
   };
 
@@ -218,7 +221,7 @@ class HomeContainer extends React.Component<any, IState> {
     }
   };
 
-  private chooseMapAddres = () => {
+  private chooseMapAddres = (): void => {
     const { toLat, toLng } = this.state;
     if (toLat !== 0 && toLng !== 0) {
       this.setState(
@@ -230,18 +233,17 @@ class HomeContainer extends React.Component<any, IState> {
     }
   };
 
-  private createToMarket = () => {
+  private createToMarket = (): void => {
     const { toLng, toLat, lat, lng } = this.state;
     if (this.toMarker) {
       this.toMarker.setMap(null);
     }
-    const toMarker: google.maps.Marker = new google.maps.Marker({
+    this.toMarker = new google.maps.Marker({
       position: {
         lat: toLat,
         lng: toLng
       }
     });
-    this.toMarker = toMarker;
     this.toMarker.setMap(this.map);
     const bounds = new google.maps.LatLngBounds();
     bounds.extend({ lat: toLat, lng: toLng });
@@ -250,10 +252,18 @@ class HomeContainer extends React.Component<any, IState> {
     this.createPath();
   };
 
-  private createPath = () => {
+  private createPath = (): void => {
     const { toLat, toLng, lat, lng } = this.state;
+    if (this.directionRenderer) {
+      this.directionRenderer.setMap(null);
+    }
+    const rendererOptions: google.maps.DirectionsRendererOptions = {
+      suppressMarkers: true
+    };
     const directionsService: google.maps.DirectionsService = new google.maps.DirectionsService();
-    const directionsRenderer: google.maps.DirectionsRenderer = new google.maps.DirectionsRenderer();
+    this.directionRenderer = new google.maps.DirectionsRenderer(
+      rendererOptions
+    );
     const toPlace = new google.maps.LatLng(toLat, toLng);
     const fromPlace = new google.maps.LatLng(lat, lng);
     const directionsOptions: google.maps.DirectionsRequest = {
@@ -263,10 +273,17 @@ class HomeContainer extends React.Component<any, IState> {
     };
     directionsService.route(directionsOptions, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
-        directionsRenderer.setDirections(result);
+        this.directionRenderer.setDirections(result);
       }
     });
-    directionsRenderer.setMap(this.map);
+    this.directionRenderer.setMap(this.map);
+  };
+
+  private requestRide = (): void => {
+    const { toLat, toLng } = this.state;
+    if (toLat === 0 || toLng === 0) {
+      toast.error("Cant order ride. Choose an address to go to");
+    }
   };
 }
 

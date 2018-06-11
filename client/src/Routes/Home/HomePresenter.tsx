@@ -90,6 +90,7 @@ interface IProps {
   mapChoosing: boolean;
   toggleMapChoosing: () => void;
   chooseMapAddres: () => void;
+  requestRide: () => void;
 }
 
 class HomePresenter extends React.Component<IProps> {
@@ -115,7 +116,8 @@ class HomePresenter extends React.Component<IProps> {
       submitAddress,
       mapChoosing,
       toggleMapChoosing,
-      chooseMapAddres
+      chooseMapAddres,
+      requestRide
     } = this.props;
     return (
       <Container>
@@ -157,19 +159,21 @@ class HomePresenter extends React.Component<IProps> {
             onSubmit={submitAddress}
             placeholder={"Where to?"}
             width={"90%"}
+            disabled={mapChoosing}
           />
-          <Btn onClick={toggleMapChoosing}>Choose from map</Btn>
+          <Btn onClick={toggleMapChoosing}>
+            {mapChoosing ? "Stop choosing" : "Choose from map"}
+          </Btn>
         </AbsContainer>
         {mapChoosing && <Marker />}
         <Map innerRef={mapRef} />
         <AbsContainer top={false}>
-          {mapChoosing && (
-            <Button
-              onClick={chooseMapAddres}
-              text={"Pick this place"}
-              disabled={false}
-            />
-          )}
+          <Button
+            onClick={mapChoosing ? chooseMapAddres : requestRide}
+            text={mapChoosing ? "Pick this place" : "Request ride"}
+            disabled={false}
+            width={"90%"}
+          />
         </AbsContainer>
       </Container>
     );
