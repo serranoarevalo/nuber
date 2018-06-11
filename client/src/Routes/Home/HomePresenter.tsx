@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import Sidebar from "react-sidebar";
 import styled from "styled-components";
 import AddressInput from "../../Components/AddressInput";
+import Button from "../../Components/Button";
 import Marker from "../../Components/Marker";
 import Menu from "./Menu";
 
@@ -88,6 +89,7 @@ interface IProps {
   submitAddress: () => void;
   mapChoosing: boolean;
   toggleMapChoosing: () => void;
+  chooseMapAddres: () => void;
 }
 
 class HomePresenter extends React.Component<IProps> {
@@ -112,7 +114,8 @@ class HomePresenter extends React.Component<IProps> {
       handleInputChange,
       submitAddress,
       mapChoosing,
-      toggleMapChoosing
+      toggleMapChoosing,
+      chooseMapAddres
     } = this.props;
     return (
       <Container>
@@ -159,6 +162,15 @@ class HomePresenter extends React.Component<IProps> {
         </AbsContainer>
         {mapChoosing && <Marker />}
         <Map innerRef={mapRef} />
+        <AbsContainer top={false}>
+          {mapChoosing && (
+            <Button
+              onClick={chooseMapAddres}
+              text={"Pick this place"}
+              disabled={false}
+            />
+          )}
+        </AbsContainer>
       </Container>
     );
   }

@@ -12,8 +12,8 @@ const Marker = styled.span`
   bottom: 0;
   right: 0;
   z-index: 2;
-  color: ${props => props.theme.blue};
-  font-size: 20px;
+  color: #f1c40f;
+  font-size: 25px;
 `;
 
 const MarkerPresenter = () => (

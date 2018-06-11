@@ -63,6 +63,7 @@ class HomeContainer extends React.Component<any, IState> {
             submitAddress={this.submitAddress}
             mapChoosing={mapChoosing}
             toggleMapChoosing={this.toggleMapChoosing}
+            chooseMapAddres={this.chooseMapAddres}
           />
         )}
       </Query>
@@ -166,26 +167,14 @@ class HomeContainer extends React.Component<any, IState> {
   private submitAddress = async () => {
     const { toAddress } = this.state;
     const { lat, lng, error } = await geocode(toAddress);
-    if (this.toMarker) {
-      this.toMarker.setMap(null);
-    }
     if (!error) {
-      this.setState({
-        toLat: lat,
-        toLng: lng
-      });
-      const toMarker: google.maps.Marker = new google.maps.Marker({
-        position: {
-          lat,
-          lng
-        }
-      });
-      this.toMarker = toMarker;
-      this.toMarker.setMap(this.map);
-      const bounds = new google.maps.LatLngBounds();
-      bounds.extend({ lat, lng });
-      bounds.extend({ lat: this.state.lat, lng: this.state.lng });
-      this.map.fitBounds(bounds);
+      this.setState(
+        {
+          toLat: lat,
+          toLng: lng
+        },
+        this.createToMarket
+      );
     } else {
       toast.error("Cant get location");
     }
@@ -194,7 +183,9 @@ class HomeContainer extends React.Component<any, IState> {
   private toggleMapChoosing = () => {
     this.setState(prevState => {
       return {
-        mapChoosing: !prevState.mapChoosing
+        mapChoosing: !prevState.mapChoosing,
+        toLat: 0,
+        toLng: 0
       };
     });
   };
@@ -225,6 +216,37 @@ class HomeContainer extends React.Component<any, IState> {
     } else {
       toast.error("Cant get location");
     }
+  };
+
+  private chooseMapAddres = () => {
+    const { toLat, toLng } = this.state;
+    if (toLat !== 0 && toLng !== 0) {
+      this.setState(
+        {
+          mapChoosing: false
+        },
+        this.createToMarket
+      );
+    }
+  };
+
+  private createToMarket = () => {
+    const { toLng, toLat, lat, lng } = this.state;
+    if (this.toMarker) {
+      this.toMarker.setMap(null);
+    }
+    const toMarker: google.maps.Marker = new google.maps.Marker({
+      position: {
+        lat: toLat,
+        lng: toLng
+      }
+    });
+    this.toMarker = toMarker;
+    this.toMarker.setMap(this.map);
+    const bounds = new google.maps.LatLngBounds();
+    bounds.extend({ lat: toLat, lng: toLng });
+    bounds.extend({ lat, lng });
+    this.map.fitBounds(bounds);
   };
 }
 
