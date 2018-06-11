@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import Sidebar from "react-sidebar";
 import styled from "styled-components";
 import AddressInput from "../../Components/AddressInput";
+import Marker from "../../Components/Marker";
 import Menu from "./Menu";
 
 const Container = styled.div`
@@ -56,7 +57,22 @@ const AbsContainer = styled<any, any>("div")`
   width: 100%;
   z-index: 2;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const Btn = styled.button`
+  appearance: none;
+  border: 0;
+  padding: 10px 20px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  box-shadow: ${props => props.theme.boxShadow};
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.7);
+  &:active {
+    opacity: 0.9;
+  }
 `;
 
 interface IProps {
@@ -69,7 +85,9 @@ interface IProps {
   mapRef: any;
   toAddress: string;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  geoCode: () => void;
+  submitAddress: () => void;
+  mapChoosing: boolean;
+  toggleMapChoosing: () => void;
 }
 
 class HomePresenter extends React.Component<IProps> {
@@ -92,7 +110,9 @@ class HomePresenter extends React.Component<IProps> {
       mapRef,
       toAddress,
       handleInputChange,
-      geoCode
+      submitAddress,
+      mapChoosing,
+      toggleMapChoosing
     } = this.props;
     return (
       <Container>
@@ -125,16 +145,19 @@ class HomePresenter extends React.Component<IProps> {
               <FakeLink>tap here to do it</FakeLink>
             </PhoneError>
           )}
+
         <AbsContainer top={true}>
           <AddressInput
             value={toAddress}
             name={"toAddress"}
             onChange={handleInputChange}
-            onSubmit={geoCode}
+            onSubmit={submitAddress}
             placeholder={"Where to?"}
             width={"90%"}
           />
+          <Btn onClick={toggleMapChoosing}>Choose from map</Btn>
         </AbsContainer>
+        {mapChoosing && <Marker />}
         <Map innerRef={mapRef} />
       </Container>
     );

@@ -3,7 +3,7 @@ import { graphql, Query } from "react-apollo";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
-import { geocode } from "../../utils";
+import { geocode, reverseGeocode } from "../../utils";
 import HomePresenter from "./HomePresenter";
 
 interface IState {
@@ -14,6 +14,7 @@ interface IState {
   toLat: number;
   toLng: number;
   toAddress: string;
+  mapChoosing: boolean;
 }
 
 class HomeContainer extends React.Component<any, IState> {
@@ -31,7 +32,8 @@ class HomeContainer extends React.Component<any, IState> {
       toLat: 0,
       toLng: 0,
       toAddress: "",
-      fromAddress: ""
+      fromAddress: "",
+      mapChoosing: false
     };
     this.mapRef = React.createRef();
   }
@@ -44,7 +46,7 @@ class HomeContainer extends React.Component<any, IState> {
   }
 
   render() {
-    const { isMenuOpen, toAddress } = this.state;
+    const { isMenuOpen, toAddress, mapChoosing } = this.state;
     return (
       <Query query={ME}>
         {({ loading, data }) => (
@@ -58,7 +60,9 @@ class HomeContainer extends React.Component<any, IState> {
             mapRef={this.mapRef}
             handleInputChange={this.handleInputChange}
             toAddress={toAddress}
-            geoCode={this.geoCodeAddress}
+            submitAddress={this.submitAddress}
+            mapChoosing={mapChoosing}
+            toggleMapChoosing={this.toggleMapChoosing}
           />
         )}
       </Query>
@@ -110,9 +114,11 @@ class HomeContainer extends React.Component<any, IState> {
       center: { lat, lng },
       zoom: 16,
       mapTypeId: "roadmap",
-      disableDefaultUI: true
+      disableDefaultUI: true,
+      minZoom: 5
     };
     this.map = new maps.Map(node, mapConfig);
+    this.map.addListener("dragend", this.handleCenterChange);
     const userMarker: google.maps.Marker = new google.maps.Marker({
       position: {
         lat,
@@ -157,7 +163,7 @@ class HomeContainer extends React.Component<any, IState> {
     } as any);
   };
 
-  private geoCodeAddress = async () => {
+  private submitAddress = async () => {
     const { toAddress } = this.state;
     const { lat, lng, error } = await geocode(toAddress);
     if (this.toMarker) {
@@ -180,6 +186,42 @@ class HomeContainer extends React.Component<any, IState> {
       bounds.extend({ lat, lng });
       bounds.extend({ lat: this.state.lat, lng: this.state.lng });
       this.map.fitBounds(bounds);
+    } else {
+      toast.error("Cant get location");
+    }
+  };
+
+  private toggleMapChoosing = () => {
+    this.setState(prevState => {
+      return {
+        mapChoosing: !prevState.mapChoosing
+      };
+    });
+  };
+
+  private handleCenterChange = () => {
+    const { mapChoosing } = this.state;
+    if (mapChoosing) {
+      const center = this.map.getCenter();
+      const lat = center.lat();
+      const lng = center.lng();
+      this.setState(
+        {
+          toLat: lat,
+          toLng: lng
+        },
+        this.hidrateAddress
+      );
+    }
+  };
+
+  private hidrateAddress = async () => {
+    const { toLat, toLng } = this.state;
+    const { address, error } = await reverseGeocode(toLat, toLng);
+    if (!error) {
+      this.setState({
+        toAddress: address
+      });
     } else {
       toast.error("Cant get location");
     }
