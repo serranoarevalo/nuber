@@ -20,6 +20,8 @@ class HomeContainer extends React.Component<any, IState> {
   mapRef: any;
   map: google.maps.Map;
   userMarker: google.maps.Marker;
+  toMarker: google.maps.Marker;
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -33,12 +35,14 @@ class HomeContainer extends React.Component<any, IState> {
     };
     this.mapRef = React.createRef();
   }
+
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       this.handleGeoSuccess,
       this.handleGeoError
     );
   }
+
   render() {
     const { isMenuOpen, toAddress } = this.state;
     return (
@@ -60,20 +64,24 @@ class HomeContainer extends React.Component<any, IState> {
       </Query>
     );
   }
+
   private redirectToVerify = () => {
     const { history } = this.props;
     history.push("/add-phone");
   };
+
   private openMenu = () => {
     this.setState({
       isMenuOpen: true
     });
   };
+
   private closeMenu = () => {
     this.setState({
       isMenuOpen: false
     });
   };
+
   private handleGeoSuccess: PositionCallback = (position: Position): void => {
     const {
       coords: { latitude, longitude }
@@ -86,11 +94,13 @@ class HomeContainer extends React.Component<any, IState> {
       this.loadMap
     );
   };
+
   private handleGeoError: PositionErrorCallback = (
     error: PositionError
   ): void => {
     toast.error(`Can't get address, ${error.message}`);
   };
+
   private loadMap = (): void => {
     const { google } = this.props;
     const { lat, lng } = this.state;
@@ -127,6 +137,7 @@ class HomeContainer extends React.Component<any, IState> {
       locationOptions
     );
   };
+
   private updatePosition: PositionCallback = (position: Position) => {
     const {
       coords: { latitude, longitude }
@@ -134,6 +145,7 @@ class HomeContainer extends React.Component<any, IState> {
     const latLng = new google.maps.LatLng(latitude, longitude);
     this.userMarker.setPosition(latLng);
   };
+
   private handleInputChange: React.ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
   > = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -144,9 +156,13 @@ class HomeContainer extends React.Component<any, IState> {
       [name]: value
     } as any);
   };
+
   private geoCodeAddress = async () => {
     const { toAddress } = this.state;
     const { lat, lng, error } = await geocode(toAddress);
+    if (this.toMarker) {
+      this.toMarker.setMap(null);
+    }
     if (!error) {
       this.setState({
         toLat: lat,
@@ -158,7 +174,8 @@ class HomeContainer extends React.Component<any, IState> {
           lng
         }
       });
-      toMarker.setMap(this.map);
+      this.toMarker = toMarker;
+      this.toMarker.setMap(this.map);
       const bounds = new google.maps.LatLngBounds();
       bounds.extend({ lat, lng });
       bounds.extend({ lat: this.state.lat, lng: this.state.lng });
