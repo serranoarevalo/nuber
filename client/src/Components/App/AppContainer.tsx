@@ -9,7 +9,9 @@ import { IS_LOGGED_IN } from "./AppQueries";
 
 const theme = {
   grey: "#7f8c8d",
-  blue: "#3498db"
+  blue: "#3498db",
+  boxShadow:
+    "0 18px 35px rgba(50, 50, 93, 0.1), 0 8px 15px rgba(0, 0, 0, 0.07);"
 };
 
 interface IProps {

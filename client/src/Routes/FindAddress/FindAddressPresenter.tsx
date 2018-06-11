@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import FontAwesome from "react-fontawesome";
 import styled from "styled-components";
+import AddressInput from "../../Components/AddressInput";
 import Button from "../../Components/Button";
-import Form from "../../Components/Form";
 
 const Container = styled.div`
   height: 100vh;
@@ -28,18 +28,6 @@ const Marker = styled.span`
   z-index: 2;
   color: ${props => props.theme.blue};
   font-size: 20px;
-`;
-
-const AddressBar = styled.input`
-  box-shadow: 0 18px 35px rgba(50, 50, 93, 0.1), 0 8px 15px rgba(0, 0, 0, 0.07);
-  background-color: white;
-  border-radius: 5px;
-  -webkit-appearance: none;
-  z-index: 2;
-  width: 100%;
-  border: 0;
-  font-size: 16px;
-  padding: 15px 10px;
 `;
 
 const AbsContainer = styled<any, any>("div")`
@@ -77,13 +65,13 @@ class FindAddressPresenter extends React.Component<IProps> {
     return (
       <Container>
         <AbsContainer top={true}>
-          <Form width={"80%"} onSubmit={geoCode}>
-            <AddressBar
-              name={"address"}
-              value={address}
-              onChange={handleInputChange}
-            />
-          </Form>
+          <AddressInput
+            onSubmit={geoCode}
+            name={"address"}
+            value={address}
+            onChange={handleInputChange}
+            width={"90%"}
+          />
         </AbsContainer>
         <Marker>
           <FontAwesome name={"map-marker"} />
@@ -93,7 +81,7 @@ class FindAddressPresenter extends React.Component<IProps> {
             onClick={pickAddress}
             text="Pick place"
             disabled={false}
-            width="80%"
+            width="90%"
           />
         </AbsContainer>
         <Map innerRef={mapRef} />

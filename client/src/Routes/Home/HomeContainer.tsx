@@ -9,6 +9,10 @@ interface IState {
   isMenuOpen: boolean;
   lat: number;
   lng: number;
+  fromAddress: string;
+  toLat: number;
+  toLng: number;
+  toAddress: string;
 }
 
 class HomeContainer extends React.Component<any, IState> {
@@ -20,7 +24,11 @@ class HomeContainer extends React.Component<any, IState> {
     this.state = {
       isMenuOpen: false,
       lat: 0,
-      lng: 0
+      lng: 0,
+      toLat: 0,
+      toLng: 0,
+      toAddress: "",
+      fromAddress: ""
     };
     this.mapRef = React.createRef();
   }
@@ -31,7 +39,7 @@ class HomeContainer extends React.Component<any, IState> {
     );
   }
   render() {
-    const { isMenuOpen } = this.state;
+    const { isMenuOpen, toAddress } = this.state;
     return (
       <Query query={ME}>
         {({ loading, data }) => (
@@ -43,6 +51,9 @@ class HomeContainer extends React.Component<any, IState> {
             data={data}
             loading={loading}
             mapRef={this.mapRef}
+            handleInputChange={this.handleInputChange}
+            toAddress={toAddress}
+            geoCode={this.geoCodeAddress}
           />
         )}
       </Query>
@@ -96,7 +107,6 @@ class HomeContainer extends React.Component<any, IState> {
         lat,
         lng
       },
-      optimized: false,
       icon: {
         url: require("../../images/marker.png"),
         scaledSize: new google.maps.Size(20, 20)
@@ -123,6 +133,19 @@ class HomeContainer extends React.Component<any, IState> {
     const latLng = new google.maps.LatLng(latitude, longitude);
     this.userMarker.setPosition(latLng);
     this.map.panTo(latLng);
+  };
+  private handleInputChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const {
+      target: { value, name }
+    } = event;
+    this.setState({
+      [name]: value
+    } as any);
+  };
+  private geoCodeAddress = (): void => {
+    // stuff
   };
 }
 

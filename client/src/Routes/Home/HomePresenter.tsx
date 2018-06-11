@@ -4,6 +4,7 @@ import FontAwesome from "react-fontawesome";
 import { Helmet } from "react-helmet";
 import Sidebar from "react-sidebar";
 import styled from "styled-components";
+import AddressInput from "../../Components/AddressInput";
 import Menu from "./Menu";
 
 const Container = styled.div`
@@ -15,7 +16,7 @@ const Icon = styled.button`
   width: 50px;
   position: absolute;
   top: 15px;
-  left: 15px;
+  left: 8px;
   font-size: 26px;
   appearance: none;
   -webkit-appearance: none;
@@ -49,6 +50,15 @@ const Map = styled.div`
   z-index: 0;
 `;
 
+const AbsContainer = styled<any, any>("div")`
+  position: absolute;
+  ${props => (props.top ? "top: 80px;" : "bottom: 50px;")};
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+`;
+
 interface IProps {
   openMenu: () => void;
   closeMenu: () => void;
@@ -57,6 +67,9 @@ interface IProps {
   redirectToVerify: () => void;
   loading: boolean;
   mapRef: any;
+  toAddress: string;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  geoCode: () => void;
 }
 
 class HomePresenter extends React.Component<IProps> {
@@ -76,7 +89,10 @@ class HomePresenter extends React.Component<IProps> {
       redirectToVerify,
       data,
       loading,
-      mapRef
+      mapRef,
+      toAddress,
+      handleInputChange,
+      geoCode
     } = this.props;
     return (
       <Container>
@@ -89,7 +105,8 @@ class HomePresenter extends React.Component<IProps> {
           styles={{
             sidebar: {
               width: "80%",
-              backgroundColor: "white"
+              backgroundColor: "white",
+              zIndex: "10"
             }
           }}
           onSetOpen={closeMenu}
@@ -108,6 +125,16 @@ class HomePresenter extends React.Component<IProps> {
               <FakeLink>tap here to do it</FakeLink>
             </PhoneError>
           )}
+        <AbsContainer top={true}>
+          <AddressInput
+            value={toAddress}
+            name={"toAddress"}
+            onChange={handleInputChange}
+            onSubmit={geoCode}
+            placeholder={"Where to?"}
+            width={"90%"}
+          />
+        </AbsContainer>
         <Map innerRef={mapRef} />
       </Container>
     );

@@ -1,8 +1,7 @@
-import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
-import { GOOGLE_MAPS_API } from "../../keys";
+import { geocode, reverseGeocode } from "../../utils";
 import FindAddressPresenter from "./FindAddressPresenter";
 
 interface IState {
@@ -100,19 +99,6 @@ class FindAddressContainer extends React.Component<IProps, IState> {
       this.reverseGeocode
     );
   };
-  private reverseGeocode = async () => {
-    const { lat, lng } = this.state;
-    const URL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_API}`;
-    const { status, data } = await axios.get(URL);
-    if (status === 200) {
-      const { results } = data;
-      const firstAddress = results[0];
-      const address = firstAddress.formatted_address;
-      this.setState({
-        address
-      });
-    }
-  };
   private handleInputChange: React.ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
   > = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -123,25 +109,31 @@ class FindAddressContainer extends React.Component<IProps, IState> {
       [name]: value
     } as any);
   };
+  private reverseGeocode = async () => {
+    const { lat, lng } = this.state;
+    const { address, error } = await reverseGeocode(lat, lng);
+    if (!error) {
+      this.setState({
+        address
+      });
+    } else {
+      toast.error("Cant get location");
+    }
+  };
   private geoCode = async () => {
     const { address } = this.state;
-    const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_MAPS_API}`;
-    const { status, data } = await axios.get(URL);
-    if (status === 200) {
-      const { results } = data;
-      const place = results[0];
-      const {
-        geometry: {
-          location: { lat, lng }
-        }
-      } = place;
+    const { lat, lng, error } = await geocode(address);
+    if (!error) {
       this.setState({
         lat,
         lng
       });
       this.map.panTo({ lat, lng });
+    } else {
+      toast.error("Cant get location");
     }
   };
+
   private pickAddress = (): void => {
     const { location, history } = this.props;
     const { lat, lng, address } = this.state;
