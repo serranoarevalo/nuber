@@ -3,6 +3,7 @@ import { graphql, Query } from "react-apollo";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
+import { geocode } from "../../utils";
 import HomePresenter from "./HomePresenter";
 
 interface IState {
@@ -132,7 +133,6 @@ class HomeContainer extends React.Component<any, IState> {
     } = position;
     const latLng = new google.maps.LatLng(latitude, longitude);
     this.userMarker.setPosition(latLng);
-    this.map.panTo(latLng);
   };
   private handleInputChange: React.ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
@@ -144,8 +144,28 @@ class HomeContainer extends React.Component<any, IState> {
       [name]: value
     } as any);
   };
-  private geoCodeAddress = (): void => {
-    // stuff
+  private geoCodeAddress = async () => {
+    const { toAddress } = this.state;
+    const { lat, lng, error } = await geocode(toAddress);
+    if (!error) {
+      this.setState({
+        toLat: lat,
+        toLng: lng
+      });
+      const toMarker: google.maps.Marker = new google.maps.Marker({
+        position: {
+          lat,
+          lng
+        }
+      });
+      toMarker.setMap(this.map);
+      const bounds = new google.maps.LatLngBounds();
+      bounds.extend({ lat, lng });
+      bounds.extend({ lat: this.state.lat, lng: this.state.lng });
+      this.map.fitBounds(bounds);
+    } else {
+      toast.error("Cant get location");
+    }
   };
 }
 
