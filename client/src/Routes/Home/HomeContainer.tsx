@@ -247,6 +247,26 @@ class HomeContainer extends React.Component<any, IState> {
     bounds.extend({ lat: toLat, lng: toLng });
     bounds.extend({ lat, lng });
     this.map.fitBounds(bounds);
+    this.createPath();
+  };
+
+  private createPath = () => {
+    const { toLat, toLng, lat, lng } = this.state;
+    const directionsService: google.maps.DirectionsService = new google.maps.DirectionsService();
+    const directionsRenderer: google.maps.DirectionsRenderer = new google.maps.DirectionsRenderer();
+    const toPlace = new google.maps.LatLng(toLat, toLng);
+    const fromPlace = new google.maps.LatLng(lat, lng);
+    const directionsOptions: google.maps.DirectionsRequest = {
+      origin: fromPlace,
+      destination: toPlace,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+    directionsService.route(directionsOptions, (result, status) => {
+      if (status === google.maps.DirectionsStatus.OK) {
+        directionsRenderer.setDirections(result);
+      }
+    });
+    directionsRenderer.setMap(this.map);
   };
 }
 
