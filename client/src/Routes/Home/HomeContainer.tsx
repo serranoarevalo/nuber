@@ -274,6 +274,10 @@ class HomeContainer extends React.Component<any, IState> {
     directionsService.route(directionsOptions, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
         this.directionRenderer.setDirections(result);
+      } else {
+        toast.error(
+          "Could not find a way to get there, you might have to swim"
+        );
       }
     });
     this.directionRenderer.setMap(this.map);
