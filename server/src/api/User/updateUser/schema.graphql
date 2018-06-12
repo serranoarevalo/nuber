@@ -13,5 +13,6 @@ type Mutation {
     age: Int
     phoneNumber: String
     profilePhoto: String
+    isDriving: Boolean
   ): UpdateUserResponse!
 }

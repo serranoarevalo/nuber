@@ -15,7 +15,7 @@ type User {
   updatedAt: String
   fullName: String
   confirmations: [Confirmation]
-  isDriver: Boolean
+  isDriving: Boolean
   balance: Float
   carPlates: String
   ridesAsPassenger: [Ride]!

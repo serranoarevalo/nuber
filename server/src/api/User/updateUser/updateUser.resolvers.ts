@@ -12,6 +12,7 @@ interface IArgs {
   age: number;
   phoneNumber: string;
   profilePhoto: string;
+  isDriving: boolean;
 }
 
 const resolvers: Resolvers = {

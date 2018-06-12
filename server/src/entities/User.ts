@@ -58,7 +58,7 @@ class User extends BaseEntity {
   profilePhoto: string;
 
   @Column({ type: "boolean", default: false })
-  isDriver: boolean;
+  isDriving: boolean;
 
   @Column({ type: "float", nullable: true })
   balance: number;
