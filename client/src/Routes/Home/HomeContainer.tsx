@@ -105,7 +105,7 @@ class HomeContainer extends React.Component<any, IState> {
   private handleGeoError: PositionErrorCallback = (
     error: PositionError
   ): void => {
-    toast.error(`Can't get address, ${error.message}`);
+    console.log(error);
   };
 
   private loadMap = (): void => {
@@ -258,7 +258,10 @@ class HomeContainer extends React.Component<any, IState> {
       this.directionRenderer.setMap(null);
     }
     const rendererOptions: google.maps.DirectionsRendererOptions = {
-      suppressMarkers: true
+      suppressMarkers: true,
+      polylineOptions: {
+        strokeColor: "#000"
+      }
     };
     const directionsService: google.maps.DirectionsService = new google.maps.DirectionsService();
     this.directionRenderer = new google.maps.DirectionsRenderer(
