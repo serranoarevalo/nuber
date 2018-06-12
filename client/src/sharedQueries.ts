@@ -31,6 +31,7 @@ export const ME = gql`
         email
         profilePhoto
         verifiedPhoneNumber
+        isDriving
       }
       error
     }

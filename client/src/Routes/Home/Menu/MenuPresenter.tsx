@@ -1,4 +1,5 @@
 import React from "react";
+import { MutationFn } from "react-apollo";
 import FontAwesome from "react-fontawesome";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -68,12 +69,23 @@ const Grid = styled.div`
   align-items: center;
 `;
 
+const ToggleDriving = styled.button`
+  -webkit-appearance: none;
+  background-color: #f1c40f;
+  width: 100%;
+  color: white;
+  font-size: 18px;
+  border: 0;
+  padding: 15px 0px;
+`;
+
 interface IProps {
   loading: boolean;
   data: any;
+  toggleDriving: MutationFn;
 }
 
-const MenuPresenter: React.SFC<IProps> = ({ loading, data }) => (
+const MenuPresenter: React.SFC<IProps> = ({ loading, data, toggleDriving }) => (
   <Container>
     <Header>
       {loading ? (
@@ -92,8 +104,11 @@ const MenuPresenter: React.SFC<IProps> = ({ loading, data }) => (
         </Grid>
       )}
     </Header>
-    <SLink to="/trips">Your Trips</SLink>
+    {!data.me.user.isDriving && <SLink to="/trips">Your Trips</SLink>}
     <SLink to="/settings">Settings</SLink>
+    <ToggleDriving onClick={toggleDriving as any}>
+      {data.me.user.isDriving ? "Stop driving" : "Start driving"}
+    </ToggleDriving>
   </Container>
 );
 

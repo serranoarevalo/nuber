@@ -5,8 +5,7 @@ const client = new ApolloClient({
     defaults: {
       auth: {
         __typename: "Auth",
-        isLoggedIn: Boolean(localStorage.getItem("jwt")) || false,
-        isDriving: Boolean(localStorage.getItem("isDriving")) || false
+        isLoggedIn: Boolean(localStorage.getItem("jwt")) || false
       }
     },
     resolvers: {
@@ -35,17 +34,6 @@ const client = new ApolloClient({
             }
           });
           return null;
-        },
-        toggleDriverMode: (_, { isDriving }, { cache }) => {
-          localStorage.setItem("isDriving", isDriving);
-          cache.writeData({
-            data: {
-              auth: {
-                __typename: "Auth",
-                isDriving
-              }
-            }
-          });
         }
       }
     }

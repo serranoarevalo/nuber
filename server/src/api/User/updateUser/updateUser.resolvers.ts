@@ -20,6 +20,7 @@ const resolvers: Resolvers = {
     updateUser: makeMiddleware(
       authMiddleware,
       async (_, args: IArgs, { req }): Promise<UpdateUserResponse> => {
+        console.log(args);
         const { user }: { user: User } = req;
         const updateData = args;
         if (args.password) {
