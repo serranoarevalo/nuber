@@ -15,6 +15,7 @@ interface IState {
   toLng: number;
   toAddress: string;
   mapChoosing: boolean;
+  findingDirections: boolean;
 }
 
 class HomeContainer extends React.Component<any, IState> {
@@ -34,7 +35,8 @@ class HomeContainer extends React.Component<any, IState> {
       toLng: 0,
       toAddress: "",
       fromAddress: "",
-      mapChoosing: false
+      mapChoosing: false,
+      findingDirections: false
     };
     this.mapRef = React.createRef();
   }
@@ -47,7 +49,12 @@ class HomeContainer extends React.Component<any, IState> {
   }
 
   render() {
-    const { isMenuOpen, toAddress, mapChoosing } = this.state;
+    const {
+      isMenuOpen,
+      toAddress,
+      mapChoosing,
+      findingDirections
+    } = this.state;
     return (
       <Query query={ME}>
         {({ loading, data }) => (
@@ -66,6 +73,7 @@ class HomeContainer extends React.Component<any, IState> {
             toggleMapChoosing={this.toggleMapChoosing}
             chooseMapAddres={this.chooseMapAddres}
             requestRide={this.requestRide}
+            findingDirections={findingDirections}
           />
         )}
       </Query>
@@ -274,9 +282,15 @@ class HomeContainer extends React.Component<any, IState> {
       destination: toPlace,
       travelMode: google.maps.TravelMode.DRIVING
     };
+    this.setState({
+      findingDirections: true
+    });
     directionsService.route(directionsOptions, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
         this.directionRenderer.setDirections(result);
+        this.setState({
+          findingDirections: false
+        });
       } else {
         toast.error(
           "Could not find a way to get there, you might have to swim"

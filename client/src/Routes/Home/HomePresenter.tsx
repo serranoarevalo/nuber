@@ -91,16 +91,25 @@ interface IProps {
   toggleMapChoosing: () => void;
   chooseMapAddres: () => void;
   requestRide: () => void;
+  findingDirections: boolean;
 }
 
 class HomePresenter extends React.Component<IProps> {
   static propTypes = {
     openMenu: PropTypes.func.isRequired,
-    isMenuOpen: PropTypes.bool.isRequired,
     closeMenu: PropTypes.func.isRequired,
-    redirectToVerify: PropTypes.func.isRequired,
+    isMenuOpen: PropTypes.bool.isRequired,
     data: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired
+    redirectToVerify: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    toAddress: PropTypes.string,
+    handleInputChange: PropTypes.func.isRequired,
+    submitAddress: PropTypes.func.isRequired,
+    mapChoosing: PropTypes.bool.isRequired,
+    toggleMapChoosing: PropTypes.func.isRequired,
+    chooseMapAddres: PropTypes.func.isRequired,
+    requestRide: PropTypes.func.isRequired,
+    findingDirections: PropTypes.bool.isRequired
   };
   render() {
     const {
@@ -117,7 +126,8 @@ class HomePresenter extends React.Component<IProps> {
       mapChoosing,
       toggleMapChoosing,
       chooseMapAddres,
-      requestRide
+      requestRide,
+      findingDirections
     } = this.props;
     return (
       <Container>
@@ -170,8 +180,16 @@ class HomePresenter extends React.Component<IProps> {
         <AbsContainer top={false}>
           <Button
             onClick={mapChoosing ? chooseMapAddres : requestRide}
-            text={mapChoosing ? "Pick this place" : "Request ride"}
-            disabled={false}
+            text={(() => {
+              if (mapChoosing) {
+                return "Pick this place";
+              } else if (!mapChoosing && findingDirections) {
+                return "Finding directions";
+              } else {
+                return "Request ride";
+              }
+            })()}
+            disabled={findingDirections}
             width={"90%"}
           />
         </AbsContainer>
@@ -179,5 +197,4 @@ class HomePresenter extends React.Component<IProps> {
     );
   }
 }
-
 export default HomePresenter;
