@@ -10,7 +10,7 @@ import {
   OneToMany
 } from "typeorm";
 import { IsEmail } from "class-validator";
-import bcrypt, { hash } from "bcrypt";
+import bcrypt from "bcrypt";
 import Confirmation from "./Confirmation";
 import Ride from "./Ride";
 import Place from "./Place";

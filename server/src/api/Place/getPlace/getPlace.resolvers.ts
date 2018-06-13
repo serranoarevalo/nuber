@@ -14,7 +14,10 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, { placeId }: IArgs, { req }): Promise<GetPlaceResponse> => {
         const { user }: { user: User } = req;
-        const place: Place = await Place.findOne({ id: placeId, user });
+        const place: Place | undefined = await Place.findOne({
+          id: placeId,
+          user
+        });
         if (place) {
           return {
             ok: true,

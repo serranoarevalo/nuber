@@ -1,6 +1,5 @@
 import aws from "aws-sdk";
 import { Resolvers } from "../../../types/resolvers";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import { SignS3URLResponse } from "../../../types/graph";
 import { AWS_KEY_ID, AWS_SECRET_ACCESS_KEY } from "../../../keys";
 
@@ -13,7 +12,7 @@ interface IArgs {
 
 const resolvers: Resolvers = {
   Mutation: {
-    signS3URL: async (_, args: IArgs, { req }): Promise<SignS3URLResponse> => {
+    signS3URL: async (_, args: IArgs, __): Promise<SignS3URLResponse> => {
       const s3 = new aws.S3({
         signatureVersion: "v4",
         region: "ap-northeast-1",

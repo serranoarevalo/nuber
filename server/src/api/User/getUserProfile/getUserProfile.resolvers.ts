@@ -12,7 +12,7 @@ const resolvers: Resolvers = {
     getUserProfile: makeMiddleware(
       authMiddleware,
       async (_, { id }: IArgs): Promise<GetUserProfileResponse> => {
-        const user: User = await User.findOne(id);
+        const user: User | undefined = await User.findOne(id);
         if (user) {
           return {
             ok: true,

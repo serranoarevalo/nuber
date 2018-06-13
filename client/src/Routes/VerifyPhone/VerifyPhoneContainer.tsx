@@ -36,7 +36,7 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
     return (
       <Mutation
         mutation={
-          mutation === "completePhoneSignIn" ? VERIFY_KEY : CONFIRM_PHONE
+          mutation === "completePhoneSignIn" ? CONFIRM_PHONE : VERIFY_KEY
         }
         update={this.handlePostSubmit}
         variables={{ phone, key: verificationKey }}
@@ -102,8 +102,14 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
         toast.error(verifyPhone.error);
       } else if (verifyPhone.ok) {
         toast.success("Phone number verified");
-        cache.readQuery({ query: ME });
-        console.log(cache);
+        const query: any = cache.readQuery({ query: ME });
+        if (query) {
+          query.me.user.verifiedPhoneNumber = true;
+          cache.writeQuery({
+            query: ME,
+            data: query
+          });
+        }
       }
     }
   };

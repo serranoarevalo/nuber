@@ -1,5 +1,4 @@
 import { Resolvers } from "../../../types/resolvers";
-import User from "../../../entities/User";
 import Confirmation from "../../../entities/Confirmation";
 import { sendVerificationText } from "../../../utils/sendSMS";
 import { RequestPhoneSignInResponse } from "../../../types/graph";
@@ -14,7 +13,9 @@ const resolvers: Resolvers = {
       _,
       { phoneNumber }: IArgs
     ): Promise<RequestPhoneSignInResponse> => {
-      const existingConfirmation: Confirmation = await Confirmation.findOne({
+      const existingConfirmation:
+        | Confirmation
+        | undefined = await Confirmation.findOne({
         payload: phoneNumber,
         type: "PHONE"
       });
@@ -26,10 +27,7 @@ const resolvers: Resolvers = {
         type: "PHONE"
       }).save();
       try {
-        const verification = await sendVerificationText(
-          phoneNumber,
-          confirmation.key
-        );
+        await sendVerificationText(phoneNumber, confirmation.key);
         confirmation.sent = true;
         confirmation.save();
         return {

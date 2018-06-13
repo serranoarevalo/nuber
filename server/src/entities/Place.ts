@@ -5,8 +5,6 @@ import {
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
-  BeforeInsert,
-  BeforeUpdate,
   ManyToOne
 } from "typeorm";
 import User from "./User";

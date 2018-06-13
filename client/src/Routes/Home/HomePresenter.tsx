@@ -94,6 +94,52 @@ interface IProps {
   findingDirections: boolean;
 }
 
+const UserElements = ({
+  toAddress,
+  handleInputChange,
+  submitAddress,
+  mapChoosing,
+  toggleMapChoosing,
+  chooseMapAddres,
+  requestRide,
+  findingDirections
+}) => (
+  <React.Fragment>
+    <AbsContainer top={true}>
+      <AddressInput
+        value={toAddress}
+        name={"toAddress"}
+        onChange={handleInputChange}
+        onSubmit={submitAddress}
+        placeholder={"Where to?"}
+        width={"90%"}
+        disabled={mapChoosing}
+      />
+      <Btn onClick={toggleMapChoosing}>
+        {mapChoosing ? "Stop choosing" : "Choose from map"}
+      </Btn>
+    </AbsContainer>
+    <AbsContainer top={false}>
+      <Button
+        onClick={mapChoosing ? chooseMapAddres : requestRide}
+        text={(() => {
+          if (mapChoosing) {
+            return "Pick this place";
+          } else if (!mapChoosing && findingDirections) {
+            return "Finding directions";
+          } else {
+            return "Request ride";
+          }
+        })()}
+        disabled={findingDirections}
+        width={"90%"}
+      />
+    </AbsContainer>
+  </React.Fragment>
+);
+
+const DriverElements = () => null;
+
 class HomePresenter extends React.Component<IProps> {
   static propTypes = {
     openMenu: PropTypes.func.isRequired,
@@ -160,39 +206,22 @@ class HomePresenter extends React.Component<IProps> {
               <FakeLink>tap here to do it</FakeLink>
             </PhoneError>
           )}
-
-        <AbsContainer top={true}>
-          <AddressInput
-            value={toAddress}
-            name={"toAddress"}
-            onChange={handleInputChange}
-            onSubmit={submitAddress}
-            placeholder={"Where to?"}
-            width={"90%"}
-            disabled={mapChoosing}
-          />
-          <Btn onClick={toggleMapChoosing}>
-            {mapChoosing ? "Stop choosing" : "Choose from map"}
-          </Btn>
-        </AbsContainer>
         {mapChoosing && <Marker />}
         <Map innerRef={mapRef} />
-        <AbsContainer top={false}>
-          <Button
-            onClick={mapChoosing ? chooseMapAddres : requestRide}
-            text={(() => {
-              if (mapChoosing) {
-                return "Pick this place";
-              } else if (!mapChoosing && findingDirections) {
-                return "Finding directions";
-              } else {
-                return "Request ride";
-              }
-            })()}
-            disabled={findingDirections}
-            width={"90%"}
+        {data.me.user.isDriving ? (
+          <DriverElements />
+        ) : (
+          <UserElements
+            toAddress={toAddress}
+            handleInputChange={handleInputChange}
+            submitAddress={submitAddress}
+            mapChoosing={mapChoosing}
+            toggleMapChoosing={toggleMapChoosing}
+            chooseMapAddres={chooseMapAddres}
+            requestRide={requestRide}
+            findingDirections={findingDirections}
           />
-        </AbsContainer>
+        )}
       </Container>
     );
   }

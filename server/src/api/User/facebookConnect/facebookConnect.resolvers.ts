@@ -1,6 +1,4 @@
-import request from "request-promise";
 import { Resolvers } from "../../../types/resolvers";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import User from "../../../entities/User";
 import { createJWT } from "../../../utils/createJWT";
 import { FacebookConnectResponse } from "../../../types/graph";
@@ -23,7 +21,7 @@ const resolvers: Resolvers = {
       //const fbURL = `https://graph.facebook.com/me?access_token=${fbToken}&fields=id,first_name,last_name,email`;
       //const fbRequest = await request(fbURL);
       //const { id, first_name, last_name, email } = JSON.parse(fbRequest);
-      const existingUser: User = await User.findOne({
+      const existingUser: User | undefined = await User.findOne({
         facebookId: userID
       });
       if (existingUser) {

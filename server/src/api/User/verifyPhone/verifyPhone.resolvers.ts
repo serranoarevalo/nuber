@@ -14,7 +14,9 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, { key }: IArgs, { req }): Promise<VerifyPhoneResponse> => {
         const { user }: { user: User } = req;
-        const confirmation: Confirmation = await Confirmation.findOne({
+        const confirmation:
+          | Confirmation
+          | undefined = await Confirmation.findOne({
           key,
           user,
           type: "PHONE"

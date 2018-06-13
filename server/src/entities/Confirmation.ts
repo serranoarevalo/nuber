@@ -6,10 +6,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
-  BeforeUpdate,
   ManyToOne
 } from "typeorm";
-import { IsEmail } from "class-validator";
 import User from "./User";
 
 const EMAIL = "EMAIL";

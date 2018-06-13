@@ -14,19 +14,28 @@ const resolvers: Resolvers = {
       _,
       { key, newPassword }: IArgs
     ): Promise<ResetPasswordResponse> => {
-      const confirmation: Confirmation = await Confirmation.findOne({
-        key,
-        type: "PASSWORD"
-      });
+      const confirmation: Confirmation | undefined = await Confirmation.findOne(
+        {
+          key,
+          type: "PASSWORD"
+        }
+      );
       if (confirmation) {
-        const user: User = await User.findOne(confirmation.userId);
-        user.password = newPassword;
-        user.save();
-        await confirmation.remove();
-        return {
-          ok: true,
-          error: null
-        };
+        const user: User | undefined = await User.findOne(confirmation.userId);
+        if (user) {
+          user.password = newPassword;
+          user.save();
+          await confirmation.remove();
+          return {
+            ok: true,
+            error: null
+          };
+        } else {
+          return {
+            ok: false,
+            error: "Cant find user with that key"
+          };
+        }
       } else {
         return {
           ok: false,

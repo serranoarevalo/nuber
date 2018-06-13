@@ -15,11 +15,13 @@ const resolvers: Resolvers = {
       _,
       { key, phone }: IArgs
     ): Promise<CompletePhoneSignInResponse> => {
-      const confirmation: Confirmation = await Confirmation.findOne({
-        key,
-        payload: phone,
-        type: "PHONE"
-      });
+      const confirmation: Confirmation | undefined = await Confirmation.findOne(
+        {
+          key,
+          payload: phone,
+          type: "PHONE"
+        }
+      );
       if (confirmation) {
         confirmation.verified = true;
         confirmation.save();

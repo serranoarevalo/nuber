@@ -18,7 +18,9 @@ interface IArgs {
 const resolvers: Resolvers = {
   Mutation: {
     emailSignUp: async (_, args: IArgs, __): Promise<EmailSignUpResponse> => {
-      const existingUser: User = await User.findOne({ email: args.email });
+      const existingUser: User | undefined = await User.findOne({
+        email: args.email
+      });
       if (existingUser) {
         return {
           ok: false,
@@ -26,7 +28,9 @@ const resolvers: Resolvers = {
           error: "User already exists, try to sign in."
         };
       }
-      const phoneConfirmation: Confirmation = await Confirmation.findOne({
+      const phoneConfirmation:
+        | Confirmation
+        | undefined = await Confirmation.findOne({
         payload: args.phoneNumber,
         verified: true
       });
@@ -44,7 +48,7 @@ const resolvers: Resolvers = {
       const emailConfirmation: Confirmation = await Confirmation.create({
         user: newUser
       }).save();
-      const message = await sendConfirmationEmail(emailConfirmation.key);
+      await sendConfirmationEmail(emailConfirmation.key);
       emailConfirmation.sent = true;
       emailConfirmation.save();
       const token: string = createJWT(newUser.id);

@@ -3,7 +3,7 @@ import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import { UpdateRideResponse } from "../../../types/graph";
 import User from "../../../entities/User";
 import Ride from "../../../entities/Ride";
-import { getConnection, SelectQueryBuilder } from "typeorm";
+import { getConnection } from "typeorm";
 
 interface IArgs {
   rideId: number;

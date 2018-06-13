@@ -14,7 +14,10 @@ const resolvers: Resolvers = {
       _,
       { email, password }: IArgs
     ): Promise<EmailSignInResponse> => {
-      const user: User = await User.findOne({ email, loginType: "EMAIL" });
+      const user: User | undefined = await User.findOne({
+        email,
+        loginType: "EMAIL"
+      });
       if (!user) {
         return {
           ok: false,

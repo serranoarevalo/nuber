@@ -1,7 +1,6 @@
 import path from "path";
-import fs from "fs";
 import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas";
-import { makeExecutableSchema, mergeSchemas } from "graphql-tools";
+import { makeExecutableSchema } from "graphql-tools";
 import { GraphQLSchema } from "graphql";
 
 const allTypes: GraphQLSchema[] = fileLoader(
