@@ -76,24 +76,6 @@ const Btn = styled.button`
   }
 `;
 
-interface IProps {
-  openMenu: () => void;
-  closeMenu: () => void;
-  isMenuOpen: boolean;
-  data: any;
-  redirectToVerify: () => void;
-  loading: boolean;
-  mapRef: any;
-  toAddress: string;
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  submitAddress: () => void;
-  mapChoosing: boolean;
-  toggleMapChoosing: () => void;
-  chooseMapAddres: () => void;
-  requestRide: () => void;
-  findingDirections: boolean;
-}
-
 const UserElements = ({
   toAddress,
   handleInputChange,
@@ -140,12 +122,30 @@ const UserElements = ({
 
 const DriverElements = () => null;
 
+interface IProps {
+  openMenu: () => void;
+  closeMenu: () => void;
+  isMenuOpen: boolean;
+  me: any;
+  redirectToVerify: () => void;
+  loading: boolean;
+  mapRef: any;
+  toAddress: string;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  submitAddress: () => void;
+  mapChoosing: boolean;
+  toggleMapChoosing: () => void;
+  chooseMapAddres: () => void;
+  requestRide: () => void;
+  findingDirections: boolean;
+}
+
 class HomePresenter extends React.Component<IProps> {
   static propTypes = {
     openMenu: PropTypes.func.isRequired,
     closeMenu: PropTypes.func.isRequired,
     isMenuOpen: PropTypes.bool.isRequired,
-    data: PropTypes.object.isRequired,
+    me: PropTypes.object,
     redirectToVerify: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     toAddress: PropTypes.string,
@@ -163,7 +163,7 @@ class HomePresenter extends React.Component<IProps> {
       isMenuOpen,
       closeMenu,
       redirectToVerify,
-      data,
+      me,
       loading,
       mapRef,
       toAddress,
@@ -175,6 +175,7 @@ class HomePresenter extends React.Component<IProps> {
       requestRide,
       findingDirections
     } = this.props;
+    console.log(me);
     return (
       <Container>
         <Helmet>
@@ -193,14 +194,14 @@ class HomePresenter extends React.Component<IProps> {
           onSetOpen={closeMenu}
         >
           {!loading &&
-            data.me.user.verifiedPhoneNumber && (
+            me.user.verifiedPhoneNumber && (
               <Icon onClick={openMenu}>
                 <FontAwesome name={"bars"} />
               </Icon>
             )}
         </Sidebar>
         {!loading &&
-          !data.me.user.verifiedPhoneNumber && (
+          !me.user.verifiedPhoneNumber && (
             <PhoneError onClick={redirectToVerify}>
               You need to verify your phone
               <FakeLink>tap here to do it</FakeLink>
@@ -208,7 +209,7 @@ class HomePresenter extends React.Component<IProps> {
           )}
         {mapChoosing && <Marker />}
         <Map innerRef={mapRef} />
-        {data.me.user.isDriving ? (
+        {!loading && me.user.isDriving ? (
           <DriverElements />
         ) : (
           <UserElements

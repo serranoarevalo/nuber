@@ -1,5 +1,5 @@
 import cors from "cors";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { GraphQLServer } from "graphql-yoga";
 import helmet from "helmet";
 import jwt from "jsonwebtoken";

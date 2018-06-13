@@ -1,11 +1,11 @@
 import React from "react";
-import { compose, graphql, MutationFn, Query } from "react-apollo";
+import { compose, graphql, MutationFn } from "react-apollo";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
 import { geocode, reverseGeocode } from "../../utils";
 import HomePresenter from "./HomePresenter";
-import { UPDATE_LOCATION } from "./HomeQueries";
+import { GET_DRIVERS, UPDATE_LOCATION } from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -23,6 +23,8 @@ interface IProps {
   reportLocation: MutationFn;
   history: any;
   google: any;
+  loading: boolean;
+  data: any;
 }
 
 class HomeContainer extends React.Component<IProps, IState> {
@@ -45,6 +47,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       mapChoosing: false,
       findingDirections: false
     };
+
     this.mapRef = React.createRef();
   }
 
@@ -55,6 +58,12 @@ class HomeContainer extends React.Component<IProps, IState> {
     );
   }
 
+  /*   componentWillReceiveProps(nextProps) {
+    const {
+      data: { getDrivers }
+    } = nextProps;
+  } */
+
   render() {
     const {
       isMenuOpen,
@@ -62,28 +71,28 @@ class HomeContainer extends React.Component<IProps, IState> {
       mapChoosing,
       findingDirections
     } = this.state;
+    const {
+      data: { loading, me }
+    } = this.props;
+
     return (
-      <Query query={ME}>
-        {({ loading, data }) => (
-          <HomePresenter
-            isMenuOpen={isMenuOpen}
-            openMenu={this.openMenu}
-            closeMenu={this.closeMenu}
-            redirectToVerify={this.redirectToVerify}
-            data={data}
-            loading={loading}
-            mapRef={this.mapRef}
-            handleInputChange={this.handleInputChange}
-            toAddress={toAddress}
-            submitAddress={this.submitAddress}
-            mapChoosing={mapChoosing}
-            toggleMapChoosing={this.toggleMapChoosing}
-            chooseMapAddres={this.chooseMapAddres}
-            requestRide={this.requestRide}
-            findingDirections={findingDirections}
-          />
-        )}
-      </Query>
+      <HomePresenter
+        isMenuOpen={isMenuOpen}
+        openMenu={this.openMenu}
+        closeMenu={this.closeMenu}
+        redirectToVerify={this.redirectToVerify}
+        me={me}
+        loading={loading}
+        mapRef={this.mapRef}
+        handleInputChange={this.handleInputChange}
+        toAddress={toAddress}
+        submitAddress={this.submitAddress}
+        mapChoosing={mapChoosing}
+        toggleMapChoosing={this.toggleMapChoosing}
+        chooseMapAddres={this.chooseMapAddres}
+        requestRide={this.requestRide}
+        findingDirections={findingDirections}
+      />
     );
   }
 
@@ -324,7 +333,20 @@ class HomeContainer extends React.Component<IProps, IState> {
 
 export default compose(
   graphql(ME),
-  graphql<any, any>(UPDATE_LOCATION, {
+  graphql(UPDATE_LOCATION, {
     name: "reportLocation"
-  })
+  }),
+  graphql(GET_DRIVERS, {
+    options: {
+      pollInterval: 1000
+    },
+    skip: props => {
+      if (props.data.me.user.isDriving) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }),
+  graphql(ME)
 )(HomeContainer);

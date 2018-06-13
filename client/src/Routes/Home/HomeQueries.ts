@@ -7,3 +7,14 @@ export const UPDATE_LOCATION = gql`
     }
   }
 `;
+
+export const GET_DRIVERS = gql`
+  query getDrivers {
+    getDrivers {
+      drivers {
+        lastLat
+        lastLng
+      }
+    }
+  }
+`;
