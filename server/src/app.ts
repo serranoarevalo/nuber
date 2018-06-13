@@ -2,11 +2,9 @@ import cors from "cors";
 import { NextFunction, Response } from "express";
 import { GraphQLServer, PubSub } from "graphql-yoga";
 import helmet from "helmet";
-import jwt from "jsonwebtoken";
 import logger from "morgan";
-import entities from "./entities";
-import { JWT_SECRET } from "./keys";
 import schema from "./schema";
+import getUserFromToken from "./utils/getUserFromToken";
 
 class App {
   public app: GraphQLServer;
@@ -16,8 +14,8 @@ class App {
     this.app = new GraphQLServer({
       schema,
       context: req => {
-        console.log(req);
         return {
+          rawReq: req,
           req: req.request,
           pubsub: this.pubSub
         };
@@ -39,12 +37,9 @@ class App {
   ): Promise<void> => {
     const token = req.get("X-JWT");
     if (token) {
-      try {
-        const decoded: any = await jwt.verify(token, JWT_SECRET);
-        const reqUser = await entities.User.findOne(decoded.id);
-        req.user = reqUser;
-      } catch (err) {
-        return err;
+      const user = getUserFromToken(token);
+      if (user) {
+        req.user = user;
       }
     }
     next();

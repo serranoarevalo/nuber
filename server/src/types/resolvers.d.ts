@@ -1,20 +1,9 @@
 import { PubSub } from "graphql-yoga";
 import User from "../entities/User";
 import Confirmation from "../entities/Confirmation";
+import { WSAEDESTADDRREQ } from "constants";
 
-interface Context {
-  [req: string]: {
-    user: User;
-  };
-  pubsub: PubSub;
-}
-
-export type Resolver = (
-  parent: any,
-  args: any,
-  context: Context,
-  info: any
-) => any;
+export type Resolver = (parent: any, args: any, context: any, info: any) => any;
 
 export interface Resolvers {
   [key: string]: {
