@@ -24,12 +24,6 @@ const resolvers: Resolvers = {
       async (_, args: IArgs, { req, pubsub }): Promise<UpdateUserResponse> => {
         const { user }: { user: User } = req;
         const updateData = args;
-        if (user.isDriving) {
-          const { lastLat, lastLng } = updateData;
-          if (lastLat && lastLng) {
-            pubsub.publish("newDriver", { getDrivers: { driver: user } });
-          }
-        }
         if (args.password) {
           const hashedPassword: string = await bcrypt.hash(args.password, 12);
           updateData.password = hashedPassword;
@@ -40,6 +34,12 @@ const resolvers: Resolvers = {
             id: user.id
           });
           if (updatedUser) {
+            if (user.isDriving) {
+              const { lastLat, lastLng } = updatedUser;
+              if (lastLat !== null && lastLng !== null) {
+                pubsub.publish("newDriver", { getDriver: updatedUser });
+              }
+            }
             return {
               ok: true,
               user: updatedUser,

@@ -1,22 +1,30 @@
+import { withFilter } from "graphql-yoga";
+
 // import User from "../../../entities/User";
 
 const resolvers = {
   Subscription: {
-    getDrivers: {
-      resolve: (payload, _, context) => {
-        const {
-          rawReq: {
+    getDriver: {
+      subscribe: withFilter(
+        (_, __, { pubsub }) => pubsub.asyncIterator("newDriver"),
+        (payload, __, { rawReq }) => {
+          const {
             connection: {
               context: { currentUser }
             }
-          }
-        } = context;
-        console.log(payload, currentUser);
-        return payload;
-      },
-      subscribe: (_, __, { rawReq, pubsub }) => {
-        return pubsub.asyncIterator("newDriver");
-      }
+          } = rawReq;
+          const { lastLat, lastLng } = currentUser;
+          const {
+            getDriver: { lastLat: driverLat, lastLng: driverLng }
+          } = payload;
+          return (
+            driverLat >= lastLat - 0.05 &&
+            driverLat <= lastLat + 0.05 &&
+            driverLng >= lastLng - 0.05 &&
+            driverLng <= lastLng + 0.05
+          );
+        }
+      )
     }
   }
 };
