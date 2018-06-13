@@ -66,6 +66,12 @@ class User extends BaseEntity {
   @Column({ type: "text", default: "" })
   carPlates: string;
 
+  @Column({ type: "float", nullable: true })
+  lastLat: number;
+
+  @Column({ type: "float", nullable: true })
+  lastLng: number;
+
   @OneToMany(type => Confirmation, confirmation => confirmation.user)
   confirmations: Confirmation[];
 

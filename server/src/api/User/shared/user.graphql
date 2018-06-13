@@ -21,4 +21,6 @@ type User {
   ridesAsPassenger: [Ride]!
   ridesAsDriver: [Ride]!
   places: [Place]
+  lastLat: Float
+  lastLng: Float
 }

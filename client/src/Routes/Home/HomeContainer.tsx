@@ -1,10 +1,11 @@
 import React from "react";
-import { graphql, Query } from "react-apollo";
+import { graphql, Mutation, Query } from "react-apollo";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
 import { geocode, reverseGeocode } from "../../utils";
 import HomePresenter from "./HomePresenter";
+import { UPDATE_LOCATION } from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -56,27 +57,31 @@ class HomeContainer extends React.Component<any, IState> {
       findingDirections
     } = this.state;
     return (
-      <Query query={ME}>
-        {({ loading, data }) => (
-          <HomePresenter
-            isMenuOpen={isMenuOpen}
-            openMenu={this.openMenu}
-            closeMenu={this.closeMenu}
-            redirectToVerify={this.redirectToVerify}
-            data={data}
-            loading={loading}
-            mapRef={this.mapRef}
-            handleInputChange={this.handleInputChange}
-            toAddress={toAddress}
-            submitAddress={this.submitAddress}
-            mapChoosing={mapChoosing}
-            toggleMapChoosing={this.toggleMapChoosing}
-            chooseMapAddres={this.chooseMapAddres}
-            requestRide={this.requestRide}
-            findingDirections={findingDirections}
-          />
+      <Mutation mutation={UPDATE_LOCATION}>
+        {reportLocation => (
+          <Query query={ME}>
+            {({ loading, data }) => (
+              <HomePresenter
+                isMenuOpen={isMenuOpen}
+                openMenu={this.openMenu}
+                closeMenu={this.closeMenu}
+                redirectToVerify={this.redirectToVerify}
+                data={data}
+                loading={loading}
+                mapRef={this.mapRef}
+                handleInputChange={this.handleInputChange}
+                toAddress={toAddress}
+                submitAddress={this.submitAddress}
+                mapChoosing={mapChoosing}
+                toggleMapChoosing={this.toggleMapChoosing}
+                chooseMapAddres={this.chooseMapAddres}
+                requestRide={this.requestRide}
+                findingDirections={findingDirections}
+              />
+            )}
+          </Query>
         )}
-      </Query>
+      </Mutation>
     );
   }
 

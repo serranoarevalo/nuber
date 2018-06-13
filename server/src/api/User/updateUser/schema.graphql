@@ -14,5 +14,7 @@ type Mutation {
     phoneNumber: String
     profilePhoto: String
     isDriving: Boolean
+    lastLat: Float
+    lastLng: Float
   ): UpdateUserResponse!
 }
