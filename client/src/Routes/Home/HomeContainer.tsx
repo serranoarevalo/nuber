@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql, Mutation, Query } from "react-apollo";
+import { compose, graphql, MutationFn, Query } from "react-apollo";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
@@ -19,14 +19,20 @@ interface IState {
   findingDirections: boolean;
 }
 
-class HomeContainer extends React.Component<any, IState> {
+interface IProps {
+  reportLocation: MutationFn;
+  history: any;
+  google: any;
+}
+
+class HomeContainer extends React.Component<IProps, IState> {
   mapRef: any;
   map: google.maps.Map;
   userMarker: google.maps.Marker;
   toMarker: google.maps.Marker;
   directionRenderer: google.maps.DirectionsRenderer;
 
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       isMenuOpen: false,
@@ -57,31 +63,27 @@ class HomeContainer extends React.Component<any, IState> {
       findingDirections
     } = this.state;
     return (
-      <Mutation mutation={UPDATE_LOCATION}>
-        {reportLocation => (
-          <Query query={ME}>
-            {({ loading, data }) => (
-              <HomePresenter
-                isMenuOpen={isMenuOpen}
-                openMenu={this.openMenu}
-                closeMenu={this.closeMenu}
-                redirectToVerify={this.redirectToVerify}
-                data={data}
-                loading={loading}
-                mapRef={this.mapRef}
-                handleInputChange={this.handleInputChange}
-                toAddress={toAddress}
-                submitAddress={this.submitAddress}
-                mapChoosing={mapChoosing}
-                toggleMapChoosing={this.toggleMapChoosing}
-                chooseMapAddres={this.chooseMapAddres}
-                requestRide={this.requestRide}
-                findingDirections={findingDirections}
-              />
-            )}
-          </Query>
+      <Query query={ME}>
+        {({ loading, data }) => (
+          <HomePresenter
+            isMenuOpen={isMenuOpen}
+            openMenu={this.openMenu}
+            closeMenu={this.closeMenu}
+            redirectToVerify={this.redirectToVerify}
+            data={data}
+            loading={loading}
+            mapRef={this.mapRef}
+            handleInputChange={this.handleInputChange}
+            toAddress={toAddress}
+            submitAddress={this.submitAddress}
+            mapChoosing={mapChoosing}
+            toggleMapChoosing={this.toggleMapChoosing}
+            chooseMapAddres={this.chooseMapAddres}
+            requestRide={this.requestRide}
+            findingDirections={findingDirections}
+          />
         )}
-      </Mutation>
+      </Query>
     );
   }
 
@@ -160,11 +162,18 @@ class HomeContainer extends React.Component<any, IState> {
   };
 
   private updatePosition: PositionCallback = (position: Position) => {
+    const { reportLocation } = this.props;
     const {
       coords: { latitude, longitude }
     } = position;
     const latLng = new google.maps.LatLng(latitude, longitude);
     this.userMarker.setPosition(latLng);
+    reportLocation({
+      variables: {
+        lat: latitude,
+        lng: longitude
+      }
+    });
   };
 
   private handleInputChange: React.ChangeEventHandler<
@@ -313,4 +322,9 @@ class HomeContainer extends React.Component<any, IState> {
   };
 }
 
-export default graphql(ME)(HomeContainer);
+export default compose(
+  graphql(ME),
+  graphql<any, any>(UPDATE_LOCATION, {
+    name: "reportLocation"
+  })
+)(HomeContainer);

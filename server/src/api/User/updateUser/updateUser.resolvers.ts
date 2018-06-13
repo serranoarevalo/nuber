@@ -13,6 +13,8 @@ interface IArgs {
   phoneNumber: string;
   profilePhoto: string;
   isDriving: boolean;
+  lastLat: number;
+  lastLng: number;
 }
 
 const resolvers: Resolvers = {
@@ -20,7 +22,6 @@ const resolvers: Resolvers = {
     updateUser: makeMiddleware(
       authMiddleware,
       async (_, args: IArgs, { req }): Promise<UpdateUserResponse> => {
-        console.log(args);
         const { user }: { user: User } = req;
         const updateData = args;
         if (args.password) {
