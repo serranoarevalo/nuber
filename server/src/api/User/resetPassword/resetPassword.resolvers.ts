@@ -1,7 +1,7 @@
-import { Resolvers } from "../../../types/resolvers";
 import Confirmation from "../../../entities/Confirmation";
 import User from "../../../entities/User";
 import { ResetPasswordResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
 
 interface IArgs {
   key: string;

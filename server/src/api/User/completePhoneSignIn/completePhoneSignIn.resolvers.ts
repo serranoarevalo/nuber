@@ -1,7 +1,7 @@
-import { Resolvers } from "../../../types/resolvers";
 import Confirmation from "../../../entities/Confirmation";
-import { CompletePhoneSignInResponse } from "../../../types/graph";
 import User from "../../../entities/User";
+import { CompletePhoneSignInResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
 import { createJWT } from "../../../utils/createJWT";
 
 interface IArgs {

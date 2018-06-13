@@ -1,8 +1,8 @@
-import { Resolvers } from "../../../types/resolvers";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import Confirmation from "../../../entities/Confirmation";
 import User from "../../../entities/User";
 import { VerifyPhoneResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
 
 interface IArgs {
   key: string;
@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
         if (confirmation) {
           user.verifiedPhoneNumber = true;
           user.save();
-          //await confirmation.remove();
+          // await confirmation.remove();
           return {
             ok: true,
             error: null

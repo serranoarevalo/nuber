@@ -1,7 +1,7 @@
-import { createJWT } from "../../../utils/createJWT";
-import { Resolvers } from "../../../types/resolvers";
 import User from "../../../entities/User";
 import { EmailSignInResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { createJWT } from "../../../utils/createJWT";
 
 interface IArgs {
   email: string;

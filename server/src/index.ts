@@ -1,6 +1,6 @@
-import app from "./app";
 import { Options } from "graphql-yoga";
 import { createConnection } from "typeorm";
+import app from "./app";
 
 const PORT: number | string = process.env.PORT || 4000;
 const GRAPHQL_ENDPOINT: string = "/graphql";

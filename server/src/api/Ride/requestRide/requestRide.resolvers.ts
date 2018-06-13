@@ -1,8 +1,8 @@
-import { Resolvers } from "../../../types/resolvers";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
-import User from "../../../entities/User";
 import Ride from "../../../entities/Ride";
+import User from "../../../entities/User";
 import { RequestRideResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
 
 interface IArgs {
   pickUpLocation: string;

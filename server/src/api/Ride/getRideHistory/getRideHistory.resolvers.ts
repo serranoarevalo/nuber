@@ -1,8 +1,8 @@
-import { Resolvers } from "../../../types/resolvers";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
-import { User, GetRideHistoryResponse } from "../../../types/graph";
-import Ride from "../../../entities/Ride";
 import { getConnection } from "typeorm";
+import Ride from "../../../entities/Ride";
+import { GetRideHistoryResponse, User } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
 
 const resolvers: Resolvers = {
   Query: {

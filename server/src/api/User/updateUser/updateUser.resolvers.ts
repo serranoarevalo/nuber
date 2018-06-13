@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
-import { Resolvers } from "../../../types/resolvers";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
 import User from "../../../entities/User";
 import { UpdateUserResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
 
 interface IArgs {
   email: string;

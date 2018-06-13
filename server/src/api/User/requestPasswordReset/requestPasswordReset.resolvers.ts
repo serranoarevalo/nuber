@@ -1,8 +1,8 @@
-import { Resolvers } from "../../../types/resolvers";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
-import { RequestPasswordResetResponse } from "../../../types/graph";
 import Confirmation from "../../../entities/Confirmation";
 import User from "../../../entities/User";
+import { RequestPasswordResetResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
 import { sendResetPasswordEmail } from "../../../utils/sendEmail";
 
 const resolvers: Resolvers = {

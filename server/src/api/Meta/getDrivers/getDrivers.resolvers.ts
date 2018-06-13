@@ -1,7 +1,7 @@
-import { Resolvers } from "../../../types/resolvers";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
-import User from "../../../entities/User";
 import { Between, getConnection } from "typeorm";
+import User from "../../../entities/User";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
 
 const resolvers: Resolvers = {
   Query: {

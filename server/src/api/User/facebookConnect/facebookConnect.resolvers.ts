@@ -1,7 +1,7 @@
-import { Resolvers } from "../../../types/resolvers";
 import User from "../../../entities/User";
-import { createJWT } from "../../../utils/createJWT";
 import { FacebookConnectResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { createJWT } from "../../../utils/createJWT";
 
 interface IArgs {
   firstName: string;
@@ -18,9 +18,9 @@ const resolvers: Resolvers = {
       { req }
     ): Promise<FacebookConnectResponse> => {
       // https://developers.facebook.com/tools/explorer/?method=GET
-      //const fbURL = `https://graph.facebook.com/me?access_token=${fbToken}&fields=id,first_name,last_name,email`;
-      //const fbRequest = await request(fbURL);
-      //const { id, first_name, last_name, email } = JSON.parse(fbRequest);
+      // const fbURL = `https://graph.facebook.com/me?access_token=${fbToken}&fields=id,first_name,last_name,email`;
+      // const fbRequest = await request(fbURL);
+      // const { id, first_name, last_name, email } = JSON.parse(fbRequest);
       const existingUser: User | undefined = await User.findOne({
         facebookId: userID
       });

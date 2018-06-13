@@ -1,8 +1,8 @@
-import { Resolvers } from "../../../types/resolvers";
-import User from "../../../entities/User";
 import Confirmation from "../../../entities/Confirmation";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
+import User from "../../../entities/User";
 import { VerifyEmailResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
 
 interface IArgs {
   key: string;

@@ -1,9 +1,9 @@
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
-import { sendVerificationText } from "../../../utils/sendSMS";
-import User from "../../../entities/User";
-import { Resolvers } from "../../../types/resolvers";
-import { AddPhoneResponse } from "../../../types/graph";
 import Confirmation from "../../../entities/Confirmation";
+import User from "../../../entities/User";
+import { AddPhoneResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
+import { sendVerificationText } from "../../../utils/sendSMS";
 
 interface IArgs {
   phoneNumber: string;

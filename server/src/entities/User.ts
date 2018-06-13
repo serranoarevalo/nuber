@@ -1,19 +1,19 @@
+import bcrypt from "bcrypt";
+import { IsEmail } from "class-validator";
 import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
   BaseEntity,
-  CreateDateColumn,
-  UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
-  OneToMany
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from "typeorm";
-import { IsEmail } from "class-validator";
-import bcrypt from "bcrypt";
 import Confirmation from "./Confirmation";
-import Ride from "./Ride";
 import Place from "./Place";
+import Ride from "./Ride";
 
 const BCRYPT_ROUNDS = 10;
 const EMAIL = "EMAIL";

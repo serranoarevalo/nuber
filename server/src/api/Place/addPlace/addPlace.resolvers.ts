@@ -1,8 +1,8 @@
-import { Resolvers } from "../../../types/resolvers";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
+import Place from "../../../entities/Place";
 import User from "../../../entities/User";
 import { AddPlaceResponse } from "../../../types/graph";
-import Place from "../../../entities/Place";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
 
 interface IArgs {
   address: string;

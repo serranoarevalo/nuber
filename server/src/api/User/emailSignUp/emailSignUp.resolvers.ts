@@ -1,9 +1,9 @@
-import { sendConfirmationEmail } from "../../../utils/sendEmail";
-import { Resolvers } from "../../../types/resolvers";
-import User from "../../../entities/User";
 import Confirmation from "../../../entities/Confirmation";
+import User from "../../../entities/User";
 import { EmailSignUpResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
 import { createJWT } from "../../../utils/createJWT";
+import { sendConfirmationEmail } from "../../../utils/sendEmail";
 
 interface IArgs {
   email: string;

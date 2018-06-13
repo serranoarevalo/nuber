@@ -1,7 +1,7 @@
-import { Resolvers } from "../../../types/resolvers";
 import Confirmation from "../../../entities/Confirmation";
-import { sendVerificationText } from "../../../utils/sendSMS";
 import { RequestPhoneSignInResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { sendVerificationText } from "../../../utils/sendSMS";
 
 interface IArgs {
   phoneNumber: string;

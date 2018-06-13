@@ -1,7 +1,7 @@
 import aws from "aws-sdk";
-import { Resolvers } from "../../../types/resolvers";
-import { SignS3URLResponse } from "../../../types/graph";
 import { AWS_KEY_ID, AWS_SECRET_ACCESS_KEY } from "../../../keys";
+import { SignS3URLResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
 
 const BUCKET_NAME = "nuber";
 

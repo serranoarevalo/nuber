@@ -1,12 +1,12 @@
-import { GraphQLServer } from "graphql-yoga";
+import cors from "cors";
 import { NextFunction, Request, Response } from "express";
-import logger from "morgan";
+import { GraphQLServer } from "graphql-yoga";
 import helmet from "helmet";
 import jwt from "jsonwebtoken";
-import schema from "./schema";
-import cors from "cors";
+import logger from "morgan";
 import entities from "./entities";
 import { JWT_SECRET } from "./keys";
+import schema from "./schema";
 
 class App {
   public app: GraphQLServer;
@@ -30,16 +30,16 @@ class App {
   };
 
   private appendUserToReq = async (
-    req: Request,
+    req: any,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
     const token = req.get("X-JWT");
     if (token) {
       try {
-        const decoded = await jwt.verify(token, JWT_SECRET);
-        const reqUser = await entities.User.findOne(decoded["id"]);
-        req["user"] = reqUser;
+        const decoded: any = await jwt.verify(token, JWT_SECRET);
+        const reqUser = await entities.User.findOne(decoded.id);
+        req.user = reqUser;
       } catch (err) {
         return err;
       }

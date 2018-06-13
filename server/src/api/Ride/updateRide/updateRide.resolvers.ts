@@ -1,9 +1,9 @@
-import { Resolvers } from "../../../types/resolvers";
-import { makeMiddleware, authMiddleware } from "../../../utils/middlewares";
-import { UpdateRideResponse } from "../../../types/graph";
-import User from "../../../entities/User";
-import Ride from "../../../entities/Ride";
 import { getConnection } from "typeorm";
+import Ride from "../../../entities/Ride";
+import User from "../../../entities/User";
+import { UpdateRideResponse } from "../../../types/graph";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
 
 interface IArgs {
   rideId: number;
