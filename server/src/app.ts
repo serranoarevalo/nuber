@@ -37,7 +37,7 @@ class App {
   ): Promise<void> => {
     const token = req.get("X-JWT");
     if (token) {
-      const user = getUserFromToken(token);
+      const user = await getUserFromToken(token);
       if (user) {
         req.user = user;
       }
