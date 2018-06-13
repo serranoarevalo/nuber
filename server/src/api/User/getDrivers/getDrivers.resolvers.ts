@@ -1,14 +1,16 @@
-import { withFilter } from "graphql-yoga";
-// import User from "../../../entities/User";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
+
+// import { withFilter } from "graphql-yoga";
 // import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
+
+// import User from "../../../entities/User";
 
 const resolvers = {
   Subscription: {
     getDrivers: {
-      subscribe: withFilter(
-        (_, __, { pubsub }) => pubsub.asyncIterator("newDriver"),
-        () => true
-      )
+      subscribe: makeMiddleware(authMiddleware, (_, __, { req, pubsub }) => {
+        return pubsub.asyncIterator("newDriver");
+      })
     }
   }
 };
