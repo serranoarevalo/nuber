@@ -14,7 +14,9 @@ export const GET_DRIVERS = gql`
       drivers {
         lastLat
         lastLng
+        id
       }
+      timestamp
     }
   }
 `;

@@ -25,6 +25,7 @@ interface IProps {
   google: any;
   loading: boolean;
   MeQuery: any;
+  GetDriversQuery: any;
 }
 
 class HomeContainer extends React.Component<IProps, IState> {
@@ -33,6 +34,7 @@ class HomeContainer extends React.Component<IProps, IState> {
   userMarker: google.maps.Marker;
   toMarker: google.maps.Marker;
   directionRenderer: google.maps.DirectionsRenderer;
+  driverMarkers: google.maps.Marker[];
 
   constructor(props: IProps) {
     super(props);
@@ -47,7 +49,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       mapChoosing: false,
       findingDirections: false
     };
-
+    this.driverMarkers = [];
     this.mapRef = React.createRef();
   }
 
@@ -59,7 +61,14 @@ class HomeContainer extends React.Component<IProps, IState> {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    const {
+      GetDriversQuery: { getDrivers: { drivers = null } = {} } = {}
+    } = nextProps;
+    if (drivers) {
+      if (this.map) {
+        this.drawDrivers(drivers);
+      }
+    }
   }
 
   render() {
@@ -139,8 +148,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       center: { lat, lng },
       zoom: 16,
       mapTypeId: "roadmap",
-      disableDefaultUI: true,
-      minZoom: 5
+      disableDefaultUI: true
     };
     this.map = new maps.Map(node, mapConfig);
     this.map.addListener("dragend", this.handleCenterChange);
@@ -160,7 +168,6 @@ class HomeContainer extends React.Component<IProps, IState> {
       timeout: 5000,
       maximumAge: 0
     };
-
     navigator.geolocation.watchPosition(
       this.updatePosition,
       this.handleGeoError,
@@ -327,6 +334,38 @@ class HomeContainer extends React.Component<IProps, IState> {
       toast.error("Cant order ride. Choose an address to go to");
     }
   };
+
+  private drawDrivers = (drivers): void => {
+    const DRIVER_ID = "driverId";
+    if (this.map) {
+      for (const driver of drivers) {
+        const { lastLat, lastLng, id: driverId } = driver;
+        const driverPosition: google.maps.LatLng = new google.maps.LatLng(
+          lastLat,
+          lastLng
+        );
+        const existingMarker:
+          | google.maps.Marker
+          | undefined = this.driverMarkers.find(
+          (driverMarker: google.maps.Marker) => {
+            const markerId = driverMarker.get(DRIVER_ID);
+            return markerId === driverId;
+          }
+        );
+
+        if (existingMarker) {
+          existingMarker.setPosition(driverPosition);
+        } else {
+          const newMarker: google.maps.Marker = new google.maps.Marker({
+            position: driverPosition
+          });
+          newMarker.set(DRIVER_ID, driverId);
+          newMarker.setMap(this.map);
+          this.driverMarkers.push(newMarker);
+        }
+      }
+    }
+  };
 }
 
 export default compose(
@@ -335,7 +374,7 @@ export default compose(
   }),
   graphql(ME, { name: "MeQuery" }),
   graphql(GET_DRIVERS, {
-    name: "GetDrivers",
+    name: "GetDriversQuery",
     options: {
       pollInterval: 1000
     },

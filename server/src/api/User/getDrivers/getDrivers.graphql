@@ -1,5 +1,6 @@
 type GetDriversResponse {
   drivers: [User]
+  timestamp: Float!
 }
 
 type Query {

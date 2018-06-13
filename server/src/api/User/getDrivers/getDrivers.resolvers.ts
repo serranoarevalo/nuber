@@ -16,7 +16,8 @@ const resolvers: Resolvers = {
           lastLng: Between(lastLng - 0.05, lastLng + 0.05)
         });
       return {
-        drivers
+        drivers,
+        timestamp: Date.now()
       };
     })
   }
