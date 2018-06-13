@@ -21,9 +21,15 @@ const resolvers: Resolvers = {
   Mutation: {
     updateUser: makeMiddleware(
       authMiddleware,
-      async (_, args: IArgs, { req }): Promise<UpdateUserResponse> => {
+      async (_, args: IArgs, { req, pubsub }): Promise<UpdateUserResponse> => {
         const { user }: { user: User } = req;
         const updateData = args;
+        if (user.isDriving) {
+          const { lastLat, lastLng } = updateData;
+          if (lastLat && lastLng) {
+            pubsub.publish("newDriver", { getDrivers: { driver: user } });
+          }
+        }
         if (args.password) {
           const hashedPassword: string = await bcrypt.hash(args.password, 12);
           updateData.password = hashedPassword;

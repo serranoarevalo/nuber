@@ -1,8 +1,7 @@
 type GetDriversResponse {
-  drivers: [User]
-  timestamp: Float!
+  driver: User
 }
 
-type Query {
+type Subscription {
   getDrivers: GetDriversResponse!
 }

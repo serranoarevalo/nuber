@@ -1,3 +1,4 @@
+import { PubSub } from "graphql-yoga";
 import User from "../entities/User";
 import Confirmation from "../entities/Confirmation";
 
@@ -5,6 +6,7 @@ interface Context {
   [req: string]: {
     user: User;
   };
+  pubsub: PubSub;
 }
 
 export type Resolver = (

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
 import { geocode, reverseGeocode } from "../../utils";
 import HomePresenter from "./HomePresenter";
-import { GET_DRIVERS, UPDATE_LOCATION } from "./HomeQueries";
+import { UPDATE_LOCATION } from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -372,8 +372,8 @@ export default compose(
   graphql(UPDATE_LOCATION, {
     name: "reportLocation"
   }),
-  graphql(ME, { name: "MeQuery" }),
-  graphql(GET_DRIVERS, {
+  graphql(ME, { name: "MeQuery" })
+  /* graphql(GET_DRIVERS, {
     name: "GetDriversQuery",
     options: {
       pollInterval: 1000
@@ -381,5 +381,5 @@ export default compose(
     skip: props => {
       return props.MeQuery.me.user.isDriving;
     }
-  })
+  }) */
 )(HomeContainer);
