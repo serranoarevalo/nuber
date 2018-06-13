@@ -175,7 +175,7 @@ class HomePresenter extends React.Component<IProps> {
       requestRide,
       findingDirections
     } = this.props;
-    console.log(me);
+
     return (
       <Container>
         <Helmet>

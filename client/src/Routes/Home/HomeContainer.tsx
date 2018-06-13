@@ -24,7 +24,7 @@ interface IProps {
   history: any;
   google: any;
   loading: boolean;
-  data: any;
+  MeQuery: any;
 }
 
 class HomeContainer extends React.Component<IProps, IState> {
@@ -58,11 +58,9 @@ class HomeContainer extends React.Component<IProps, IState> {
     );
   }
 
-  /*   componentWillReceiveProps(nextProps) {
-    const {
-      data: { getDrivers }
-    } = nextProps;
-  } */
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+  }
 
   render() {
     const {
@@ -72,7 +70,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       findingDirections
     } = this.state;
     const {
-      data: { loading, me }
+      MeQuery: { loading, me }
     } = this.props;
 
     return (
@@ -332,21 +330,17 @@ class HomeContainer extends React.Component<IProps, IState> {
 }
 
 export default compose(
-  graphql(ME),
   graphql(UPDATE_LOCATION, {
     name: "reportLocation"
   }),
+  graphql(ME, { name: "MeQuery" }),
   graphql(GET_DRIVERS, {
+    name: "GetDrivers",
     options: {
       pollInterval: 1000
     },
     skip: props => {
-      if (props.data.me.user.isDriving) {
-        return true;
-      } else {
-        return false;
-      }
+      return props.MeQuery.me.user.isDriving;
     }
-  }),
-  graphql(ME)
+  })
 )(HomeContainer);
