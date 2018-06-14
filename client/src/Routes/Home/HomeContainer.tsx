@@ -25,7 +25,7 @@ interface IState {
   findingDirections: boolean;
   distance: string;
   duration: string;
-  price: number;
+  price: number | undefined;
 }
 
 interface IProps {
@@ -60,7 +60,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       findingDirections: false,
       distance: "",
       duration: "",
-      price: 0
+      price: undefined
     };
     this.driverMarkers = [];
     this.mapRef = React.createRef();
@@ -89,7 +89,8 @@ class HomeContainer extends React.Component<IProps, IState> {
       isMenuOpen,
       toAddress,
       mapChoosing,
-      findingDirections
+      findingDirections,
+      price
     } = this.state;
     const {
       MeQuery: { loading, me }
@@ -112,6 +113,7 @@ class HomeContainer extends React.Component<IProps, IState> {
         chooseMapAddres={this.chooseMapAddres}
         requestRide={this.requestRide}
         findingDirections={findingDirections}
+        price={price}
       />
     );
   }
@@ -413,7 +415,6 @@ class HomeContainer extends React.Component<IProps, IState> {
     cache,
     { data }: { data: any }
   ) => {
-    console.log(data);
     const { requestRide } = data;
     if (!requestRide.ok && requestRide.error) {
       toast.error(requestRide.error);

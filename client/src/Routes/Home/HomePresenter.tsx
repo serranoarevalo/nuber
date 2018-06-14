@@ -20,7 +20,6 @@ const Icon = styled.button`
   top: 15px;
   left: 8px;
   font-size: 26px;
-  appearance: none;
   -webkit-appearance: none;
   border: 0;
   z-index: 1;
@@ -63,7 +62,7 @@ const AbsContainer = styled<any, any>("div")`
 `;
 
 const Btn = styled.button`
-  appearance: none;
+  -webkit-appearance: none;
   border: 0;
   padding: 10px 20px;
   border-bottom-right-radius: 5px;
@@ -84,7 +83,8 @@ const UserElements = ({
   toggleMapChoosing,
   chooseMapAddres,
   requestRide,
-  findingDirections
+  findingDirections,
+  price
 }) => (
   <React.Fragment>
     <AbsContainer top={true}>
@@ -109,6 +109,8 @@ const UserElements = ({
             return "Pick this place";
           } else if (!mapChoosing && findingDirections) {
             return "Finding directions";
+          } else if (price) {
+            return `Request ride for $${price}`;
           } else {
             return "Request ride";
           }
@@ -138,6 +140,7 @@ interface IProps {
   chooseMapAddres: () => void;
   requestRide: () => void;
   findingDirections: boolean;
+  price: number | undefined;
 }
 
 class HomePresenter extends React.Component<IProps> {
@@ -155,7 +158,8 @@ class HomePresenter extends React.Component<IProps> {
     toggleMapChoosing: PropTypes.func.isRequired,
     chooseMapAddres: PropTypes.func.isRequired,
     requestRide: PropTypes.func.isRequired,
-    findingDirections: PropTypes.bool.isRequired
+    findingDirections: PropTypes.bool.isRequired,
+    price: PropTypes.number
   };
   render() {
     const {
@@ -173,7 +177,8 @@ class HomePresenter extends React.Component<IProps> {
       toggleMapChoosing,
       chooseMapAddres,
       requestRide,
-      findingDirections
+      findingDirections,
+      price
     } = this.props;
     return (
       <Container>
@@ -220,6 +225,7 @@ class HomePresenter extends React.Component<IProps> {
             chooseMapAddres={chooseMapAddres}
             requestRide={requestRide}
             findingDirections={findingDirections}
+            price={price}
           />
         )}
       </Container>
