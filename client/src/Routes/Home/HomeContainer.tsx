@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
 import { geocode, reverseGeocode } from "../../utils";
 import HomePresenter from "./HomePresenter";
-import { UPDATE_LOCATION } from "./HomeQueries";
+import { GET_DRIVERS, UPDATE_LOCATION } from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -140,7 +140,15 @@ class HomeContainer extends React.Component<IProps, IState> {
   };
 
   private loadMap = (): void => {
-    const { google } = this.props;
+    const {
+      google,
+      GetDriversQuery,
+      MeQuery: {
+        me: {
+          user: { isDriving }
+        }
+      }
+    } = this.props;
     const { lat, lng } = this.state;
     const maps = google.maps;
     const node = ReactDOM.findDOMNode(this.mapRef.current);
@@ -173,6 +181,12 @@ class HomeContainer extends React.Component<IProps, IState> {
       this.handleGeoError,
       locationOptions
     );
+    if (!isDriving) {
+      const {
+        getDrivers: { drivers }
+      } = GetDriversQuery;
+      this.drawDrivers(drivers);
+    }
   };
 
   private updatePosition: PositionCallback = (position: Position) => {
@@ -372,14 +386,11 @@ export default compose(
   graphql(UPDATE_LOCATION, {
     name: "reportLocation"
   }),
-  graphql(ME, { name: "MeQuery" })
-  /* graphql(GET_DRIVERS, {
+  graphql(ME, { name: "MeQuery" }),
+  graphql(GET_DRIVERS, {
     name: "GetDriversQuery",
-    options: {
-      pollInterval: 1000
-    },
     skip: props => {
       return props.MeQuery.me.user.isDriving;
     }
-  }) */
+  })
 )(HomeContainer);

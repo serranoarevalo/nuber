@@ -16,7 +16,16 @@ export const GET_DRIVERS = gql`
         lastLng
         id
       }
-      timestamp
+    }
+  }
+`;
+
+export const GET_NEW_DRIVER = gql`
+  subscription getNewDriver {
+    getDriver {
+      id
+      lastLat
+      lastLng
     }
   }
 `;
