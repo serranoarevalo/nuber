@@ -468,9 +468,10 @@ class HomeContainer extends React.Component<IProps, IState> {
             position: driverPosition,
             icon: {
               url: require("../../images/car.png"),
-              scaledSize: new google.maps.Size(30, 50)
-            },
-            rotation: 60
+              scaledSize: new google.maps.Size(30, 50),
+              size: new google.maps.Size(30, 50),
+              rotation: 150
+            }
           });
           newMarker.set(DRIVER_ID, driverId);
           newMarker.setMap(this.map);
