@@ -18,4 +18,6 @@ type Ride {
   paymentMethod: String!
   createdAt: String!
   updatedAt: String!
+  distance: String!
+  duration: String!
 }

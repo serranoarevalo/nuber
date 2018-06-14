@@ -1,6 +1,6 @@
 import { SubscribeToMoreOptions } from "apollo-client";
 import React from "react";
-import { compose, graphql, MutationFn } from "react-apollo";
+import { compose, graphql, MutationFn, MutationUpdaterFn } from "react-apollo";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
@@ -23,6 +23,9 @@ interface IState {
   toAddress: string;
   mapChoosing: boolean;
   findingDirections: boolean;
+  distance: string;
+  duration: string;
+  price: number;
 }
 
 interface IProps {
@@ -54,7 +57,10 @@ class HomeContainer extends React.Component<IProps, IState> {
       toAddress: "",
       fromAddress: "",
       mapChoosing: false,
-      findingDirections: false
+      findingDirections: false,
+      distance: "",
+      duration: "",
+      price: 0
     };
     this.driverMarkers = [];
     this.mapRef = React.createRef();
@@ -350,9 +356,17 @@ class HomeContainer extends React.Component<IProps, IState> {
     });
     directionsService.route(directionsOptions, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
+        const { routes } = result;
+        const {
+          distance: { text: distance },
+          duration: { text: duration }
+        } = routes[0].legs[0];
         this.directionRenderer.setDirections(result);
         this.setState({
-          findingDirections: false
+          findingDirections: false,
+          distance,
+          duration,
+          price: parseFloat(distance) * 10
         });
       } else {
         toast.error(
@@ -365,7 +379,17 @@ class HomeContainer extends React.Component<IProps, IState> {
 
   private requestRide = (): void => {
     const { RequestRide } = this.props;
-    const { lat, lng, fromAddress, toLat, toLng, toAddress } = this.state;
+    const {
+      lat,
+      lng,
+      fromAddress,
+      toLat,
+      toLng,
+      toAddress,
+      price,
+      distance,
+      duration
+    } = this.state;
     if (toLat === 0 || toLng === 0) {
       toast.error("Cant order ride. Choose an address to go to");
     }
@@ -376,9 +400,24 @@ class HomeContainer extends React.Component<IProps, IState> {
         pickUpLng: lng,
         dropOffLocation: toAddress,
         dropOffLat: toLat,
-        dropOffLng: toLng
-      }
+        dropOffLng: toLng,
+        price,
+        distance,
+        duration
+      },
+      update: this.postRequestRide
     });
+  };
+
+  private postRequestRide: MutationUpdaterFn = (
+    cache,
+    { data }: { data: any }
+  ) => {
+    console.log(data);
+    const { requestRide } = data;
+    if (!requestRide.ok && requestRide.error) {
+      toast.error(requestRide.error);
+    }
   };
 
   private drawDrivers = (drivers): void => {

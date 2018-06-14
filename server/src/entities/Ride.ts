@@ -10,14 +10,23 @@ import {
 import { Coords } from "../types/types";
 import User from "./User";
 
+const CASH = "CASH";
+const CARD = "CARD";
+
+const ACCEPTED = "ACCEPTED";
+const ONROUTE = "ONROUTE";
+const FINISHED = "FINISHED";
+const CANCELED = "CANCELED";
+const REQUESTING = "REQUESTING";
+
 @Entity()
 class Ride extends BaseEntity {
   @PrimaryGeneratedColumn() id: number;
 
   @Column({
     type: "text",
-    enum: ["accepted", "onroute", "finished", "canceled", "requesting"],
-    default: "requesting"
+    enum: [ACCEPTED, ONROUTE, FINISHED, CANCELED, REQUESTING],
+    default: REQUESTING
   })
   status: string;
 
@@ -51,7 +60,13 @@ class Ride extends BaseEntity {
   @Column({ type: "decimal" })
   price: number;
 
-  @Column({ type: "text", enum: ["CASH", "CARD"] })
+  @Column({ type: "text", nullable: true })
+  distance: string;
+
+  @Column({ type: "text", nullable: true })
+  duration: string;
+
+  @Column({ type: "text", enum: [CASH, CARD], default: CASH })
   paymentMethod: string;
 
   @CreateDateColumn() createdAt: string;

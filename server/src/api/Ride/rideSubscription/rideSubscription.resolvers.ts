@@ -2,9 +2,9 @@ import { withFilter } from "graphql-yoga";
 
 const resolvers = {
   Subscription: {
-    getDriver: {
+    getRide: {
       subscribe: withFilter(
-        (_, __, { pubsub }) => pubsub.asyncIterator("driverUpdate"),
+        (_, __, { pubsub }) => pubsub.asyncIterator("newRide"),
         (payload, __, { rawReq }) => {
           const {
             connection: {
@@ -13,13 +13,13 @@ const resolvers = {
           } = rawReq;
           const { lastLat, lastLng } = currentUser;
           const {
-            getDriver: { lastLat: driverLat, lastLng: driverLng }
+            getRide: { pickUpCoords }
           } = payload;
           return (
-            driverLat >= lastLat - 0.05 &&
-            driverLat <= lastLat + 0.05 &&
-            driverLng >= lastLng - 0.05 &&
-            driverLng <= lastLng + 0.05
+            lastLat >= pickUpCoords.lat - 0.05 &&
+            lastLat <= pickUpCoords.lat + 0.05 &&
+            lastLng >= pickUpCoords.lng - 0.05 &&
+            lastLng <= pickUpCoords.lng + 0.05
           );
         }
       )

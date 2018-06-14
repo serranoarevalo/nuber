@@ -1,4 +1,3 @@
-import { Between, getConnection } from "typeorm";
 import Ride from "../../../entities/Ride";
 import User from "../../../entities/User";
 import { RequestRideResponse } from "../../../types/graph";
@@ -12,67 +11,67 @@ interface IArgs {
   pickUpLng: number;
   dropOffLat: number;
   dropOffLng: number;
+  price: number;
+  distance: string;
+  duration: string;
 }
 
 const resolvers: Resolvers = {
   Mutation: {
     requestRide: makeMiddleware(
       authMiddleware,
-      async (_, args: IArgs, { req }): Promise<RequestRideResponse> => {
+      async (_, args: IArgs, { req, pubsub }): Promise<RequestRideResponse> => {
         const { user }: { user: User } = req;
-        const { lastLat, lastLng } = user;
+        await Ride.delete({ passenger: user });
+        /* if (user.isRiding) {
+          return {
+            ok: false,
+            error: "Can't order two rides at once",
+            ride: null
+          };
+        } */
         const {
           pickUpLocation,
           dropOffLocation,
           pickUpLat,
           pickUpLng,
           dropOffLat,
-          dropOffLng
+          dropOffLng,
+          price,
+          distance,
+          duration
         } = args;
-        try {
-          const driver: User = await getConnection()
-            .getRepository(User)
-            .findOneOrFail({
-              isDriving: true,
-              isTaken: false,
-              lastLat: Between(lastLat - 0.05, lastLat + 0.05),
-              lastLng: Between(lastLng - 0.05, lastLng + 0.05)
-            });
-          const ride: Ride = await Ride.create({
-            passenger: user,
-            driver,
-            pickUpLocation,
-            pickUpCoords: {
-              lat: pickUpLat,
-              lng: pickUpLng
-            },
-            dropOffLocation,
-            dropOffCoords: {
-              lat: dropOffLat,
-              lng: dropOffLng
-            }
-          }); // .save();
-          /* driver.isTaken = true;
-          driver.save(); */
-          console.log(ride);
-          if (ride) {
-            return {
-              ok: true,
-              ride,
-              error: null
-            };
-          } else {
-            return {
-              ok: false,
-              ride: null,
-              error: "Could not request a ride right now, please try later."
-            };
-          }
-        } catch (error) {
+
+        const ride: Ride = await Ride.create({
+          passenger: user,
+          pickUpLocation,
+          pickUpCoords: {
+            lat: pickUpLat,
+            lng: pickUpLng
+          },
+          dropOffLocation,
+          dropOffCoords: {
+            lat: dropOffLat,
+            lng: dropOffLng
+          },
+          price,
+          distance,
+          duration
+        }).save();
+        user.isRiding = true;
+        // user.save();
+        pubsub.publish("newRide", { getRide: ride });
+        if (ride) {
+          return {
+            ok: true,
+            ride,
+            error: null
+          };
+        } else {
           return {
             ok: false,
             ride: null,
-            error: "No drivers are available"
+            error: "Could not request a ride right now, please try later."
           };
         }
       }

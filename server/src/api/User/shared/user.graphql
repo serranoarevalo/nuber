@@ -24,4 +24,5 @@ type User {
   lastLat: Float
   lastLng: Float
   isTaken: Boolean
+  isRiding: Boolean
 }

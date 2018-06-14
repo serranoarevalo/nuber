@@ -34,6 +34,9 @@ export const REQUEST_RIDE = gql`
   mutation requestRide(
     $pickUpLocation: String!
     $dropOffLocation: String!
+    $price: Float!
+    $distance: String!
+    $duration: String!
     $pickUpLat: Float!
     $pickUpLng: Float!
     $dropOffLat: Float!
@@ -46,11 +49,15 @@ export const REQUEST_RIDE = gql`
       pickUpLng: $pickUpLng
       dropOffLat: $dropOffLat
       dropOffLng: $dropOffLng
+      price: $price
+      distance: $distance
+      duration: $duration
     ) {
       ok
       ride {
         id
       }
+      error
     }
   }
 `;
