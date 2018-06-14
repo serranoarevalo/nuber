@@ -193,8 +193,8 @@ class HomeContainer extends React.Component<IProps, IState> {
         lng
       },
       icon: {
-        url: require("../../images/marker.png"),
-        scaledSize: new google.maps.Size(20, 20)
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 7
       }
     });
     this.userMarker.setMap(this.map);
@@ -447,7 +447,8 @@ class HomeContainer extends React.Component<IProps, IState> {
     }
     if (this.map) {
       for (const driver of drivers) {
-        const { lastLat, lastLng, id: driverId } = driver;
+        const { lastLat, lastLng, id: driverId, lastOrientation } = driver;
+
         const driverPosition: google.maps.LatLng = new google.maps.LatLng(
           lastLat,
           lastLng
@@ -463,15 +464,18 @@ class HomeContainer extends React.Component<IProps, IState> {
 
         if (existingMarker) {
           existingMarker.setPosition(driverPosition);
+          const icon: any = existingMarker.getIcon();
+          icon.rotation = lastOrientation;
+          existingMarker.setIcon(icon);
         } else {
+          const driverSymbol: google.maps.Symbol = {
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            scale: 5,
+            rotation: 250
+          };
           const newMarker: google.maps.Marker = new google.maps.Marker({
             position: driverPosition,
-            icon: {
-              url: require("../../images/car.png"),
-              scaledSize: new google.maps.Size(30, 50),
-              size: new google.maps.Size(30, 50),
-              rotation: 150
-            }
+            icon: driverSymbol
           });
           newMarker.set(DRIVER_ID, driverId);
           newMarker.setMap(this.map);
