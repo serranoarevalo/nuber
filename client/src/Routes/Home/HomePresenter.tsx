@@ -102,22 +102,32 @@ const UserElements = ({
       </Btn>
     </AbsContainer>
     <AbsContainer top={false}>
-      <Button
-        onClick={mapChoosing ? chooseMapAddres : requestRide}
-        text={(() => {
-          if (mapChoosing) {
-            return "Pick this place";
-          } else if (!mapChoosing && findingDirections) {
-            return "Finding directions";
-          } else if (price) {
-            return `Request ride for $${price}`;
-          } else {
-            return "Request ride";
-          }
-        })()}
-        disabled={findingDirections}
-        width={"90%"}
-      />
+      {mapChoosing && (
+        <Button
+          disabled={findingDirections}
+          width={"90%"}
+          onClick={chooseMapAddres}
+          text={"Pick this place"}
+        />
+      )}
+      {!mapChoosing &&
+        findingDirections && (
+          <Button
+            disabled={findingDirections}
+            width={"90%"}
+            onClick={null}
+            text={"Finding directions"}
+          />
+        )}
+      {!mapChoosing &&
+        price && (
+          <Button
+            disabled={findingDirections}
+            width={"90%"}
+            onClick={requestRide}
+            text={`Request ride for $${price}`}
+          />
+        )}
     </AbsContainer>
   </React.Fragment>
 );

@@ -368,7 +368,7 @@ class HomeContainer extends React.Component<IProps, IState> {
           findingDirections: false,
           distance,
           duration,
-          price: parseFloat(distance) * 10
+          price: parseInt(distance.replace(",", ""), 10) * 10
         });
       } else {
         toast.error(
