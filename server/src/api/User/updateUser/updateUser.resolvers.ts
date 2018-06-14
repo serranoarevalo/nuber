@@ -37,7 +37,7 @@ const resolvers: Resolvers = {
             if (user.isDriving) {
               const { lastLat, lastLng } = updatedUser;
               if (lastLat !== null && lastLng !== null) {
-                pubsub.publish("newDriver", { getDriver: updatedUser });
+                pubsub.publish("driverUpdate", { getDriver: updatedUser });
               }
             }
             return {

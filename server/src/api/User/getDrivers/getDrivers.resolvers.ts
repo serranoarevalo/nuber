@@ -1,31 +1,24 @@
-import { withFilter } from "graphql-yoga";
+import { Between, getConnection } from "typeorm";
+import User from "../../../entities/User";
+import { Resolvers } from "../../../types/resolvers";
+import { authMiddleware, makeMiddleware } from "../../../utils/middlewares";
 
-// import User from "../../../entities/User";
-
-const resolvers = {
-  Subscription: {
-    getDriver: {
-      subscribe: withFilter(
-        (_, __, { pubsub }) => pubsub.asyncIterator("newDriver"),
-        (payload, __, { rawReq }) => {
-          const {
-            connection: {
-              context: { currentUser }
-            }
-          } = rawReq;
-          const { lastLat, lastLng } = currentUser;
-          const {
-            getDriver: { lastLat: driverLat, lastLng: driverLng }
-          } = payload;
-          return (
-            driverLat >= lastLat - 0.05 &&
-            driverLat <= lastLat + 0.05 &&
-            driverLng >= lastLng - 0.05 &&
-            driverLng <= lastLng + 0.05
-          );
-        }
-      )
-    }
+const resolvers: Resolvers = {
+  Query: {
+    getDrivers: makeMiddleware(authMiddleware, async (_, __, { req }) => {
+      const { user }: { user: User } = req;
+      const { lastLat, lastLng } = user;
+      const drivers: User[] = await getConnection()
+        .getRepository(User)
+        .find({
+          isDriving: true,
+          lastLat: Between(lastLat - 0.05, lastLat + 0.05),
+          lastLng: Between(lastLng - 0.05, lastLng + 0.05)
+        });
+      return {
+        drivers
+      };
+    })
   }
 };
 

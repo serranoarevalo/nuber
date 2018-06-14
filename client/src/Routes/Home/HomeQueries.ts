@@ -33,13 +33,19 @@ export const GET_NEW_DRIVER = gql`
 export const REQUEST_RIDE = gql`
   mutation requestRide(
     $pickUpLocation: String!
-    $pickUpCoords: String!
     $dropOffLocation: String!
+    $pickUpLat: Float!
+    $pickUpLng: Float!
+    $dropOffLat: Float!
+    $dropOffLng: Float!
   ) {
     requestRide(
       pickUpLocation: $pickUpLocation
-      pickUpCoords: $pickUpCoords
       dropOffLocation: $dropOffLocation
+      pickUpLat: $pickUpLat
+      pickUpLng: $pickUpLng
+      dropOffLat: $dropOffLat
+      dropOffLng: $dropOffLng
     ) {
       ok
       ride {

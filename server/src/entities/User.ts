@@ -72,6 +72,9 @@ class User extends BaseEntity {
   @Column({ type: "float", nullable: true })
   lastLng: number;
 
+  @Column({ type: "boolean", default: false })
+  isTaken: boolean;
+
   @OneToMany(type => Confirmation, confirmation => confirmation.user)
   confirmations: Confirmation[];
 

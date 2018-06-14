@@ -1,3 +1,8 @@
+type Coords {
+  lat: Float
+  lng: Float
+}
+
 type Ride {
   id: Int!
   status: String!
@@ -5,9 +10,10 @@ type Ride {
   passengerRating: Float
   passenger: User!
   driver: User
-  pickUpLocation: String
-  pickUpCoords: String!
-  dropOffLocation: String
+  pickUpLocation: String!
+  pickUpCoords: Coords!
+  dropOffLocation: String!
+  dropOffCoords: Coords!
   price: Float
   paymentMethod: String!
   createdAt: String!

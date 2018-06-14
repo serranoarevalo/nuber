@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { Coords } from "../types/types";
 import User from "./User";
 
 @Entity()
@@ -35,11 +36,14 @@ class Ride extends BaseEntity {
   @Column({ type: "text" })
   pickUpLocation: string;
 
-  @Column({ type: "text" })
-  pickUpCoords: string;
+  @Column({ type: "json" })
+  pickUpCoords: Coords;
 
   @Column({ type: "text" })
   dropOffLocation: string;
+
+  @Column({ type: "json" })
+  dropOffCoords: Coords;
 
   @Column({ type: "json", nullable: true })
   drivePath: string;

@@ -1,3 +1,7 @@
-type Subscription {
-  getDriver: User
+type GetDriversResponse {
+  drivers: [User]
+}
+
+type Query {
+  getDrivers: GetDriversResponse!
 }

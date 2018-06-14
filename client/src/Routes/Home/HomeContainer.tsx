@@ -6,7 +6,12 @@ import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
 import { geocode, reverseGeocode } from "../../utils";
 import HomePresenter from "./HomePresenter";
-import { GET_DRIVERS, GET_NEW_DRIVER, UPDATE_LOCATION } from "./HomeQueries";
+import {
+  GET_DRIVERS,
+  GET_NEW_DRIVER,
+  REQUEST_RIDE,
+  UPDATE_LOCATION
+} from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -21,7 +26,8 @@ interface IState {
 }
 
 interface IProps {
-  reportLocation: MutationFn;
+  ReportLocation: MutationFn;
+  RequestRide: MutationFn;
   history: any;
   google: any;
   loading: boolean;
@@ -121,17 +127,23 @@ class HomeContainer extends React.Component<IProps, IState> {
     });
   };
 
-  private handleGeoSuccess: PositionCallback = (position: Position): void => {
+  private handleGeoSuccess: PositionCallback = async (
+    position: Position
+  ): Promise<void> => {
     const {
       coords: { latitude, longitude }
     } = position;
-    this.setState(
-      {
-        lat: latitude,
-        lng: longitude
-      },
-      this.loadMap
-    );
+    const { address, error } = await reverseGeocode(latitude, longitude);
+    if (!error) {
+      this.setState(
+        {
+          lat: latitude,
+          lng: longitude,
+          fromAddress: address
+        },
+        this.loadMap
+      );
+    }
   };
 
   private handleGeoError: PositionErrorCallback = (
@@ -199,13 +211,13 @@ class HomeContainer extends React.Component<IProps, IState> {
   };
 
   private updatePosition: PositionCallback = (position: Position) => {
-    const { reportLocation } = this.props;
+    const { ReportLocation } = this.props;
     const {
       coords: { latitude, longitude }
     } = position;
     const latLng = new google.maps.LatLng(latitude, longitude);
     this.userMarker.setPosition(latLng);
-    reportLocation({
+    ReportLocation({
       variables: {
         lat: latitude,
         lng: longitude
@@ -352,10 +364,21 @@ class HomeContainer extends React.Component<IProps, IState> {
   };
 
   private requestRide = (): void => {
-    const { toLat, toLng } = this.state;
+    const { RequestRide } = this.props;
+    const { lat, lng, fromAddress, toLat, toLng, toAddress } = this.state;
     if (toLat === 0 || toLng === 0) {
       toast.error("Cant order ride. Choose an address to go to");
     }
+    RequestRide({
+      variables: {
+        pickUpLocation: fromAddress,
+        pickUpLat: lat,
+        pickUpLng: lng,
+        dropOffLocation: toAddress,
+        dropOffLat: toLat,
+        dropOffLng: toLng
+      }
+    });
   };
 
   private drawDrivers = (drivers): void => {
@@ -399,7 +422,7 @@ class HomeContainer extends React.Component<IProps, IState> {
 
 export default compose(
   graphql(UPDATE_LOCATION, {
-    name: "reportLocation"
+    name: "ReportLocation"
   }),
   graphql(ME, { name: "MeQuery" }),
   graphql(GET_DRIVERS, {
@@ -410,5 +433,8 @@ export default compose(
     skip: props => {
       return props.MeQuery.me.user.isDriving;
     }
+  }),
+  graphql(REQUEST_RIDE, {
+    name: "RequestRide"
   })
 )(HomeContainer);

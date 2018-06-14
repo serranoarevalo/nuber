@@ -7,9 +7,10 @@ type RequestRideResponse {
 type Mutation {
   requestRide(
     pickUpLocation: String!
-    pickUpCoords: String!
     dropOffLocation: String!
-    paymentMethod: String!
-    price: Float!
+    pickUpLat: Float!
+    pickUpLng: Float!
+    dropOffLat: Float!
+    dropOffLng: Float!
   ): RequestRideResponse!
 }
