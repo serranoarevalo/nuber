@@ -240,11 +240,11 @@ class HomeContainer extends React.Component<IProps, IState> {
   };
 
   private handleRotation = (event: DeviceOrientationEvent) => {
-    const { gamma } = event;
+    const { alpha } = event;
     const { ReportLocation } = this.props;
     ReportLocation({
       variables: {
-        lastOrientation: gamma
+        lastOrientation: alpha
       }
     });
   };
@@ -471,7 +471,7 @@ class HomeContainer extends React.Component<IProps, IState> {
           const driverSymbol: google.maps.Symbol = {
             path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
             scale: 5,
-            rotation: 250
+            rotation: lastOrientation
           };
           const newMarker: google.maps.Marker = new google.maps.Marker({
             position: driverPosition,
