@@ -16,5 +16,6 @@ type Mutation {
     isDriving: Boolean
     lastLat: Float
     lastLng: Float
+    lastOrientation: Float
   ): UpdateUserResponse!
 }

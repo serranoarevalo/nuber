@@ -25,4 +25,5 @@ type User {
   lastLng: Float
   isTaken: Boolean
   isRiding: Boolean
+  lastOrientation: Float
 }

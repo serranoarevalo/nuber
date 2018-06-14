@@ -15,6 +15,7 @@ interface IArgs {
   isDriving: boolean;
   lastLat: number;
   lastLng: number;
+  lastOrientation: number;
 }
 
 const resolvers: Resolvers = {

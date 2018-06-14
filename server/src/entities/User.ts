@@ -72,6 +72,9 @@ class User extends BaseEntity {
   @Column({ type: "float", nullable: true })
   lastLng: number;
 
+  @Column({ type: "float", nullable: true })
+  lastOrientation: number;
+
   @Column({ type: "boolean", default: false })
   isTaken: boolean;
 

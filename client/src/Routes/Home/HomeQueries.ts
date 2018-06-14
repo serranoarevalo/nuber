@@ -1,8 +1,12 @@
 import gql from "graphql-tag";
 
 export const UPDATE_LOCATION = gql`
-  mutation reportLocation($lat: Float!, $lng: Float!) {
-    updateUser(lastLat: $lat, lastLng: $lng) {
+  mutation reportLocation($lat: Float, $lng: Float, $lastOrientation: Float) {
+    updateUser(
+      lastLat: $lat
+      lastLng: $lng
+      lastOrientation: $lastOrientation
+    ) {
       ok
     }
   }
@@ -15,6 +19,7 @@ export const GET_DRIVERS = gql`
         lastLat
         lastLng
         id
+        lastOrientation
       }
     }
   }
@@ -26,6 +31,7 @@ export const GET_NEW_DRIVER = gql`
       id
       lastLat
       lastLng
+      lastOrientation
     }
   }
 `;

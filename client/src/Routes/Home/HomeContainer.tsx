@@ -1,4 +1,5 @@
 import { SubscribeToMoreOptions } from "apollo-client";
+import throttle from "lodash.throttle";
 import React from "react";
 import { compose, graphql, MutationFn, MutationUpdaterFn } from "react-apollo";
 import ReactDOM from "react-dom";
@@ -70,6 +71,11 @@ class HomeContainer extends React.Component<IProps, IState> {
     navigator.geolocation.getCurrentPosition(
       this.handleGeoSuccess,
       this.handleGeoError
+    );
+    window.addEventListener(
+      "deviceorientation",
+      throttle(this.handleRotation, 5000, { trailing: true, leading: true }),
+      true
     );
   }
 
@@ -229,6 +235,16 @@ class HomeContainer extends React.Component<IProps, IState> {
       variables: {
         lat: latitude,
         lng: longitude
+      }
+    });
+  };
+
+  private handleRotation = (event: DeviceOrientationEvent) => {
+    const { gamma } = event;
+    const { ReportLocation } = this.props;
+    ReportLocation({
+      variables: {
+        lastOrientation: gamma
       }
     });
   };
@@ -449,7 +465,12 @@ class HomeContainer extends React.Component<IProps, IState> {
           existingMarker.setPosition(driverPosition);
         } else {
           const newMarker: google.maps.Marker = new google.maps.Marker({
-            position: driverPosition
+            position: driverPosition,
+            icon: {
+              url: require("../../images/car.png"),
+              scaledSize: new google.maps.Size(30, 50)
+            },
+            rotation: 60
           });
           newMarker.set(DRIVER_ID, driverId);
           newMarker.setMap(this.map);
