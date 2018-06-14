@@ -67,6 +67,7 @@ class EditAccountContainer extends React.Component<any, IState> {
           profilePhoto
         }}
         update={this.handlePostSubmit}
+        refetchQueries={[{ query: ME }]}
       >
         {(updateAccount, { loading }) => (
           <EditAccountPresenter
@@ -106,12 +107,6 @@ class EditAccountContainer extends React.Component<any, IState> {
       toast.error(updateUser.error);
     } else if (updateUser.ok) {
       toast.success("Account successfully updated");
-      const query: any = cache.readQuery({ query: ME });
-      query.me.user = updateUser.user;
-      cache.writeQuery({
-        query: ME,
-        data: query
-      });
     }
   };
 

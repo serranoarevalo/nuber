@@ -94,7 +94,7 @@ const EditAccountPresenter: React.SFC<IProps> = ({
           value={password}
           name={"password"}
           type={"password"}
-          required={true}
+          required={false}
           displayName={"Password"}
           placeholder={"••••••"}
         />
