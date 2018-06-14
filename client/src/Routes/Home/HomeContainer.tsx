@@ -187,7 +187,6 @@ class HomeContainer extends React.Component<IProps, IState> {
         getDrivers: { drivers }
       } = GetDriversQuery;
       this.drawDrivers(drivers);
-      console.log(GetDriversQuery);
       const subscribeOptions: SubscribeToMoreOptions = {
         document: GET_NEW_DRIVER,
         updateQuery: (prev, { subscriptionData }) => {
@@ -365,6 +364,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       this.driverMarkers.forEach((marker: google.maps.Marker) => {
         marker.setMap(null);
       });
+      this.driverMarkers = [];
     }
     if (this.map) {
       for (const driver of drivers) {
@@ -404,6 +404,9 @@ export default compose(
   graphql(ME, { name: "MeQuery" }),
   graphql(GET_DRIVERS, {
     name: "GetDriversQuery",
+    options: {
+      pollInterval: 10000
+    },
     skip: props => {
       return props.MeQuery.me.user.isDriving;
     }
