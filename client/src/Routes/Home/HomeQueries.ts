@@ -29,3 +29,22 @@ export const GET_NEW_DRIVER = gql`
     }
   }
 `;
+
+export const REQUEST_RIDE = gql`
+  mutation requestRide(
+    $pickUpLocation: String!
+    $pickUpCoords: String!
+    $dropOffLocation: String!
+  ) {
+    requestRide(
+      pickUpLocation: $pickUpLocation
+      pickUpCoords: $pickUpCoords
+      dropOffLocation: $dropOffLocation
+    ) {
+      ok
+      ride {
+        id
+      }
+    }
+  }
+`;
