@@ -1,3 +1,4 @@
+import { SubscribeToMoreOptions } from "apollo-client";
 import React from "react";
 import { compose, graphql, MutationFn } from "react-apollo";
 import ReactDOM from "react-dom";
@@ -5,7 +6,7 @@ import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
 import { geocode, reverseGeocode } from "../../utils";
 import HomePresenter from "./HomePresenter";
-import { GET_DRIVERS, UPDATE_LOCATION } from "./HomeQueries";
+import { GET_DRIVERS, GET_NEW_DRIVER, UPDATE_LOCATION } from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -186,6 +187,15 @@ class HomeContainer extends React.Component<IProps, IState> {
         getDrivers: { drivers }
       } = GetDriversQuery;
       this.drawDrivers(drivers);
+      console.log(GetDriversQuery);
+      const subscribeOptions: SubscribeToMoreOptions = {
+        document: GET_NEW_DRIVER,
+        updateQuery: (prev, { subscriptionData }) => {
+          const newDriver = subscriptionData.data.getDriver;
+          this.drawDrivers([newDriver]);
+        }
+      };
+      GetDriversQuery.subscribeToMore(subscribeOptions);
     }
   };
 
@@ -351,6 +361,11 @@ class HomeContainer extends React.Component<IProps, IState> {
 
   private drawDrivers = (drivers): void => {
     const DRIVER_ID = "driverId";
+    if (drivers.length === 0) {
+      this.driverMarkers.forEach((marker: google.maps.Marker) => {
+        marker.setMap(null);
+      });
+    }
     if (this.map) {
       for (const driver of drivers) {
         const { lastLat, lastLng, id: driverId } = driver;
