@@ -94,12 +94,15 @@ class HomePresenter extends React.Component<IHomePresenterProps> {
           }}
           onSetOpen={closeMenu}
         >
-          {!loading &&
+          {/* {!loading &&
             me.user.verifiedPhoneNumber && (
               <Icon onClick={openMenu}>
                 <FontAwesome name={"bars"} />
               </Icon>
-            )}
+            )} */}
+          <Icon onClick={openMenu}>
+            <FontAwesome name={"bars"} />
+          </Icon>
         </Sidebar>
         {!loading &&
           !me.user.verifiedPhoneNumber && (

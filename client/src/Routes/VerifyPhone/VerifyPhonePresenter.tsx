@@ -29,7 +29,7 @@ const VerifyPhonePresenter: React.SFC<IProps> = ({
     </Helmet>
     <Header backTo="/" title={"Verify your phone"} />
     <Container>
-      <Form onSubmit={onSubmit}>
+      <Form width={"100%"} onSubmit={onSubmit}>
         <Input
           name="verificationKey"
           type={"tel"}

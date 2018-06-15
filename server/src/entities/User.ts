@@ -81,6 +81,9 @@ class User extends BaseEntity {
   @Column({ type: "boolean", default: false })
   isRiding: boolean;
 
+  @Column({ type: "int", nullable: true })
+  currentRideId: number;
+
   @OneToMany(type => Confirmation, confirmation => confirmation.user)
   confirmations: Confirmation[];
 

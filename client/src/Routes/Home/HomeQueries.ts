@@ -75,7 +75,9 @@ export const GET_RIDE_REQUEST = gql`
       ride {
         passenger {
           profilePhoto
+          fullName
         }
+        price
         pickUpLocation
         dropOffLocation
         price

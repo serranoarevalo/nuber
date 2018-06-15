@@ -12,7 +12,11 @@ const Form = styled<IProps, any>("form")`
   width: ${props => props.width};
 `;
 
-const FormPresenter: React.SFC<IProps> = ({ onSubmit, children, width }) => (
+const FormPresenter: React.SFC<IProps> = ({
+  onSubmit,
+  children,
+  width = "100%"
+}) => (
   <Form
     // tslint:disable-next-line jsx-no-lambda
     onSubmit={event => {

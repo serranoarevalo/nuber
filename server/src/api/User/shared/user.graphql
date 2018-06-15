@@ -26,4 +26,5 @@ type User {
   isTaken: Boolean
   isRiding: Boolean
   lastOrientation: Float
+  currentRideId: Int
 }
