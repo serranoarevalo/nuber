@@ -64,12 +64,16 @@ class HomeContainer extends React.Component<
 
   componentWillReceiveProps(nextProps) {
     const {
+      GetRideRequestQuery: { getRideRequest: { ride = null } = {} } = {},
       GetDriversQuery: { getDrivers: { drivers = null } = {} } = {}
     } = nextProps;
     if (drivers) {
       if (this.map) {
         this.drawDrivers(drivers);
       }
+    }
+    if (ride) {
+      this.handleRideRequest(ride);
     }
   }
 
@@ -212,10 +216,7 @@ class HomeContainer extends React.Component<
       if (!ok && error) {
         toast.error(error);
       } else if (ok && ride) {
-        this.setState({
-          request: ride,
-          hasRequest: true
-        });
+        this.handleRideRequest(ride);
       }
       const subscribeOptions: SubscribeToMoreOptions = {
         document: RIDE_REQUEST_SUBSCRIPTION,
@@ -502,6 +503,13 @@ class HomeContainer extends React.Component<
         }
       }
     }
+  };
+
+  private handleRideRequest = (request): void => {
+    this.setState({
+      request,
+      hasRequest: true
+    });
   };
 }
 

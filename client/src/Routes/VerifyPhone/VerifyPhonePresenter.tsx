@@ -2,21 +2,11 @@ import PropTypes from "prop-types";
 import React from "react";
 import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
-import styled from "styled-components";
 import Button from "../../Components/Button";
 import Form from "../../Components/Form";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
-
-const Wrapper = styled.div`
-  overflow-y: scroll;
-  height: 100%;
-`;
-
-const Container = styled.div`
-  padding: 0 15px;
-  padding-top: 150px;
-`;
+import { Container, Wrapper } from "../../Components/Shared";
 
 interface IProps {
   verificationKey: string;
@@ -33,7 +23,7 @@ const VerifyPhonePresenter: React.SFC<IProps> = ({
   loading,
   onSubmit
 }) => (
-  <Wrapper className={"shouldScroll"}>
+  <Wrapper>
     <Helmet>
       <title>Verify Phone | Nuber</title>
     </Helmet>

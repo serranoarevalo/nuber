@@ -6,16 +6,7 @@ import ActionButton from "../../Components/ActionButton";
 import Header from "../../Components/Header";
 import Place from "../../Components/Place";
 import Section from "../../Components/Section";
-
-const Container = styled.div`
-  width: 100%;
-  padding-top: 150px;
-`;
-
-const Wrapper = styled.div`
-  overflow-y: scroll;
-  height: 100%;
-`;
+import { Container, Wrapper } from "../../Components/Shared";
 
 const NoPlaces = styled.div``;
 
@@ -35,7 +26,7 @@ const PlacesPresenter: React.SFC<IProps> = ({
   places,
   loading
 }) => (
-  <Wrapper className={"shouldScroll"}>
+  <Wrapper>
     <Header backTo="/settings" title={"Saved Places"} />
     <Container>
       {places.length === 0 ? (

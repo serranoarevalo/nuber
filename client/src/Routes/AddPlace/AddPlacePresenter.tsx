@@ -7,17 +7,7 @@ import Button from "../../Components/Button";
 import Form from "../../Components/Form";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
-
-const Container = styled.div`
-  width: 100%;
-  padding: 0 15px;
-  padding-top: 150px;
-`;
-
-const Wrapper = styled.div`
-  overflow-y: scroll;
-  height: 100%;
-`;
+import { Container, Wrapper } from "../../Components/Shared";
 
 const FakeLink = styled.span`
   text-decoration: underline;
@@ -49,7 +39,7 @@ const AddPlacePresenter: React.SFC<IProps> = ({
   lat,
   lng
 }) => (
-  <Wrapper className={"shouldScroll"}>
+  <Wrapper>
     <Helmet>
       <title>Add Place | Nuber</title>
     </Helmet>

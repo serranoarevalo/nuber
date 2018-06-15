@@ -1,24 +1,13 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { MutationFn } from "react-apollo";
-import styled from "styled-components";
 import Button from "../../Components/Button";
 import Form from "../../Components/Form";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
 import Select from "../../Components/Select";
+import { Container, Wrapper } from "../../Components/Shared";
 import countries from "../../countries";
-
-const Container = styled.div`
-  padding: 0 15px;
-  padding-top: 150px;
-  padding-bottom: 50px;
-`;
-
-const Wrapper = styled.div`
-  overflow-y: scroll;
-  height: 100%;
-`;
 
 interface IProps {
   countryCode: string;

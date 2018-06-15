@@ -8,21 +8,11 @@ import styled from "styled-components";
 import Header from "../../Components/Header";
 import Place from "../../Components/Place";
 import Section from "../../Components/Section";
-
-const Container = styled.div`
-  width: 100%;
-  padding-top: 150px;
-  height: 100%;
-`;
+import { Container, Wrapper } from "../../Components/Shared";
 
 const Placeholder = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const Wrapper = styled.div`
-  overflow-y: scroll;
-  height: 100%;
 `;
 
 const Image = styled.img`

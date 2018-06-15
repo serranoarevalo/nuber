@@ -57,3 +57,8 @@ export interface IUserElementsProps {
   price: number | undefined;
   status: status;
 }
+
+export interface IDriverElementsProps {
+  hasRequest: boolean;
+  request: object;
+}

@@ -2,23 +2,12 @@ import PropTypes from "prop-types";
 import React from "react";
 import { MutationFn } from "react-apollo";
 import { Helmet } from "react-helmet";
-import styled from "styled-components";
 import Button from "../../Components/Button";
 import FileInput from "../../Components/FileInput";
 import Form from "../../Components/Form";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
-
-const Container = styled.div`
-  padding: 0 15px;
-  padding-top: 150px;
-  padding-bottom: 50px;
-`;
-
-const Wrapper = styled.div`
-  overflow-y: scroll;
-  height: 100%;
-`;
+import { Container, Wrapper } from "../../Components/Shared";
 
 interface IProps {
   email: string;
