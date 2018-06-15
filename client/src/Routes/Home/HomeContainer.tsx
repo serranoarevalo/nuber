@@ -1,11 +1,12 @@
 import { SubscribeToMoreOptions } from "apollo-client";
 import throttle from "lodash.throttle";
 import React from "react";
-import { compose, graphql, MutationFn, MutationUpdaterFn } from "react-apollo";
+import { compose, graphql, MutationUpdaterFn } from "react-apollo";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
 import { geocode, reverseGeocode } from "../../utils";
+import { IHomeContainerProps, IHomeContainerState } from "./HomeInterfaces";
 import HomePresenter from "./HomePresenter";
 import {
   GET_DRIVERS,
@@ -15,37 +16,12 @@ import {
   RIDE_REQUEST_SUBSCRIPTION,
   UPDATE_LOCATION
 } from "./HomeQueries";
+import UserElements from "./UserElements";
 
-interface IState {
-  isMenuOpen: boolean;
-  lat: number;
-  lng: number;
-  fromAddress: string;
-  toLat: number;
-  toLng: number;
-  toAddress: string;
-  mapChoosing: boolean;
-  findingDirections: boolean;
-  distance: string;
-  duration: string;
-  price: number | undefined;
-  hasRequest: boolean;
-  request: object | null;
-  isRequesting: boolean;
-}
-
-interface IProps {
-  ReportLocation: MutationFn;
-  RequestRide: MutationFn;
-  history: any;
-  google: any;
-  loading: boolean;
-  MeQuery: any;
-  GetDriversQuery: any;
-  GetRideRequestQuery: any;
-}
-
-class HomeContainer extends React.Component<IProps, IState> {
+class HomeContainer extends React.Component<
+  IHomeContainerProps,
+  IHomeContainerState
+> {
   mapRef: any;
   map: google.maps.Map;
   userMarker: google.maps.Marker;
@@ -53,7 +29,7 @@ class HomeContainer extends React.Component<IProps, IState> {
   directionRenderer: google.maps.DirectionsRenderer;
   driverMarkers: google.maps.Marker[];
 
-  constructor(props: IProps) {
+  constructor(props: IHomeContainerProps) {
     super(props);
     this.state = {
       isMenuOpen: false,
@@ -63,14 +39,12 @@ class HomeContainer extends React.Component<IProps, IState> {
       toLng: 0,
       toAddress: "",
       fromAddress: "",
-      mapChoosing: false,
-      findingDirections: false,
       distance: "",
       duration: "",
       price: undefined,
       hasRequest: false,
       request: null,
-      isRequesting: false
+      status: "idle"
     };
     this.driverMarkers = [];
     this.mapRef = React.createRef();
@@ -100,13 +74,7 @@ class HomeContainer extends React.Component<IProps, IState> {
   }
 
   render() {
-    const {
-      isMenuOpen,
-      toAddress,
-      mapChoosing,
-      findingDirections,
-      price
-    } = this.state;
+    const { isMenuOpen, toAddress, price, status } = this.state;
     const {
       MeQuery: { loading, me }
     } = this.props;
@@ -120,16 +88,21 @@ class HomeContainer extends React.Component<IProps, IState> {
         me={me}
         loading={loading}
         mapRef={this.mapRef}
-        handleInputChange={this.handleInputChange}
-        toAddress={toAddress}
-        submitAddress={this.submitAddress}
-        mapChoosing={mapChoosing}
-        toggleMapChoosing={this.toggleMapChoosing}
-        chooseMapAddres={this.chooseMapAddres}
-        requestRide={this.requestRide}
-        findingDirections={findingDirections}
-        price={price}
-      />
+        showMarker={status === "choosingFromMap"}
+      >
+        {!loading && me.user.isDriving ? null : (
+          <UserElements
+            toAddress={toAddress}
+            handleInputChange={this.handleInputChange}
+            submitAddress={this.submitAddress}
+            toggleMapChoosing={this.toggleMapChoosing}
+            chooseMapAddres={this.chooseMapAddres}
+            requestRide={this.requestRide}
+            price={price}
+            status={status}
+          />
+        )}
+      </HomePresenter>
     );
   }
 
@@ -291,9 +264,9 @@ class HomeContainer extends React.Component<IProps, IState> {
   };
 
   private submitAddress = async () => {
-    const { toAddress, mapChoosing } = this.state;
+    const { toAddress, status } = this.state;
     const { lat, lng, error } = await geocode(toAddress);
-    if (!mapChoosing) {
+    if (status !== "choosingFromMap") {
       if (!error) {
         this.setState(
           {
@@ -310,17 +283,25 @@ class HomeContainer extends React.Component<IProps, IState> {
 
   private toggleMapChoosing = () => {
     this.setState(prevState => {
-      return {
-        mapChoosing: !prevState.mapChoosing,
-        toLat: 0,
-        toLng: 0
-      };
+      if (prevState.status === "idle") {
+        return {
+          status: "choosingFromMap",
+          toLat: 0,
+          toLng: 0
+        };
+      } else {
+        return {
+          status: "idle",
+          toLat: 0,
+          toLng: 0
+        };
+      }
     });
   };
 
   private handleCenterChange = () => {
-    const { mapChoosing } = this.state;
-    if (mapChoosing) {
+    const { status } = this.state;
+    if (status === "choosingFromMap") {
       const center = this.map.getCenter();
       const lat = center.lat();
       const lng = center.lng();
@@ -351,7 +332,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     if (toLat !== 0 && toLng !== 0) {
       this.setState(
         {
-          mapChoosing: false
+          status: "idle"
         },
         this.createToMarket
       );
@@ -400,7 +381,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       travelMode: google.maps.TravelMode.DRIVING
     };
     this.setState({
-      findingDirections: true
+      status: "findingDirections"
     });
     directionsService.route(directionsOptions, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
@@ -411,7 +392,7 @@ class HomeContainer extends React.Component<IProps, IState> {
         } = routes[0].legs[0];
         this.directionRenderer.setDirections(result);
         this.setState({
-          findingDirections: false,
+          status: "foundDirections",
           distance,
           duration,
           price: parseInt(distance.replace(",", ""), 10) * 10
@@ -440,6 +421,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     } = this.state;
     if (toLat === 0 || toLng === 0) {
       toast.error("Cant order ride. Choose an address to go to");
+      return;
     }
     RequestRide({
       variables: {
@@ -455,6 +437,9 @@ class HomeContainer extends React.Component<IProps, IState> {
       },
       update: this.postRequestRide
     });
+    this.setState({
+      status: "requesting"
+    });
   };
 
   private postRequestRide: MutationUpdaterFn = (
@@ -466,7 +451,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       toast.error(requestRide.error);
     } else {
       this.setState({
-        isRequesting: true
+        status: "requesting"
       });
     }
   };

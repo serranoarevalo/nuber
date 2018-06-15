@@ -15,7 +15,6 @@ const resolvers = {
           const {
             rideRequest: { pickUpLat, pickUpLng }
           } = payload;
-          console.log(payload);
           return (
             pickUpLat >= lastLat - 0.05 &&
             pickUpLat <= lastLat + 0.05 &&

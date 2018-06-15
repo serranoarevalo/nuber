@@ -4,9 +4,8 @@ import FontAwesome from "react-fontawesome";
 import { Helmet } from "react-helmet";
 import Sidebar from "react-sidebar";
 import styled from "styled-components";
-import AddressInput from "../../Components/AddressInput";
-import Button from "../../Components/Button";
 import Marker from "../../Components/Marker";
+import { IHomePresenterProps } from "./HomeInterfaces";
 import Menu from "./Menu";
 
 const Container = styled.div`
@@ -51,109 +50,7 @@ const Map = styled.div`
   z-index: 0;
 `;
 
-const AbsContainer = styled<any, any>("div")`
-  position: absolute;
-  ${props => (props.top ? "top: 80px;" : "bottom: 50px;")};
-  width: 100%;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const Btn = styled.button`
-  -webkit-appearance: none;
-  border: 0;
-  padding: 10px 20px;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  box-shadow: ${props => props.theme.boxShadow};
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.7);
-  &:active {
-    opacity: 0.9;
-  }
-`;
-
-const UserElements = ({
-  toAddress,
-  handleInputChange,
-  submitAddress,
-  mapChoosing,
-  toggleMapChoosing,
-  chooseMapAddres,
-  requestRide,
-  findingDirections,
-  price
-}) => (
-  <React.Fragment>
-    <AbsContainer top={true}>
-      <AddressInput
-        value={toAddress}
-        name={"toAddress"}
-        onChange={handleInputChange}
-        onSubmit={submitAddress}
-        placeholder={"Where to?"}
-        width={"90%"}
-        disabled={mapChoosing}
-      />
-      <Btn onClick={toggleMapChoosing}>
-        {mapChoosing ? "Stop choosing" : "Choose from map"}
-      </Btn>
-    </AbsContainer>
-    <AbsContainer top={false}>
-      {mapChoosing && (
-        <Button
-          disabled={findingDirections}
-          width={"90%"}
-          onClick={chooseMapAddres}
-          text={"Pick this place"}
-        />
-      )}
-      {!mapChoosing &&
-        findingDirections && (
-          <Button
-            disabled={findingDirections}
-            width={"90%"}
-            onClick={null}
-            text={"Finding directions"}
-          />
-        )}
-      {!mapChoosing &&
-        price && (
-          <Button
-            disabled={findingDirections}
-            width={"90%"}
-            onClick={requestRide}
-            text={`Request ride for $${price}`}
-          />
-        )}
-    </AbsContainer>
-  </React.Fragment>
-);
-
-const DriverElements = () => null;
-
-interface IProps {
-  openMenu: () => void;
-  closeMenu: () => void;
-  isMenuOpen: boolean;
-  me: any;
-  redirectToVerify: () => void;
-  loading: boolean;
-  mapRef: any;
-  toAddress: string;
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  submitAddress: () => void;
-  mapChoosing: boolean;
-  toggleMapChoosing: () => void;
-  chooseMapAddres: () => void;
-  requestRide: () => void;
-  findingDirections: boolean;
-  price: number | undefined;
-}
-
-class HomePresenter extends React.Component<IProps> {
+class HomePresenter extends React.Component<IHomePresenterProps> {
   static propTypes = {
     openMenu: PropTypes.func.isRequired,
     closeMenu: PropTypes.func.isRequired,
@@ -161,15 +58,11 @@ class HomePresenter extends React.Component<IProps> {
     me: PropTypes.object,
     redirectToVerify: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    toAddress: PropTypes.string,
-    handleInputChange: PropTypes.func.isRequired,
-    submitAddress: PropTypes.func.isRequired,
-    mapChoosing: PropTypes.bool.isRequired,
-    toggleMapChoosing: PropTypes.func.isRequired,
-    chooseMapAddres: PropTypes.func.isRequired,
-    requestRide: PropTypes.func.isRequired,
-    findingDirections: PropTypes.bool.isRequired,
-    price: PropTypes.number
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
+    ]),
+    showMarker: PropTypes.bool.isRequired
   };
   render() {
     const {
@@ -180,15 +73,8 @@ class HomePresenter extends React.Component<IProps> {
       me,
       loading,
       mapRef,
-      toAddress,
-      handleInputChange,
-      submitAddress,
-      mapChoosing,
-      toggleMapChoosing,
-      chooseMapAddres,
-      requestRide,
-      findingDirections,
-      price
+      children,
+      showMarker
     } = this.props;
     return (
       <Container>
@@ -221,23 +107,9 @@ class HomePresenter extends React.Component<IProps> {
               <FakeLink>tap here to do it</FakeLink>
             </PhoneError>
           )}
-        {mapChoosing && <Marker />}
+        {showMarker && <Marker />}
         <Map innerRef={mapRef} />
-        {!loading && me.user.isDriving ? (
-          <DriverElements />
-        ) : (
-          <UserElements
-            toAddress={toAddress}
-            handleInputChange={handleInputChange}
-            submitAddress={submitAddress}
-            mapChoosing={mapChoosing}
-            toggleMapChoosing={toggleMapChoosing}
-            chooseMapAddres={chooseMapAddres}
-            requestRide={requestRide}
-            findingDirections={findingDirections}
-            price={price}
-          />
-        )}
+        {children}
       </Container>
     );
   }

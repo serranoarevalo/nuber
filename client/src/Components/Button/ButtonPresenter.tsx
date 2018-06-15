@@ -23,14 +23,14 @@ const Button = styled<any, any>("input")`
 
 interface IProps {
   text: string;
-  disabled: boolean;
+  disabled?: boolean;
   onClick?: any;
   width?: string;
 }
 
 const ButtonPresenter: React.SFC<IProps> = ({
   text,
-  disabled,
+  disabled = false,
   onClick = null,
   width = "100%"
 }) => (
@@ -45,7 +45,7 @@ const ButtonPresenter: React.SFC<IProps> = ({
 
 ButtonPresenter.propTypes = {
   text: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func,
   width: PropTypes.string
 };
