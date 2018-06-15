@@ -22,7 +22,7 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, args: IArgs, { req, pubsub }): Promise<RequestRideResponse> => {
         const { user }: { user: User } = req;
-        await Ride.delete({ passenger: user });
+        await Ride.delete({});
         /* if (user.isRiding) {
           return {
             ok: false,
@@ -30,31 +30,12 @@ const resolvers: Resolvers = {
             ride: null
           };
         } */
-        const {
-          pickUpLocation,
-          dropOffLocation,
-          pickUpLat,
-          pickUpLng,
-          dropOffLat,
-          dropOffLng,
-          price,
-          distance,
-          duration
-        } = args;
 
         const ride: Ride = await Ride.create({
           passenger: user,
-          pickUpLocation,
-          pickUpLat,
-          pickUpLng,
-          dropOffLng,
-          dropOffLat,
-          dropOffLocation,
-          price,
-          distance,
-          duration
+          ...args
         }).save();
-        user.isRiding = true;
+        // user.isRiding = true;
         // user.save();
         pubsub.publish("newRide", { rideRequest: ride });
         if (ride) {

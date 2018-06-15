@@ -19,7 +19,7 @@ export interface IHomeContainerState {
   duration: string;
   price: number | undefined;
   hasRequest: boolean;
-  request: object | null;
+  request: object | undefined;
   status: status;
 }
 
@@ -60,5 +60,5 @@ export interface IUserElementsProps {
 
 export interface IDriverElementsProps {
   hasRequest: boolean;
-  request: object;
+  request: object | undefined;
 }

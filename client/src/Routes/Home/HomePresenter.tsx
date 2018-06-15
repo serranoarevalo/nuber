@@ -37,6 +37,7 @@ const PhoneError = styled.div`
   position: absolute;
   cursor: pointer;
   bottom: 0;
+  z-index: 10;
 `;
 
 const FakeLink = styled.span`
@@ -103,7 +104,7 @@ class HomePresenter extends React.Component<IHomePresenterProps> {
         {!loading &&
           !me.user.verifiedPhoneNumber && (
             <PhoneError onClick={redirectToVerify}>
-              You need to verify your phone
+              You need to verify your phone{" "}
               <FakeLink>tap here to do it</FakeLink>
             </PhoneError>
           )}

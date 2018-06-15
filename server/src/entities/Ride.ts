@@ -44,16 +44,16 @@ class Ride extends BaseEntity {
   @Column({ type: "text" })
   pickUpLocation: string;
 
-  @Column({ type: "float", default: 0 })
+  @Column({ type: "float", nullable: true })
   pickUpLat: number;
 
-  @Column({ type: "float", default: 0 })
+  @Column({ type: "float", nullable: true })
   pickUpLng: number;
 
-  @Column({ type: "float", default: 0 })
+  @Column({ type: "float", nullable: true })
   dropOffLng: number;
 
-  @Column({ type: "float", default: 0 })
+  @Column({ type: "float", nullable: true })
   dropOffLat: number;
 
   @Column({ type: "text" })

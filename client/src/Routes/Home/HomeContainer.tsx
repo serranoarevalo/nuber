@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
 import { ME } from "../../sharedQueries";
 import { geocode, reverseGeocode } from "../../utils";
+import DriverElements from "./DriverElements";
 import { IHomeContainerProps, IHomeContainerState } from "./HomeInterfaces";
 import HomePresenter from "./HomePresenter";
 import {
@@ -43,7 +44,7 @@ class HomeContainer extends React.Component<
       duration: "",
       price: undefined,
       hasRequest: false,
-      request: null,
+      request: undefined,
       status: "idle"
     };
     this.driverMarkers = [];
@@ -55,6 +56,7 @@ class HomeContainer extends React.Component<
       this.handleGeoSuccess,
       this.handleGeoError
     );
+
     window.addEventListener(
       "deviceorientation",
       throttle(this.handleRotation, 5000, { trailing: true, leading: true }),
@@ -78,7 +80,14 @@ class HomeContainer extends React.Component<
   }
 
   render() {
-    const { isMenuOpen, toAddress, price, status } = this.state;
+    const {
+      isMenuOpen,
+      toAddress,
+      price,
+      status,
+      hasRequest,
+      request
+    } = this.state;
     const {
       MeQuery: { loading, me }
     } = this.props;
@@ -94,7 +103,9 @@ class HomeContainer extends React.Component<
         mapRef={this.mapRef}
         showMarker={status === "choosingFromMap"}
       >
-        {!loading && me.user.isDriving ? null : (
+        {!loading && me.user.isDriving ? (
+          <DriverElements hasRequest={hasRequest} request={request} />
+        ) : (
           <UserElements
             toAddress={toAddress}
             handleInputChange={this.handleInputChange}
@@ -196,18 +207,18 @@ class HomeContainer extends React.Component<
       locationOptions
     );
     if (!isDriving) {
-      const {
-        getDrivers: { drivers }
-      } = GetDriversQuery;
-      this.drawDrivers(drivers);
-      const subscribeOptions: SubscribeToMoreOptions = {
-        document: GET_NEW_DRIVER,
-        updateQuery: (prev, { subscriptionData }) => {
-          const newDriver = subscriptionData.data.getDriver;
-          this.drawDrivers([newDriver]);
-        }
-      };
-      GetDriversQuery.subscribeToMore(subscribeOptions);
+      const { getDrivers: { drivers = null } = {} } = GetDriversQuery;
+      if (drivers) {
+        this.drawDrivers(drivers);
+        const subscribeOptions: SubscribeToMoreOptions = {
+          document: GET_NEW_DRIVER,
+          updateQuery: (prev, { subscriptionData }) => {
+            const newDriver = subscriptionData.data.getDriver;
+            this.drawDrivers([newDriver]);
+          }
+        };
+        GetDriversQuery.subscribeToMore(subscribeOptions);
+      }
     }
     if (isDriving) {
       const {
@@ -221,7 +232,10 @@ class HomeContainer extends React.Component<
       const subscribeOptions: SubscribeToMoreOptions = {
         document: RIDE_REQUEST_SUBSCRIPTION,
         updateQuery: (_, { subscriptionData }) => {
-          console.log(subscriptionData);
+          const {
+            data: { rideRequest }
+          } = subscriptionData;
+          this.handleRideRequest(rideRequest);
         }
       };
       GetRideRequestQuery.subscribeToMore(subscribeOptions);
@@ -237,8 +251,8 @@ class HomeContainer extends React.Component<
     this.userMarker.setPosition(latLng);
     ReportLocation({
       variables: {
-        lat: latitude,
-        lng: longitude
+        lat: parseFloat(latitude.toFixed(10)),
+        lng: parseFloat(longitude.toFixed(10))
       }
     });
   };
@@ -392,11 +406,12 @@ class HomeContainer extends React.Component<
           duration: { text: duration }
         } = routes[0].legs[0];
         this.directionRenderer.setDirections(result);
+        const floatPrice = parseFloat(distance.replace(",", "")) * 3;
         this.setState({
           status: "foundDirections",
           distance,
           duration,
-          price: parseInt(distance.replace(",", ""), 10) * 10
+          price: Number(floatPrice.toFixed(2))
         });
       } else {
         toast.error(
