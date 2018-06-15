@@ -10,7 +10,9 @@ import HomePresenter from "./HomePresenter";
 import {
   GET_DRIVERS,
   GET_NEW_DRIVER,
+  GET_RIDE_REQUEST,
   REQUEST_RIDE,
+  RIDE_REQUEST_SUBSCRIPTION,
   UPDATE_LOCATION
 } from "./HomeQueries";
 
@@ -27,6 +29,9 @@ interface IState {
   distance: string;
   duration: string;
   price: number | undefined;
+  hasRequest: boolean;
+  request: object | null;
+  isRequesting: boolean;
 }
 
 interface IProps {
@@ -37,6 +42,7 @@ interface IProps {
   loading: boolean;
   MeQuery: any;
   GetDriversQuery: any;
+  GetRideRequestQuery: any;
 }
 
 class HomeContainer extends React.Component<IProps, IState> {
@@ -61,7 +67,10 @@ class HomeContainer extends React.Component<IProps, IState> {
       findingDirections: false,
       distance: "",
       duration: "",
-      price: undefined
+      price: undefined,
+      hasRequest: false,
+      request: null,
+      isRequesting: false
     };
     this.driverMarkers = [];
     this.mapRef = React.createRef();
@@ -170,6 +179,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     const {
       google,
       GetDriversQuery,
+      GetRideRequestQuery,
       MeQuery: {
         me: {
           user: { isDriving }
@@ -221,6 +231,26 @@ class HomeContainer extends React.Component<IProps, IState> {
         }
       };
       GetDriversQuery.subscribeToMore(subscribeOptions);
+    }
+    if (isDriving) {
+      const {
+        getRideRequest: { ok, error, ride }
+      } = GetRideRequestQuery;
+      if (!ok && error) {
+        toast.error(error);
+      } else if (ok && ride) {
+        this.setState({
+          request: ride,
+          hasRequest: true
+        });
+      }
+      const subscribeOptions: SubscribeToMoreOptions = {
+        document: RIDE_REQUEST_SUBSCRIPTION,
+        updateQuery: (_, { subscriptionData }) => {
+          console.log(subscriptionData);
+        }
+      };
+      GetRideRequestQuery.subscribeToMore(subscribeOptions);
     }
   };
 
@@ -434,6 +464,10 @@ class HomeContainer extends React.Component<IProps, IState> {
     const { requestRide } = data;
     if (!requestRide.ok && requestRide.error) {
       toast.error(requestRide.error);
+    } else {
+      this.setState({
+        isRequesting: true
+      });
     }
   };
 
@@ -498,6 +532,15 @@ export default compose(
     },
     skip: props => {
       return props.MeQuery.me.user.isDriving;
+    }
+  }),
+  graphql(GET_RIDE_REQUEST, {
+    name: "GetRideRequestQuery",
+    options: {
+      pollInterval: 10000
+    },
+    skip: props => {
+      return !props.MeQuery.me.user.isDriving;
     }
   }),
   graphql(REQUEST_RIDE, {

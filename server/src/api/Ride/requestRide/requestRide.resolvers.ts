@@ -45,22 +45,18 @@ const resolvers: Resolvers = {
         const ride: Ride = await Ride.create({
           passenger: user,
           pickUpLocation,
-          pickUpCoords: {
-            lat: pickUpLat,
-            lng: pickUpLng
-          },
+          pickUpLat,
+          pickUpLng,
+          dropOffLng,
+          dropOffLat,
           dropOffLocation,
-          dropOffCoords: {
-            lat: dropOffLat,
-            lng: dropOffLng
-          },
           price,
           distance,
           duration
         }).save();
         user.isRiding = true;
         // user.save();
-        pubsub.publish("newRide", { getRide: ride });
+        pubsub.publish("newRide", { rideRequest: ride });
         if (ride) {
           return {
             ok: true,

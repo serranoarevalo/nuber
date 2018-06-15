@@ -2,7 +2,7 @@ import { withFilter } from "graphql-yoga";
 
 const resolvers = {
   Subscription: {
-    getRide: {
+    rideRequest: {
       subscribe: withFilter(
         (_, __, { pubsub }) => pubsub.asyncIterator("newRide"),
         (payload, __, { rawReq }) => {
@@ -13,13 +13,14 @@ const resolvers = {
           } = rawReq;
           const { lastLat, lastLng } = currentUser;
           const {
-            getRide: { pickUpCoords }
+            rideRequest: { pickUpLat, pickUpLng }
           } = payload;
+          console.log(payload);
           return (
-            lastLat >= pickUpCoords.lat - 0.05 &&
-            lastLat <= pickUpCoords.lat + 0.05 &&
-            lastLng >= pickUpCoords.lng - 0.05 &&
-            lastLng <= pickUpCoords.lng + 0.05
+            pickUpLat >= lastLat - 0.05 &&
+            pickUpLat <= lastLat + 0.05 &&
+            pickUpLng >= lastLng - 0.05 &&
+            pickUpLng <= lastLng + 0.05
           );
         }
       )

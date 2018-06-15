@@ -18,6 +18,7 @@ import FindAddress from "../../Routes/FindAddress";
 import Home from "../../Routes/Home";
 import Login from "../../Routes/Login";
 import Places from "../../Routes/Places";
+import Ride from "../../Routes/Ride";
 import Settings from "../../Routes/Settings";
 import Trips from "../../Routes/Trips";
 import VerifyEmail from "../../Routes/VerifyEmail";
@@ -103,6 +104,7 @@ const LoggedInRoutes: React.SFC<any> = ({ location }) => (
             component={VerifyPhone}
             mutation="addPhone"
           />
+          <Route path="/ride/:rideId" component={Ride} mutation="addPhone" />
           <Redirect from={"*"} to={"/"} />
         </Switch>
       </CSSTransition>

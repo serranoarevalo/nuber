@@ -67,3 +67,31 @@ export const REQUEST_RIDE = gql`
     }
   }
 `;
+
+export const GET_RIDE_REQUEST = gql`
+  query getRideRequest {
+    getRideRequest {
+      ok
+      ride {
+        passenger {
+          profilePhoto
+        }
+        pickUpLocation
+        dropOffLocation
+        price
+      }
+      error
+    }
+  }
+`;
+
+export const RIDE_REQUEST_SUBSCRIPTION = gql`
+  subscription rideRequestsSubscription {
+    rideRequest {
+      pickUpLat
+      pickUpLng
+      dropOffLat
+      dropOffLng
+    }
+  }
+`;

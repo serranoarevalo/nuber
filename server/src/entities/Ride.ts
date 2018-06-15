@@ -7,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
-import { Coords } from "../types/types";
 import User from "./User";
 
 const CASH = "CASH";
@@ -45,14 +44,20 @@ class Ride extends BaseEntity {
   @Column({ type: "text" })
   pickUpLocation: string;
 
-  @Column({ type: "json" })
-  pickUpCoords: Coords;
+  @Column({ type: "float", default: 0 })
+  pickUpLat: number;
+
+  @Column({ type: "float", default: 0 })
+  pickUpLng: number;
+
+  @Column({ type: "float", default: 0 })
+  dropOffLng: number;
+
+  @Column({ type: "float", default: 0 })
+  dropOffLat: number;
 
   @Column({ type: "text" })
   dropOffLocation: string;
-
-  @Column({ type: "json" })
-  dropOffCoords: Coords;
 
   @Column({ type: "json", nullable: true })
   drivePath: string;
