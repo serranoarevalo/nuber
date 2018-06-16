@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ActionButton from "../../Components/ActionButton";
@@ -27,6 +28,9 @@ const PlacesPresenter: React.SFC<IProps> = ({
   loading
 }) => (
   <Wrapper>
+    <Helmet>
+      <title>Places | Nuber</title>
+    </Helmet>
     <Header backTo="/settings" title={"Saved Places"} />
     <Container>
       {places.length === 0 ? (

@@ -483,7 +483,8 @@ class HomeContainer extends React.Component<
         ride: { id }
       } = requestRide;
       this.setState({
-        status: "requesting"
+        status: "requesting",
+        request: requestRide.ride
       });
       await GetRideQuery.refetch({
         variables: {
@@ -494,11 +495,11 @@ class HomeContainer extends React.Component<
       const subscribeOptions: SubscribeToMoreOptions = {
         document: RIDE_EVENTS_SUBSCRIPTION,
         updateQuery: (prev, { subscriptionData }) => {
-          console.log(subscriptionData);
           const ride = subscriptionData.data.rideUpdate;
-          console.log(ride);
+
           if (ride.status === ACCEPTED) {
             toast.success("We have found a driver!");
+            this.redirectToRideScreen();
           }
         }
       };
@@ -577,7 +578,21 @@ class HomeContainer extends React.Component<
           driverId: id
         }
       });
+      toast.success("Accepted the ride, redirecting you...");
+      this.redirectToRideScreen();
     }
+  };
+  private redirectToRideScreen = () => {
+    const { request } = this.state;
+    const { history } = this.props;
+    setTimeout(() => {
+      history.push({
+        pathname: "/ride",
+        state: {
+          rideId: request.id
+        }
+      });
+    }, 1500);
   };
 }
 

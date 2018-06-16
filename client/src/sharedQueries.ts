@@ -75,8 +75,24 @@ export const GET_RIDE = gql`
       error
       ride {
         id
-        status
+        passenger {
+          profilePhoto
+          fullName
+          email
+          phoneNumber
+        }
+        driver {
+          profilePhoto
+          fullName
+          email
+          phoneNumber
+        }
+        price
+        pickUpLocation
+        dropOffLocation
+        price
       }
+      isDriver
     }
   }
 `;

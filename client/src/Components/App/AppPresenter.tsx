@@ -104,7 +104,7 @@ const LoggedInRoutes: React.SFC<any> = ({ location }) => (
             component={VerifyPhone}
             mutation="addPhone"
           />
-          <Route path="/ride/:rideId" component={Ride} mutation="addPhone" />
+          <Route path="/ride" component={Ride} mutation="addPhone" />
           <Redirect from={"*"} to={"/"} />
         </Switch>
       </CSSTransition>

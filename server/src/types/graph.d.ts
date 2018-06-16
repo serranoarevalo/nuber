@@ -6,7 +6,7 @@ export const typeDefs = [
   "type GetPlaceResponse {\n  ok: Boolean!\n  place: Place\n  error: String\n}\n\ntype Query {\n  getPlace(placeId: Int!): GetPlaceResponse!\n}\n",
   "type GetPlacesResponse {\n  ok: Boolean!\n  places: [Place]\n  error: String\n}\n\ntype Query {\n  getPlaces: GetPlacesResponse!\n}\n",
   "type Place {\n  id: Int!\n  name: String!\n  lat: Float!\n  lng: Float!\n  address: String!\n  fav: Boolean!\n  user: User!\n  createdAt: String!\n  updatedAt: String!\n}\n",
-  "type GetRideResponse {\n  ok: Boolean!\n  ride: Ride\n  error: String\n}\n\ntype Query {\n  getRide(rideId: Int): GetRideResponse!\n}\n",
+  "type GetRideResponse {\n  ok: Boolean!\n  ride: Ride\n  isDriver: Boolean\n  error: String\n}\n\ntype Query {\n  getRide(rideId: Int): GetRideResponse!\n}\n",
   "type GetRideHistoryResponse {\n  ok: Boolean!\n  rides: [Ride]\n  error: String\n}\n\ntype Query {\n  getRideHistory: GetRideHistoryResponse!\n}\n",
   "type GetRideRequestResponse {\n  ok: Boolean!\n  error: String\n  ride: Ride\n}\n\ntype Query {\n  getRideRequest: GetRideRequestResponse!\n}\n",
   "type RequestRideResponse {\n  ok: Boolean!\n  ride: Ride\n  error: String\n}\n\ntype Mutation {\n  requestRide(\n    pickUpLocation: String!\n    dropOffLocation: String!\n    pickUpLat: Float!\n    pickUpLng: Float!\n    dropOffLat: Float!\n    dropOffLng: Float!\n    price: Float!\n    distance: String!\n    duration: String!\n  ): RequestRideResponse!\n}\n",
@@ -175,6 +175,7 @@ export interface GetPlacesResponse {
 export interface GetRideResponse {
   ok: boolean;
   ride: Ride | null;
+  isDriver: boolean | null;
   error: string | null;
 }
 

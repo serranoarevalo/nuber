@@ -15,29 +15,28 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, args: IArgs, { req }): Promise<GetRideResponse> => {
         const { user }: { user: User } = req;
-        const ride = await getConnection()
-          .getRepository(Ride)
-          .createQueryBuilder("ride")
+        const ride: any = await getConnection()
+          .createQueryBuilder()
+          .select("ride")
+          .from(Ride, "ride")
           .loadAllRelationIds()
-          .where(
-            "ride.id = :rideId AND ride.passenger = :userId OR ride.driver = :driverId",
-            {
-              userId: user.id,
-              driverId: user.id,
-              rideId: args.rideId
-            }
-          )
+          .where(`ride.passenger = ${user.id}`)
+          .orWhere(`ride.driver = ${user.id}`)
+          .andWhere(`ride.id = ${args.rideId}`)
           .getOne();
+        console.log(ride);
         if (ride) {
           return {
             ok: true,
             ride,
+            isDriver: ride.driver === user.id,
             error: null
           };
         } else {
           return {
             ok: false,
             ride: null,
+            isDriver: false,
             error: "Couldn't find ride"
           };
         }

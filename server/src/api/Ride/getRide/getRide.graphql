@@ -1,6 +1,7 @@
 type GetRideResponse {
   ok: Boolean!
   ride: Ride
+  isDriver: Boolean
   error: String
 }
 
