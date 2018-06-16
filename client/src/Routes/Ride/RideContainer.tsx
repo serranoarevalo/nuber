@@ -67,6 +67,7 @@ class RideContainer extends React.Component<IProps> {
 
     if (status === CANCELED) {
       history.push("/");
+      location.reload();
     }
 
     return Object.assign({}, previousData, {
