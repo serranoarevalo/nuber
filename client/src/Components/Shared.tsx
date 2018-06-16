@@ -19,7 +19,7 @@ export const Wrapper = styled.div.attrs({
 
 export const DataRow = styled.div`
   display: block;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 `;
 
 export const ItemTitle = styled.span`

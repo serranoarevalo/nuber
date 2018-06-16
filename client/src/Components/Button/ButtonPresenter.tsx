@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const Button = styled<any, any>("input")`
   width: ${props => props.width};
-  background-color: black;
+  background-color: ${props => props.bgColor};
   color: white;
   text-transform: uppercase;
   padding: 15px 0;
@@ -26,13 +26,15 @@ interface IProps {
   disabled?: boolean;
   onClick?: any;
   width?: string;
+  bgColor?: string;
 }
 
 const ButtonPresenter: React.SFC<IProps> = ({
   text,
   disabled = false,
   onClick = null,
-  width = "100%"
+  width = "100%",
+  bgColor = "black"
 }) => (
   <Button
     width={width}
@@ -40,6 +42,7 @@ const ButtonPresenter: React.SFC<IProps> = ({
     disabled={disabled}
     value={text}
     onClick={onClick}
+    bgColor={bgColor}
   />
 );
 

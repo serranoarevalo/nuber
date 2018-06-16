@@ -91,6 +91,7 @@ export const GET_RIDE = gql`
         pickUpLocation
         dropOffLocation
         price
+        status
       }
       isDriver
     }

@@ -15,7 +15,7 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, args: IArgs, { req }): Promise<GetRideResponse> => {
         const { user }: { user: User } = req;
-        const ride: any = await getConnection()
+        const ride: Ride | undefined = await getConnection()
           .createQueryBuilder()
           .select("ride")
           .from(Ride, "ride")
@@ -29,7 +29,7 @@ const resolvers: Resolvers = {
           return {
             ok: true,
             ride,
-            isDriver: ride.driver === user.id,
+            isDriver: ride.driver.id === user.id,
             error: null
           };
         } else {

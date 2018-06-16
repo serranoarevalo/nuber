@@ -1,13 +1,23 @@
 import { SubscribeToMoreOptions } from "apollo-client";
 import React from "react";
-import { Query } from "react-apollo";
-import { GET_RIDE, RIDE_EVENTS_SUBSCRIPTION } from "../../sharedQueries";
+import { graphql, MutationFn, Query } from "react-apollo";
+import {
+  GET_RIDE,
+  RIDE_EVENTS_SUBSCRIPTION,
+  UPDATE_RIDE
+} from "../../sharedQueries";
 import RidePresenter from "./RidePresenter";
 
 interface IProps {
   location: any;
   history: any;
+  UpdateRideMutation: MutationFn;
 }
+
+const ONROUTE = "ONROUTE";
+// const FINISHED = "FINISHED";
+const CANCELED = "CANCELED";
+// const REQUESTING = "REQUESTING";
 
 class RideContainer extends React.Component<IProps> {
   constructor(props: IProps) {
@@ -25,13 +35,19 @@ class RideContainer extends React.Component<IProps> {
     return (
       <Query query={GET_RIDE} variables={{ skip: false, rideId }}>
         {({ data, loading, subscribeToMore }) => {
-          console.log(data);
           const subscribeOptions: SubscribeToMoreOptions = {
             document: RIDE_EVENTS_SUBSCRIPTION,
             updateQuery: this.updateQuery
           };
           subscribeToMore(subscribeOptions);
-          return <RidePresenter data={data} loading={loading} />;
+          return (
+            <RidePresenter
+              data={data}
+              loading={loading}
+              cancelRide={this.cancelRide}
+              pickUp={this.pickUp}
+            />
+          );
         }}
       </Query>
     );
@@ -40,11 +56,57 @@ class RideContainer extends React.Component<IProps> {
     if (!subscriptionData.data) {
       return previousData;
     }
+
     const {
-      data: { rideUpdate }
+      data: {
+        rideUpdate: { status }
+      }
     } = subscriptionData;
-    return rideUpdate;
+
+    previousData.getRide.ride.status;
+
+    return Object.assign({}, previousData, {
+      getRide: {
+        ...previousData.getRide,
+        ride: {
+          ...previousData.getRide.ride,
+          status
+        }
+      }
+    });
+  };
+
+  private cancelRide = () => {
+    const {
+      location: {
+        state: { rideId }
+      }
+    } = this.props;
+    const { UpdateRideMutation } = this.props;
+    UpdateRideMutation({
+      variables: {
+        rideId,
+        status: CANCELED
+      }
+    });
+  };
+
+  private pickUp = () => {
+    const {
+      location: {
+        state: { rideId }
+      }
+    } = this.props;
+    const { UpdateRideMutation } = this.props;
+    UpdateRideMutation({
+      variables: {
+        rideId,
+        status: ONROUTE
+      }
+    });
   };
 }
 
-export default RideContainer;
+export default graphql<any, any>(UPDATE_RIDE, {
+  name: "UpdateRideMutation"
+})(RideContainer);
