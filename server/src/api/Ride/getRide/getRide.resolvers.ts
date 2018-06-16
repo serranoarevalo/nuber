@@ -19,12 +19,12 @@ const resolvers: Resolvers = {
           .createQueryBuilder()
           .select("ride")
           .from(Ride, "ride")
-          .loadAllRelationIds()
-          .where(`ride.passenger = ${user.id}`)
-          .orWhere(`ride.driver = ${user.id}`)
+          .leftJoinAndSelect("ride.passenger", "passenger")
+          .leftJoinAndSelect("ride.driver", "driver")
+          .where(`ride.passenger.id = ${user.id}`)
+          .orWhere(`ride.driver.id = ${user.id}`)
           .andWhere(`ride.id = ${args.rideId}`)
           .getOne();
-        console.log(ride);
         if (ride) {
           return {
             ok: true,

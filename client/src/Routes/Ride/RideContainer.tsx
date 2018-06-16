@@ -17,13 +17,13 @@ class RideContainer extends React.Component<IProps> {
     }
   }
   render() {
-    /*     const {
+    const {
       location: {
         state: { rideId }
       }
-    } = this.props; */
+    } = this.props;
     return (
-      <Query query={GET_RIDE} variables={{ skip: false, rideId: 1 }}>
+      <Query query={GET_RIDE} variables={{ skip: false, rideId }}>
         {({ data, loading, subscribeToMore }) => {
           console.log(data);
           const subscribeOptions: SubscribeToMoreOptions = {

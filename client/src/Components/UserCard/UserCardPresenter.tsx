@@ -11,7 +11,6 @@ interface IProps {
 
 const User = styled.div`
   display: flex;
-  justify-content: space-around;
   margin-bottom: 20px;
   align-items: center;
 `;
@@ -20,6 +19,7 @@ const Image = styled.img`
   height: 60px;
   width: 60px;
   border-radius: 50%;
+  margin-right: 15px;
 `;
 
 const Column = styled.div``;
