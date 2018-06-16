@@ -1,6 +1,7 @@
 import { SubscribeToMoreOptions } from "apollo-client";
 import React from "react";
 import { graphql, MutationFn, Query } from "react-apollo";
+import ReactDOM from "react-dom";
 import {
   GET_RIDE,
   RIDE_EVENTS_SUBSCRIPTION,
@@ -11,6 +12,7 @@ import RidePresenter from "./RidePresenter";
 interface IProps {
   location: any;
   history: any;
+  google: any;
   UpdateRideMutation: MutationFn;
 }
 
@@ -20,12 +22,21 @@ const CANCELED = "CANCELED";
 // const REQUESTING = "REQUESTING";
 
 class RideContainer extends React.Component<IProps> {
+  map: google.maps.Map;
+  mapRef: any;
+
   constructor(props: IProps) {
     super(props);
     if (!props.location.state) {
       props.history.push("/");
     }
+    this.mapRef = React.createRef();
   }
+
+  componentDidMount() {
+    this.loadMap();
+  }
+
   render() {
     const {
       location: {
@@ -46,6 +57,7 @@ class RideContainer extends React.Component<IProps> {
               loading={loading}
               cancelRide={this.cancelRide}
               pickUp={this.pickUp}
+              mapRef={this.mapRef}
             />
           );
         }}
@@ -104,6 +116,19 @@ class RideContainer extends React.Component<IProps> {
         status: ONROUTE
       }
     });
+  };
+
+  private loadMap = () => {
+    const { google } = this.props;
+    const maps = google.maps;
+    const node = ReactDOM.findDOMNode(this.mapRef.current);
+    const mapConfig = {
+      center: { lat: 41.036758, lng: 28.978035499999997 },
+      zoom: 16,
+      mapTypeId: "roadmap",
+      disableDefaultUI: true
+    };
+    this.map = new maps.Map(node, mapConfig);
   };
 }
 

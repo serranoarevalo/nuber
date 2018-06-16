@@ -56,7 +56,6 @@ class HomeContainer extends React.Component<
     };
     this.driverMarkers = [];
     this.mapRef = React.createRef();
-    console.log(props);
   }
 
   componentDidMount() {
