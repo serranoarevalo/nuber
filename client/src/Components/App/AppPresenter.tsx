@@ -11,6 +11,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import styled from "styled-components";
 import AddPhone from "../../Routes/AddPhone";
 import AddPlace from "../../Routes/AddPlace";
+import Chat from "../../Routes/Chat";
 import CompleteProfile from "../../Routes/CompleteProfile";
 import EditAccount from "../../Routes/EditAccount";
 import EmailLogin from "../../Routes/EmailLogin";
@@ -105,6 +106,7 @@ const LoggedInRoutes: React.SFC<any> = ({ location }) => (
             mutation="addPhone"
           />
           <Route path="/ride" component={Ride} mutation="addPhone" />
+          <Route path="/chat" component={Chat} mutation="addPhone" />
           <Redirect from={"*"} to={"/"} />
         </Switch>
       </CSSTransition>

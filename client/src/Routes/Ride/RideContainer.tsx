@@ -46,6 +46,7 @@ class RideContainer extends React.Component<IProps> {
               loading={loading}
               cancelRide={this.cancelRide}
               pickUp={this.pickUp}
+              redirectToChat={this.redirectToChat}
             />
           );
         }}
@@ -102,6 +103,19 @@ class RideContainer extends React.Component<IProps> {
       variables: {
         rideId,
         status: ONROUTE
+      }
+    });
+  };
+
+  private redirectToChat = () => {
+    const { history, location } = this.props;
+    const {
+      state: { rideId }
+    } = location;
+    history.push({
+      pathname: "/chat",
+      state: {
+        rideId
       }
     });
   };
