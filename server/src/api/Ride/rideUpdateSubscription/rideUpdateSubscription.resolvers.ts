@@ -1,5 +1,4 @@
 import { withFilter } from "graphql-yoga";
-import Ride from "../../../entities/Ride";
 import User from "../../../entities/User";
 
 const resolvers = {
@@ -8,9 +7,9 @@ const resolvers = {
       subscribe: withFilter(
         (_, __, { pubsub }) => pubsub.asyncIterator("rideUpdate"),
         (payload, __, { rawReq }) => {
-          const user: User = rawReq.connection.context;
+          const user: User = rawReq.connection.context.currentUser;
 
-          const ride: Ride = payload;
+          const ride = payload.rideUpdate;
 
           const { driver, passenger } = ride;
 

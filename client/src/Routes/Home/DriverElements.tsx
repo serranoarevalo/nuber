@@ -53,7 +53,8 @@ const Image = styled.img`
 
 const DriverElements: React.SFC<IDriverElementsProps> = ({
   hasRequest,
-  request
+  request,
+  acceptRide
 }) =>
   hasRequest && request ? (
     <Container>
@@ -73,7 +74,7 @@ const DriverElements: React.SFC<IDriverElementsProps> = ({
         <Key>Price:</Key>
         <Value>${request.price}</Value>
       </KeyRow>
-      <Button text={"Accept Request"} />
+      <Button onClick={acceptRide} text={"Accept Request"} />
     </Container>
   ) : null;
 

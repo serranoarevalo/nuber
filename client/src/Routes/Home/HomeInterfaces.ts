@@ -1,3 +1,4 @@
+import { ObservableQuery } from "apollo-client";
 import { MutationFn } from "react-apollo";
 
 export type status =
@@ -19,7 +20,7 @@ export interface IHomeContainerState {
   duration: string;
   price: number | undefined;
   hasRequest: boolean;
-  request: object | undefined;
+  request: any;
   status: status;
 }
 
@@ -33,7 +34,7 @@ export interface IHomeContainerProps {
   ReportLocationMutation: MutationFn;
   RequestRideMutation: MutationFn;
   UpdateRideMutation: MutationFn;
-  GetRideQuery: any;
+  GetRideQuery: ObservableQuery;
 }
 
 export interface IHomePresenterProps {
@@ -63,4 +64,5 @@ export interface IUserElementsProps {
 export interface IDriverElementsProps {
   hasRequest: boolean;
   request: any;
+  acceptRide: () => void;
 }

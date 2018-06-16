@@ -73,6 +73,7 @@ export const GET_RIDE_REQUEST = gql`
     getRideRequest {
       ok
       ride {
+        id
         passenger {
           profilePhoto
           fullName
@@ -92,6 +93,7 @@ export const GET_RIDE_REQUEST = gql`
 export const RIDE_REQUEST_SUBSCRIPTION = gql`
   subscription rideRequestsSubscription {
     rideRequest {
+      id
       passenger {
         profilePhoto
         fullName

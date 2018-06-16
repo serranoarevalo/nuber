@@ -24,6 +24,7 @@ export const ME = gql`
     me {
       ok
       user {
+        id
         fullName
         firstName
         lastName
@@ -53,7 +54,7 @@ export const UPDATE_RIDE = gql`
     $status: String!
     $driverRating: Float
     $passengerRating: Float
-    $driverId: Int!
+    $driverId: Int
   ) {
     updateRide(
       rideId: $rideId
@@ -73,6 +74,7 @@ export const GET_RIDE = gql`
       ok
       error
       ride {
+        id
         status
       }
     }

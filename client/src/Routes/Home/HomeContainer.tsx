@@ -112,7 +112,11 @@ class HomeContainer extends React.Component<
         showMarker={status === "choosingFromMap"}
       >
         {!loading && me.user.isDriving ? (
-          <DriverElements hasRequest={hasRequest} request={request} />
+          <DriverElements
+            hasRequest={hasRequest}
+            request={request}
+            acceptRide={this.acceptRide}
+          />
         ) : (
           <UserElements
             toAddress={toAddress}
@@ -466,7 +470,7 @@ class HomeContainer extends React.Component<
     });
   };
 
-  private postRequestRide: MutationUpdaterFn = (
+  private postRequestRide: MutationUpdaterFn = async (
     cache,
     { data }: { data: any }
   ) => {
@@ -481,7 +485,7 @@ class HomeContainer extends React.Component<
       this.setState({
         status: "requesting"
       });
-      GetRideQuery.refetch({
+      await GetRideQuery.refetch({
         variables: {
           rideId: id,
           skip: false
@@ -490,10 +494,11 @@ class HomeContainer extends React.Component<
       const subscribeOptions: SubscribeToMoreOptions = {
         document: RIDE_EVENTS_SUBSCRIPTION,
         updateQuery: (prev, { subscriptionData }) => {
-          const ride = subscriptionData.data.getDriver;
+          console.log(subscriptionData);
+          const ride = subscriptionData.data.rideUpdate;
           console.log(ride);
           if (ride.status === ACCEPTED) {
-            console.log("ride accepted");
+            toast.success("We have found a driver!");
           }
         }
       };
@@ -550,11 +555,29 @@ class HomeContainer extends React.Component<
   };
 
   private handleRideRequest = (request): void => {
-    console.log(request);
     this.setState({
       request,
       hasRequest: true
     });
+  };
+
+  private acceptRide = () => {
+    const { request } = this.state;
+    const { UpdateRideMutation, MeQuery } = this.props;
+    const {
+      me: {
+        user: { id }
+      }
+    } = MeQuery;
+    if (request) {
+      UpdateRideMutation({
+        variables: {
+          status: ACCEPTED,
+          rideId: request.id,
+          driverId: id
+        }
+      });
+    }
   };
 }
 
