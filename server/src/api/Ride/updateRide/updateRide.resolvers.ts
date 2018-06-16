@@ -44,6 +44,7 @@ const resolvers: Resolvers = {
           const driver: User | undefined = await User.findOne(driverId);
           if (driver) {
             updateData.driver = driver;
+            driver.currentRideId = rideId;
           }
         }
         if (ride) {
@@ -54,10 +55,20 @@ const resolvers: Resolvers = {
             });
             if (updatedRide) {
               pubsub.publish("rideUpdate", { rideUpdate: updatedRide });
+              const driver: User = updatedRide.driver;
               const passenger: User = updatedRide.passenger;
-              passenger.isRiding = false;
-              passenger.currentRideId = null;
-              passenger.save();
+              if (status === "CANCELED") {
+                driver.isTaken = false;
+                driver.currentRideId = null;
+                driver.save();
+                passenger.currentRideId = null;
+                passenger.isRiding = false;
+                passenger.save();
+              } else if (status === "ACCEPTED") {
+                driver.isTaken = true;
+                driver.currentRideId = updatedRide.id;
+                driver.save();
+              }
               return {
                 ok: true,
                 ride: updatedRide,

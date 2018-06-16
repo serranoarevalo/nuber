@@ -54,7 +54,7 @@ class HeaderContainer extends React.Component<IProps, IState> {
   };
   private goBack = () => {
     const { history } = this.props;
-    history.back();
+    history.goBack();
   };
 }
 

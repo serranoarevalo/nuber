@@ -76,6 +76,12 @@ class HomeContainer extends React.Component<
       GetRideRequestQuery: { getRideRequest: { ride = null } = {} } = {},
       GetDriversQuery: { getDrivers: { drivers = null } = {} } = {}
     } = nextProps;
+    const {
+      MeQuery: {
+        me: { user }
+      },
+      history
+    } = this.props;
     if (drivers) {
       if (this.map) {
         this.drawDrivers(drivers);
@@ -83,6 +89,16 @@ class HomeContainer extends React.Component<
     }
     if (ride) {
       this.handleRideRequest(ride);
+    }
+    if (user) {
+      if (user.currentRideId) {
+        history.push({
+          pathname: "/ride",
+          state: {
+            rideId: user.currentRideId
+          }
+        });
+      }
     }
   }
 
