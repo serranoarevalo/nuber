@@ -80,12 +80,16 @@ export const GET_RIDE = gql`
           fullName
           email
           phoneNumber
+          lastLat
+          lastLng
         }
         driver {
           profilePhoto
           fullName
           email
           phoneNumber
+          lastLat
+          lastLng
         }
         price
         pickUpLocation
