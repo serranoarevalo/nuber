@@ -21,10 +21,11 @@ const resolvers: Resolvers = {
           .from(Ride, "ride")
           .leftJoinAndSelect("ride.passenger", "passenger")
           .leftJoinAndSelect("ride.driver", "driver")
-          .where(`ride.passenger.id = ${user.id}`)
+          .where(
+            `ride.passenger.id = ${user.id} AND NOT ride.status='CANCELED'`
+          )
           .orWhere(`ride.driver.id = ${user.id}`)
           .andWhere(`ride.id = ${args.rideId}`)
-          .andWhere(`NOT ride.status='CANCELED'`)
           .getOne();
         if (ride) {
           return {

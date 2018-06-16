@@ -22,15 +22,13 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, args: IArgs, { req, pubsub }): Promise<RequestRideResponse> => {
         const { user }: { user: User } = req;
-        await Ride.delete({});
-        /* if (user.isRiding) {
+        if (user.isRiding) {
           return {
             ok: false,
             error: "Can't order two rides at once",
             ride: null
           };
-        } */
-
+        }
         const ride: Ride = await Ride.create({
           passenger: user,
           ...args

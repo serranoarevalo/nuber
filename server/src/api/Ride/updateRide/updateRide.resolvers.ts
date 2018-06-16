@@ -54,6 +54,10 @@ const resolvers: Resolvers = {
             });
             if (updatedRide) {
               pubsub.publish("rideUpdate", { rideUpdate: updatedRide });
+              const passenger: User = updatedRide.passenger;
+              passenger.isRiding = false;
+              passenger.currentRideId = null;
+              passenger.save();
               return {
                 ok: true,
                 ride: updatedRide,
