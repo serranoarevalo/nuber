@@ -60,5 +60,5 @@ export interface IUserElementsProps {
 
 export interface IDriverElementsProps {
   hasRequest: boolean;
-  request: object | undefined;
+  request: any;
 }

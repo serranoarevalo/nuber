@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+import Button from "../../Components/Button";
 import { IDriverElementsProps } from "./HomeInterfaces";
 
 const Container = styled.div`
@@ -16,13 +17,65 @@ const Container = styled.div`
   bottom: 0;
   right: 0;
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const KeyRow = styled.div`
+  display: block;
+  margin-bottom: 15px;
+`;
+
+const Key = styled.span`
+  font-weight: 600;
+  color: ${props => props.theme.grey};
+  display: block;
+  margin-bottom: 5px;
+`;
+
+const Value = styled.span`
+  font-weight: 600;
+`;
+
+const User = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  align-items: center;
+`;
+
+const Image = styled.img`
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
 `;
 
 const DriverElements: React.SFC<IDriverElementsProps> = ({
   hasRequest,
   request
 }) =>
-  hasRequest && request ? <Container>Somebody has a request!</Container> : null;
+  hasRequest && request ? (
+    <Container>
+      <User>
+        <Image src={request.passenger.profilePhoto} />
+        <Value>{request.passenger.fullName}</Value>
+      </User>
+      <KeyRow>
+        <Key>From:</Key>
+        <Value>{request.pickUpLocation}</Value>
+      </KeyRow>
+      <KeyRow>
+        <Key>To:</Key>
+        <Value>{request.dropOffLocation}</Value>
+      </KeyRow>
+      <KeyRow>
+        <Key>Price:</Key>
+        <Value>${request.price}</Value>
+      </KeyRow>
+      <Button text={"Accept Request"} />
+    </Container>
+  ) : null;
 
 DriverElements.propTypes = {
   hasRequest: PropTypes.bool.isRequired,
