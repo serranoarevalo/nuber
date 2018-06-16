@@ -6,6 +6,7 @@ const Section = styled<any, any>("div")`
   border-bottom: ${props => (props.last ? "none;" : "1px solid #bdc3c7")};
   padding: 30px 15px;
   ${props => props.first && "padding-top:0;"};
+  width: 100%;
 `;
 
 const Title = styled.span`

@@ -37,12 +37,14 @@ const Item = styled<any, any>("div")``;
 
 const NoPlaces = styled.div`
   margin-top: 20px;
+  width: 100%;
 `;
 
 const SLink = styled<any, any>(Link)`
   color: ${props => props.theme.blue};
   margin-top: 30px;
   display: block;
+  width: 100%;
 `;
 
 const FakeLink = SLink.withComponent("span");
@@ -82,10 +84,10 @@ const SettingsPresenter: React.SFC<IProps> = ({
 
         <Link to={"/places"}>
           <Section title="Favorites">
-            {data.places.length === 0 ? (
+            {data.places.length === 0 || !data.places ? (
               <NoPlaces>
                 You have no favorite places yet.{" "}
-                <SLink to={"/add-place"}>Add one</SLink>
+                <FakeLink to={"/add-place"}>Add one</FakeLink>
               </NoPlaces>
             ) : (
               <React.Fragment>

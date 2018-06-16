@@ -9,16 +9,26 @@ class SettingsContainer extends React.Component {
       <Mutation mutation={LOG_OUT}>
         {logUserOut => (
           <Query query={ACCOUNT_QUERY}>
-            {({ loading, error, data }) => {
-              const {
-                getPlaces: { places = {} } = {},
-                me: { user = {} } = {}
-              } = data;
+            {({ data }) => {
+              if (data.getPlaces) {
+                const {
+                  getPlaces: { places = {} } = {},
+                  me: { user = {} } = {}
+                } = data;
+
+                return (
+                  <SettingsPresenter
+                    logUserOut={logUserOut}
+                    loading={false}
+                    data={{ places, user }}
+                  />
+                );
+              }
               return (
                 <SettingsPresenter
                   logUserOut={logUserOut}
-                  loading={loading}
-                  data={{ places, user }}
+                  loading={true}
+                  data={null}
                 />
               );
             }}

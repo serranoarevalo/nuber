@@ -31,5 +31,6 @@ injectGlobal`
   a {
     text-decoration:none;
     color:inherit;
+    width:100%;
   }
 `;
