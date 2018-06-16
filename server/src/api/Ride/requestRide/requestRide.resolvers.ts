@@ -36,7 +36,7 @@ const resolvers: Resolvers = {
           ...args
         }).save();
         user.currentRideId = ride.id;
-        // user.isRiding = true;
+        user.isRiding = true;
         user.save();
         pubsub.publish("newRide", { rideRequest: ride });
         if (ride) {

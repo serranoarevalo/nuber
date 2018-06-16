@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
           .where(`ride.passenger.id = ${user.id}`)
           .orWhere(`ride.driver.id = ${user.id}`)
           .andWhere(`ride.id = ${args.rideId}`)
-          // .andWhere(`ride.status NOT 'CANCELED'`)
+          .andWhere(`NOT ride.status='CANCELED'`)
           .getOne();
         if (ride) {
           return {

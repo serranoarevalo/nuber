@@ -54,6 +54,7 @@ class RideContainer extends React.Component<IProps> {
     );
   }
   private updateQuery = (previousData, { subscriptionData }) => {
+    const { history } = this.props;
     if (!subscriptionData.data) {
       return previousData;
     }
@@ -64,7 +65,9 @@ class RideContainer extends React.Component<IProps> {
       }
     } = subscriptionData;
 
-    previousData.getRide.ride.status;
+    if (status === CANCELED) {
+      history.push("/");
+    }
 
     return Object.assign({}, previousData, {
       getRide: {

@@ -83,10 +83,12 @@ const RidePresenter: React.SFC<IProps> = ({
             {ride.status === ONROUTE && <ItemValue>On Route</ItemValue>}
             {ride.status === CANCELED && <ItemValue>Canceled</ItemValue>}
           </DataRow>
-          <Button
-            onClick={redirectToChat}
-            text={`Send message to ${isDriver ? "passenger" : "driver"}`}
-          />
+          {ride.status === "ACCEPTED" && (
+            <Button
+              onClick={redirectToChat}
+              text={`Send message to ${isDriver ? "passenger" : "driver"}`}
+            />
+          )}
           {isDriver && (
             <React.Fragment>
               <Button onClick={pickUp} bgColor={"#1abc9c"} text={"Picked up"} />
