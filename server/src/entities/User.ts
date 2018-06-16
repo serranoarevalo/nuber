@@ -82,7 +82,7 @@ class User extends BaseEntity {
   isRiding: boolean;
 
   @Column({ type: "int", nullable: true })
-  currentRideId: number;
+  currentRideId: number | null;
 
   @OneToMany(type => Confirmation, confirmation => confirmation.user)
   confirmations: Confirmation[];

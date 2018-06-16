@@ -4,7 +4,12 @@ import React from "react";
 import { compose, graphql, MutationUpdaterFn } from "react-apollo";
 import ReactDOM from "react-dom";
 import { toast } from "react-toastify";
-import { ME } from "../../sharedQueries";
+import {
+  GET_RIDE,
+  ME,
+  RIDE_EVENTS_SUBSCRIPTION,
+  UPDATE_RIDE
+} from "../../sharedQueries";
 import { geocode, reverseGeocode } from "../../utils";
 import DriverElements from "./DriverElements";
 import { IHomeContainerProps, IHomeContainerState } from "./HomeInterfaces";
@@ -18,6 +23,8 @@ import {
   UPDATE_LOCATION
 } from "./HomeQueries";
 import UserElements from "./UserElements";
+
+const ACCEPTED = "ACCEPTED";
 
 class HomeContainer extends React.Component<
   IHomeContainerProps,
@@ -49,6 +56,7 @@ class HomeContainer extends React.Component<
     };
     this.driverMarkers = [];
     this.mapRef = React.createRef();
+    console.log(props);
   }
 
   componentDidMount() {
@@ -243,13 +251,13 @@ class HomeContainer extends React.Component<
   };
 
   private updatePosition: PositionCallback = (position: Position) => {
-    const { ReportLocation } = this.props;
+    const { ReportLocationMutation } = this.props;
     const {
       coords: { latitude, longitude }
     } = position;
     const latLng = new google.maps.LatLng(latitude, longitude);
     this.userMarker.setPosition(latLng);
-    ReportLocation({
+    ReportLocationMutation({
       variables: {
         lat: parseFloat(latitude.toFixed(10)),
         lng: parseFloat(longitude.toFixed(10))
@@ -259,8 +267,8 @@ class HomeContainer extends React.Component<
 
   private handleRotation = (event: DeviceOrientationEvent) => {
     const { alpha } = event;
-    const { ReportLocation } = this.props;
-    ReportLocation({
+    const { ReportLocationMutation } = this.props;
+    ReportLocationMutation({
       variables: {
         lastOrientation: alpha
       }
@@ -423,7 +431,7 @@ class HomeContainer extends React.Component<
   };
 
   private requestRide = (): void => {
-    const { RequestRide } = this.props;
+    const { RequestRideMutation } = this.props;
     const {
       lat,
       lng,
@@ -439,7 +447,7 @@ class HomeContainer extends React.Component<
       toast.error("Cant order ride. Choose an address to go to");
       return;
     }
-    RequestRide({
+    RequestRideMutation({
       variables: {
         pickUpLocation: fromAddress,
         pickUpLat: lat,
@@ -463,12 +471,33 @@ class HomeContainer extends React.Component<
     { data }: { data: any }
   ) => {
     const { requestRide } = data;
+    const { GetRideQuery } = this.props;
     if (!requestRide.ok && requestRide.error) {
       toast.error(requestRide.error);
-    } else {
+    } else if (requestRide.ok && requestRide.ride) {
+      const {
+        ride: { id }
+      } = requestRide;
       this.setState({
         status: "requesting"
       });
+      GetRideQuery.refetch({
+        variables: {
+          rideId: id,
+          skip: false
+        }
+      });
+      const subscribeOptions: SubscribeToMoreOptions = {
+        document: RIDE_EVENTS_SUBSCRIPTION,
+        updateQuery: (prev, { subscriptionData }) => {
+          const ride = subscriptionData.data.getDriver;
+          console.log(ride);
+          if (ride.status === ACCEPTED) {
+            console.log("ride accepted");
+          }
+        }
+      };
+      GetRideQuery.subscribeToMore(subscribeOptions);
     }
   };
 
@@ -521,6 +550,7 @@ class HomeContainer extends React.Component<
   };
 
   private handleRideRequest = (request): void => {
+    console.log(request);
     this.setState({
       request,
       hasRequest: true
@@ -530,7 +560,7 @@ class HomeContainer extends React.Component<
 
 export default compose(
   graphql(UPDATE_LOCATION, {
-    name: "ReportLocation"
+    name: "ReportLocationMutation"
   }),
   graphql(ME, { name: "MeQuery" }),
   graphql(GET_DRIVERS, {
@@ -552,6 +582,17 @@ export default compose(
     }
   }),
   graphql(REQUEST_RIDE, {
-    name: "RequestRide"
+    name: "RequestRideMutation"
+  }),
+  graphql(UPDATE_RIDE, {
+    name: "UpdateRideMutation"
+  }),
+  graphql(GET_RIDE, {
+    name: "GetRideQuery",
+    options: {
+      variables: {
+        skip: true
+      }
+    }
   })
 )(HomeContainer);

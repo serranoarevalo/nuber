@@ -9,5 +9,6 @@ type Mutation {
     status: String
     driverRating: Float
     passengerRating: Float
+    driverId: Int
   ): UpdateRideResponse!
 }

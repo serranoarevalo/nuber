@@ -10,6 +10,7 @@ interface IArgs {
   status: string;
   driverRating: number;
   passengerRating: number;
+  driverId: number;
 }
 
 const resolvers: Resolvers = {
@@ -31,7 +32,6 @@ const resolvers: Resolvers = {
             }
           )
           .getOne();
-        console.log(ride);
         if (ride) {
           try {
             await Ride.update(args.rideId, args);

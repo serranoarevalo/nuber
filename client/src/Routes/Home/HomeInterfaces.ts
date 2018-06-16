@@ -24,14 +24,16 @@ export interface IHomeContainerState {
 }
 
 export interface IHomeContainerProps {
-  ReportLocation: MutationFn;
-  RequestRide: MutationFn;
   history: any;
   google: any;
   loading: boolean;
   MeQuery: any;
   GetDriversQuery: any;
   GetRideRequestQuery: any;
+  ReportLocationMutation: MutationFn;
+  RequestRideMutation: MutationFn;
+  UpdateRideMutation: MutationFn;
+  GetRideQuery: any;
 }
 
 export interface IHomePresenterProps {

@@ -32,8 +32,49 @@ export const ME = gql`
         profilePhoto
         verifiedPhoneNumber
         isDriving
+        currentRideId
       }
       error
+    }
+  }
+`;
+
+export const RIDE_EVENTS_SUBSCRIPTION = gql`
+  subscription rideUpdate {
+    rideUpdate {
+      status
+    }
+  }
+`;
+
+export const UPDATE_RIDE = gql`
+  mutation updateRide(
+    $rideId: Int!
+    $status: String!
+    $driverRating: Float
+    $passengerRating: Float
+    $driverId: Int!
+  ) {
+    updateRide(
+      rideId: $rideId
+      status: $status
+      driverRating: $driverRating
+      passengerRating: $passengerRating
+      driverId: $driverId
+    ) {
+      ok
+    }
+  }
+`;
+
+export const GET_RIDE = gql`
+  query getRide($rideId: Int, $skip: Boolean!) {
+    getRide(rideId: $rideId) @skip(if: $skip) {
+      ok
+      error
+      ride {
+        status
+      }
     }
   }
 `;

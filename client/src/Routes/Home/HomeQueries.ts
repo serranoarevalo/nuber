@@ -92,10 +92,16 @@ export const GET_RIDE_REQUEST = gql`
 export const RIDE_REQUEST_SUBSCRIPTION = gql`
   subscription rideRequestsSubscription {
     rideRequest {
-      pickUpLat
-      pickUpLng
-      dropOffLat
-      dropOffLng
+      passenger {
+        profilePhoto
+        fullName
+        email
+        phoneNumber
+      }
+      price
+      pickUpLocation
+      dropOffLocation
+      price
     }
   }
 `;
