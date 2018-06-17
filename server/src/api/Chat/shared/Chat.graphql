@@ -1,7 +1,7 @@
 type Message {
   user: User!
   message: String
-  chatRoom: Chat
+  chat: Chat
 }
 
 type Chat {

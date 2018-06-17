@@ -105,7 +105,7 @@ class User extends BaseEntity {
   @ManyToOne(type => Chat, chat => chat.participants, {
     nullable: true
   })
-  chatRoom: Chat;
+  chat: Chat;
 
   @OneToMany(type => Message, message => message.user)
   messages: Message[];

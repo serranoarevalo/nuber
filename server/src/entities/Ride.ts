@@ -3,7 +3,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -74,8 +73,7 @@ class Ride extends BaseEntity {
   @Column({ type: "text", enum: [CASH, CARD], default: CASH })
   paymentMethod: string;
 
-  @OneToOne(type => Chat)
-  @JoinColumn()
+  @OneToOne(type => Chat, chat => chat.ride)
   chat: Chat;
 
   @CreateDateColumn() createdAt: string;

@@ -5,5 +5,5 @@ type GetChatResponse {
 }
 
 type Query {
-  getChat: GetChatResponse!
+  getChat(rideId: Int!): GetChatResponse!
 }
