@@ -5,6 +5,7 @@ type Message {
 }
 
 type Chat {
+  id: Int!
   participants: [User]
   messages: [Message]
 }

@@ -99,7 +99,12 @@ class User extends BaseEntity {
   @OneToMany(type => Place, place => place.user)
   places: Place[];
 
-  @ManyToOne(type => Chat, chat => chat.participants)
+  @Column({ nullable: true })
+  chatRoomId: number;
+
+  @ManyToOne(type => Chat, chat => chat.participants, {
+    nullable: true
+  })
   chatRoom: Chat;
 
   @OneToMany(type => Message, message => message.user)

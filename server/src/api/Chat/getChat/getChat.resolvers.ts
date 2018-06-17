@@ -1,3 +1,4 @@
+import Chat from "../../../entities/Chat";
 import User from "../../../entities/User";
 import { GetChatResponse } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolvers";
@@ -8,22 +9,25 @@ const resolvers: Resolvers = {
     getChat: makeMiddleware(
       authMiddleware,
       async (_, __, { req }): Promise<GetChatResponse> => {
-        const user = await User.findOne(req.user.id, {
-          relations: ["chatRoom"]
-        });
-        if (user && user.chatRoom) {
-          return {
-            ok: true,
-            chat: user.chatRoom,
-            error: null
-          };
-        } else {
-          return {
-            ok: false,
-            chat: null,
-            error: "Can't find chat room"
-          };
+        const user: User = req.user;
+        if (user.chatRoomId) {
+          const chat = await Chat.findOne(user.chatRoomId, {
+            relations: ["participants", "messages"]
+          });
+          console.log(chat);
+          if (chat) {
+            return {
+              ok: true,
+              chat,
+              error: null
+            };
+          }
         }
+        return {
+          ok: false,
+          chat: null,
+          error: "Can't find chat room"
+        };
       }
     )
   }

@@ -65,11 +65,12 @@ const resolvers: Resolvers = {
                 passenger.currentRideId = null;
                 passenger.isRiding = false;
                 passenger.save();
+                const chat = await Chat.findOne(driver.chatRoomId);
+                if (chat) {
+                  chat.remove();
+                }
               } else if (status === "ACCEPTED") {
-                const chatRoom: Chat = await Chat.create({
-                  participants: [passenger, driver]
-                }).save();
-                console.log(chatRoom);
+                const chatRoom: Chat = await Chat.create({}).save();
                 passenger.chatRoom = chatRoom;
                 passenger.save();
                 driver.isTaken = true;
