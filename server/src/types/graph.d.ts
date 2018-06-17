@@ -1,4 +1,6 @@
 export const typeDefs = [
+  "type GetChatResponse {\n  ok: Boolean!\n  chat: Chat\n  error: String\n}\n\ntype Query {\n  getChat: GetChatResponse!\n}\n",
+  "type Message {\n  user: User!\n  message: String\n  chatRoom: Chat\n}\n\ntype Chat {\n  participants: [User]\n  messages: [Message]\n}\n",
   "type SignS3URLResponse {\n  ok: Boolean!\n  signedUrl: String\n  fileUrl: String\n  error: String\n}\n\ntype Mutation {\n  signS3URL(fileName: String!, fileType: String!): SignS3URLResponse!\n}\n",
   "type AddPlaceResponse {\n  ok: Boolean!\n  place: Place\n  error: String\n}\n\ntype Mutation {\n  addPlace(\n    address: String!\n    name: String!\n    lat: Float!\n    lng: Float!\n    fav: Boolean\n  ): AddPlaceResponse!\n}\n",
   "type DeletePlaceResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  deletePlace(placeId: Int!): DeletePlaceResponse!\n}\n",
@@ -135,6 +137,23 @@ export interface VerifyPhoneResponse {
 
 export interface Subscription {
   getDriver: User | null;
+}
+
+export interface GetChatResponse {
+  ok: boolean;
+  chat: Chat | null;
+  error: string | null;
+}
+
+export interface Chat {
+  participants: Array<User> | null;
+  messages: Array<Message> | null;
+}
+
+export interface Message {
+  user: User;
+  message: string | null;
+  chatRoom: Chat | null;
 }
 
 export interface SignS3URLResponse {

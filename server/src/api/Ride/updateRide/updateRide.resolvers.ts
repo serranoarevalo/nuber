@@ -1,4 +1,5 @@
 import { getConnection } from "typeorm";
+import Chat from "../../../entities/Chat";
 import Ride from "../../../entities/Ride";
 import User from "../../../entities/User";
 import { UpdateRideResponse } from "../../../types/graph";
@@ -65,8 +66,15 @@ const resolvers: Resolvers = {
                 passenger.isRiding = false;
                 passenger.save();
               } else if (status === "ACCEPTED") {
+                const chatRoom: Chat = await Chat.create({
+                  participants: [passenger, driver]
+                }).save();
+                console.log(chatRoom);
+                passenger.chatRoom = chatRoom;
+                passenger.save();
                 driver.isTaken = true;
                 driver.currentRideId = updatedRide.id;
+                driver.chatRoom = chatRoom;
                 driver.save();
               }
               return {

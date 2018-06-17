@@ -1,0 +1,10 @@
+type Message {
+  user: User!
+  message: String
+  chatRoom: Chat
+}
+
+type Chat {
+  participants: [User]
+  messages: [Message]
+}

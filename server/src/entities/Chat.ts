@@ -13,10 +13,10 @@ import User from "./User";
 class Chat extends BaseEntity {
   @PrimaryGeneratedColumn() id: number;
 
-  @OneToMany(type => User, user => user.chatRoom)
+  @OneToMany(type => User, user => user.chatRoom, { nullable: true })
   participants: User[];
 
-  @OneToMany(type => User, user => user.chatRoom)
+  @OneToMany(type => User, user => user.chatRoom, { nullable: true })
   messages: Message[];
 
   @CreateDateColumn() createdAt: string;
