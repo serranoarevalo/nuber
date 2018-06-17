@@ -67,8 +67,7 @@ const resolvers: Resolvers = {
                 passenger.save();
               } else if (status === "ACCEPTED") {
                 const chat = await Chat.create({ ride: updatedRide }).save();
-                console.log(chat);
-                console.log(updatedRide.id);
+                passenger.currentRideId = updatedRide.id;
                 passenger.chat = chat;
                 passenger.save();
                 driver.isTaken = true;

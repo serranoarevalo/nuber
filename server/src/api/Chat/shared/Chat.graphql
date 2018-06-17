@@ -1,9 +1,3 @@
-type Message {
-  user: User!
-  message: String
-  chat: Chat
-}
-
 type Chat {
   id: Int!
   participants: [User]

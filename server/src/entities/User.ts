@@ -100,7 +100,7 @@ class User extends BaseEntity {
   places: Place[];
 
   @Column({ nullable: true })
-  chatRoomId: number;
+  chatId: number;
 
   @ManyToOne(type => Chat, chat => chat.participants, {
     nullable: true

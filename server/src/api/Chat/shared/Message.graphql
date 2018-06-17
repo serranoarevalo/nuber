@@ -1,0 +1,6 @@
+type Message {
+  user: User
+  message: String
+  chat: Chat
+  userId: Int
+}

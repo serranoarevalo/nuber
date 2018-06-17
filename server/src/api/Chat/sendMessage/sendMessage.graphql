@@ -1,0 +1,9 @@
+type SendMessageResponse {
+  ok: Boolean!
+  error: String
+  message: Message
+}
+
+type Mutation {
+  sendMessage(message: String!): SendMessageResponse!
+}

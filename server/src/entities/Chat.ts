@@ -1,13 +1,13 @@
 import {
   BaseEntity,
+  Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  Column
+  UpdateDateColumn
 } from "typeorm";
 import Message from "./Message";
 import Ride from "./Ride";

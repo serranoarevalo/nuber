@@ -15,6 +15,7 @@ const resolvers: Resolvers = {
       authMiddleware,
       async (_, args: IArgs, { req }): Promise<GetRideResponse> => {
         const { user }: { user: User } = req;
+        console.log(user);
         const ride: Ride | undefined = await getConnection()
           .createQueryBuilder()
           .select("ride")
