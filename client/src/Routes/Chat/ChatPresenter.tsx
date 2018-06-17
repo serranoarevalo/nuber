@@ -21,11 +21,13 @@ const Messages = styled.div`
   width: 100%;
   overflow: scroll;
   padding: 10px;
+  display: flex;
+  flex-direction: column-reverse;
 `;
 
 const ChatPresenter: React.SFC<IProps> = ({
   loading,
-  data: { getChat: { chat: { messages = null } = {} } = {} } = {},
+  data: { getChat: { chat: { messages = [] } = {} } = {} } = {},
   handleInputChange,
   message,
   handleSubmit
@@ -38,10 +40,11 @@ const ChatPresenter: React.SFC<IProps> = ({
     <Container>
       <Messages>
         {!loading &&
-          messages &&
-          messages.map(aMessage => (
-            <Message isMe={false} text={aMessage.message} key={aMessage.id} />
-          ))}
+          messages
+            .map(aMessage => (
+              <Message isMe={false} text={aMessage.message} key={aMessage.id} />
+            ))
+            .reverse()}
       </Messages>
       <Form onSubmit={handleSubmit}>
         <Input

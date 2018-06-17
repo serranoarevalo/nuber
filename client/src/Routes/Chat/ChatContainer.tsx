@@ -106,6 +106,9 @@ class ChatContainer extends React.Component<IProps, IState> {
       return;
     }
     SendMessageMutation({ variables: { message } });
+    this.setState({
+      message: ""
+    });
   };
 }
 

@@ -8,8 +8,7 @@ const GRAPHQL_ENDPOINT: string = "/graphql";
 const SUBSCRIPTIONS_ENDPOINT: string = "/subscriptions";
 const PLAYGROUND_ENDPOINT: string = "/playground";
 
-const handleAppError = (error: NodeJS.ErrnoException): void =>
-  console.log(error);
+const handleAppError = (error): void => console.log(error);
 
 const handleListening = (): void =>
   console.log(`Listening on http://localhost:${PORT}`);

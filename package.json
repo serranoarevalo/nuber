@@ -10,8 +10,5 @@
     "front:start": "cd client && yarn run start",
     "back:start": "cd server && yarn run dev",
     "back:gentypes": "cd server && yarn run types"
-  },
-  "dependencies": {
-    "apollo-utilities": "^1.0.15"
   }
 }

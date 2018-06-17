@@ -14,6 +14,8 @@ const resolvers = {
 
           const { chatId: messageChat } = message;
 
+          console.log(message.message);
+
           return userChat === messageChat;
         }
       )
