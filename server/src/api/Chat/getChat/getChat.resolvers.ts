@@ -16,7 +16,7 @@ const resolvers: Resolvers = {
           {
             rideId: args.rideId
           },
-          { relations: ["participants", "messages"], loadEagerRelations: true }
+          { relations: ["participants", "messages"] }
         );
         if (chat) {
           return {

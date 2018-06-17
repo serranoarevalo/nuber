@@ -13,7 +13,7 @@ const resolvers: Resolvers = {
   Mutation: {
     sendMessage: makeMiddleware(
       authMiddleware,
-      async (_, args: IArgs, { req }): Promise<SendMessageResponse> => {
+      async (_, args: IArgs, { req, pubsub }): Promise<SendMessageResponse> => {
         const user: User = req.user;
         const { message } = args;
         const chat = await Chat.findOne(user.chatId);
@@ -23,6 +23,7 @@ const resolvers: Resolvers = {
             chat,
             user
           }).save();
+          pubsub.publish("newChatMessage", { newMessage });
           return {
             ok: true,
             error: null,
