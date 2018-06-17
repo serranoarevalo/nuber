@@ -7,11 +7,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import Chat from "./Chat";
 import Confirmation from "./Confirmation";
+import Message from "./Message";
 import Place from "./Place";
 import Ride from "./Ride";
 
@@ -95,6 +98,12 @@ class User extends BaseEntity {
 
   @OneToMany(type => Place, place => place.user)
   places: Place[];
+
+  @ManyToOne(type => Chat, chat => chat.participants)
+  chatRoom: Chat;
+
+  @OneToMany(type => Message, message => message.user)
+  messages: Message[];
 
   @CreateDateColumn() createdAt: string;
   @UpdateDateColumn() updatedAt: string;

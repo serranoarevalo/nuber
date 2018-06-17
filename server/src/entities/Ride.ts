@@ -3,10 +3,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import Chat from "./Chat";
 import User from "./User";
 
 const CASH = "CASH";
@@ -70,6 +73,10 @@ class Ride extends BaseEntity {
 
   @Column({ type: "text", enum: [CASH, CARD], default: CASH })
   paymentMethod: string;
+
+  @OneToOne(type => Chat)
+  @JoinColumn()
+  chat: Chat;
 
   @CreateDateColumn() createdAt: string;
   @UpdateDateColumn() updatedAt: string;
