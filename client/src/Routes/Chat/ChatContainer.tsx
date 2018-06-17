@@ -64,6 +64,18 @@ class ChatContainer extends React.Component<IProps, IState> {
       data: { newMessage }
     } = subscriptionData;
 
+    const {
+      getChat: {
+        chat: { messages }
+      }
+    } = previousData;
+
+    const lastMessage = messages[messages.length - 1];
+
+    if (newMessage.id === lastMessage.id) {
+      return;
+    }
+
     return Object.assign({}, previousData, {
       getChat: {
         ...previousData.getChat,

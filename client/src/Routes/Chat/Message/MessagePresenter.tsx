@@ -1,6 +1,13 @@
 import PropTypes from "prop-types";
 import React from "react";
-// import styled from "styled-components";
+import styled from "styled-components";
+
+const Message = styled.div`
+  background-color: #ecf0f1;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+`;
 
 interface IProps {
   isMe: boolean;
@@ -8,7 +15,7 @@ interface IProps {
 }
 
 const MessagePresenter: React.SFC<IProps> = ({ isMe, text }) => (
-  <div>{text}</div>
+  <Message>{text}</Message>
 );
 
 MessagePresenter.propTypes = {

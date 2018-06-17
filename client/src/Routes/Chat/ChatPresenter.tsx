@@ -20,6 +20,7 @@ const Messages = styled.div`
   height: 100%;
   width: 100%;
   overflow: scroll;
+  padding: 10px;
 `;
 
 const ChatPresenter: React.SFC<IProps> = ({
