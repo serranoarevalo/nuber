@@ -8,9 +8,10 @@ import getUserFromToken from "./utils/getUserFromToken";
 
 class App {
   public app: GraphQLServer;
-  public pubSub: PubSub;
+  public pubSub: any;
   constructor() {
     this.pubSub = new PubSub();
+    this.pubSub.ee.setMaxListeners(99);
     this.app = new GraphQLServer({
       schema,
       context: req => {

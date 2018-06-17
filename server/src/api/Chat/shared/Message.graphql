@@ -3,4 +3,5 @@ type Message {
   message: String
   userId: Int
   chatId: Int
+  id: Int!
 }
