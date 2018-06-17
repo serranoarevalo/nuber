@@ -14,6 +14,7 @@ interface IProps {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   message: string;
   handleSubmit: () => void;
+  userId: number;
 }
 
 const Messages = styled.div`
@@ -30,7 +31,8 @@ const ChatPresenter: React.SFC<IProps> = ({
   data: { getChat: { chat: { messages = [] } = {} } = {} } = {},
   handleInputChange,
   message,
-  handleSubmit
+  handleSubmit,
+  userId
 }) => (
   <Wrapper>
     <Helmet>
@@ -42,7 +44,11 @@ const ChatPresenter: React.SFC<IProps> = ({
         {!loading &&
           messages
             .map(aMessage => (
-              <Message isMe={false} text={aMessage.message} key={aMessage.id} />
+              <Message
+                isMe={aMessage.userId === userId}
+                text={aMessage.message}
+                key={aMessage.id}
+              />
             ))
             .reverse()}
       </Messages>

@@ -1,7 +1,8 @@
 import { SubscribeToMoreOptions } from "apollo-client";
 import React from "react";
-import { graphql, MutationFn, Query } from "react-apollo";
+import { compose, graphql, MutationFn, Query } from "react-apollo";
 import { toast } from "react-toastify";
+import { ME } from "../../sharedQueries";
 import ChatPresenter from "./ChatPresenter";
 import {
   GET_CHAT,
@@ -13,6 +14,7 @@ interface IProps {
   location: any;
   history: any;
   SendMessageMutation: MutationFn;
+  MeQuery: any;
 }
 
 interface IState {
@@ -31,6 +33,7 @@ class ChatContainer extends React.Component<IProps, IState> {
   }
   render() {
     const {
+      MeQuery: { me: { user: { id = 0 } = {} } = {} } = {},
       location: { state: { rideId = 0 } = {} }
     } = this.props;
     const { message } = this.state;
@@ -49,6 +52,7 @@ class ChatContainer extends React.Component<IProps, IState> {
               handleInputChange={this.handleInputChange}
               message={message}
               handleSubmit={this.handleSubmit}
+              userId={id}
             />
           );
         }}
@@ -112,6 +116,11 @@ class ChatContainer extends React.Component<IProps, IState> {
   };
 }
 
-export default graphql<any, any>(SEND_MESSAGE, {
-  name: "SendMessageMutation"
-})(ChatContainer);
+export default compose(
+  graphql<any, any>(SEND_MESSAGE, {
+    name: "SendMessageMutation"
+  }),
+  graphql(ME, {
+    name: "MeQuery"
+  })
+)(ChatContainer);
