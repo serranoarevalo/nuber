@@ -30,6 +30,7 @@ interface IProps {
   cancelRide: () => void;
   pickUp: () => void;
   redirectToChat: () => void;
+  finishRide: () => void;
 }
 
 const ACCEPTED = "ACCEPTED";
@@ -41,7 +42,8 @@ const RidePresenter: React.SFC<IProps> = ({
   data: { getRide: { isDriver = false, ride = null } = {} } = {},
   cancelRide,
   pickUp,
-  redirectToChat
+  redirectToChat,
+  finishRide
 }) => (
   <Wrapper>
     <Helmet>
@@ -83,7 +85,7 @@ const RidePresenter: React.SFC<IProps> = ({
             {ride.status === ONROUTE && <ItemValue>On Route</ItemValue>}
             {ride.status === CANCELED && <ItemValue>Canceled</ItemValue>}
           </DataRow>
-          {ride.status === "ACCEPTED" && (
+          {ride.status === ACCEPTED && (
             <Button
               onClick={redirectToChat}
               text={`Send message to ${isDriver ? "passenger" : "driver"}`}
@@ -91,6 +93,9 @@ const RidePresenter: React.SFC<IProps> = ({
           )}
           {isDriver && (
             <React.Fragment>
+              {ride.status === ONROUTE && (
+                <Button text={"Finish ride"} onClick={finishRide} />
+              )}
               <Button onClick={pickUp} bgColor={"#1abc9c"} text={"Picked up"} />
               <Button
                 onClick={cancelRide}

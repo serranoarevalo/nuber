@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const ONROUTE = "ONROUTE";
-// const FINISHED = "FINISHED";
+const FINISHED = "FINISHED";
 const CANCELED = "CANCELED";
 // const REQUESTING = "REQUESTING";
 
@@ -47,6 +47,7 @@ class RideContainer extends React.Component<IProps> {
               cancelRide={this.cancelRide}
               pickUp={this.pickUp}
               redirectToChat={this.redirectToChat}
+              finishRide={this.finishRide}
             />
           );
         }}
@@ -107,6 +108,21 @@ class RideContainer extends React.Component<IProps> {
       variables: {
         rideId,
         status: ONROUTE
+      }
+    });
+  };
+
+  private finishRide = () => {
+    const {
+      location: {
+        state: { rideId }
+      }
+    } = this.props;
+    const { UpdateRideMutation } = this.props;
+    UpdateRideMutation({
+      variables: {
+        rideId,
+        status: FINISHED
       }
     });
   };

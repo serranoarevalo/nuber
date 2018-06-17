@@ -3,8 +3,8 @@ import React from "react";
 import styled from "styled-components";
 
 const Message = styled<any, any>("div")`
-  background-color: ${props => (props.isMe ? "#bdc3c7" : "#3498db")};
-  color: ${props => (props.isMe ? "black" : "white")};
+  background-color: ${props => (props.isMe ? "#3498db" : "#ecf0f1")};
+  color: ${props => (props.isMe ? "white" : "black")};
   padding: 15px;
   border-radius: 15px;
   margin-bottom: 15px;

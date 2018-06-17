@@ -38,7 +38,11 @@ class ChatContainer extends React.Component<IProps, IState> {
     } = this.props;
     const { message } = this.state;
     return (
-      <Query query={GET_CHAT} variables={{ rideId }}>
+      <Query
+        query={GET_CHAT}
+        variables={{ rideId }}
+        fetchPolicy={"cache-and-network"}
+      >
         {({ data, loading, subscribeToMore }) => {
           const subscribeOptions: SubscribeToMoreOptions = {
             document: NEW_MESSAGE_SUBSCRIPTION,
