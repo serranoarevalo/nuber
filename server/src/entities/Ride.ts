@@ -31,10 +31,10 @@ class Ride extends BaseEntity {
   })
   status: string;
 
-  @Column({ type: "float", nullable: true })
+  @Column({ type: "double precision", nullable: true })
   driverRating: number;
 
-  @Column({ type: "float", nullable: true })
+  @Column({ type: "double precision", nullable: true })
   passengerRating: number;
 
   @ManyToOne(type => User, user => user.ridesAsPassenger)
@@ -46,16 +46,16 @@ class Ride extends BaseEntity {
   @Column({ type: "text" })
   pickUpLocation: string;
 
-  @Column({ type: "float", nullable: true })
+  @Column({ type: "double precision", nullable: true })
   pickUpLat: number;
 
-  @Column({ type: "float", nullable: true })
+  @Column({ type: "double precision", nullable: true })
   pickUpLng: number;
 
-  @Column({ type: "float", nullable: true })
+  @Column({ type: "double precision", nullable: true })
   dropOffLng: number;
 
-  @Column({ type: "float", nullable: true })
+  @Column({ type: "double precision", nullable: true })
   dropOffLat: number;
 
   @Column({ type: "text" })

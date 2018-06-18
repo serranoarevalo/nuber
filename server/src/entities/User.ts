@@ -63,19 +63,19 @@ class User extends BaseEntity {
   @Column({ type: "boolean", default: false })
   isDriving: boolean;
 
-  @Column({ type: "float", nullable: true })
+  @Column({ type: "double precision", nullable: true })
   balance: number;
 
   @Column({ type: "text", default: "" })
   carPlates: string;
 
-  @Column({ type: "float", nullable: true })
+  @Column({ type: "double precision", nullable: true })
   lastLat: number;
 
-  @Column({ type: "float", nullable: true })
+  @Column({ type: "double precision", nullable: true })
   lastLng: number;
 
-  @Column({ type: "float", nullable: true })
+  @Column({ type: "double precision", nullable: true })
   lastOrientation: number;
 
   @Column({ type: "boolean", default: false })
@@ -128,8 +128,11 @@ class User extends BaseEntity {
   @BeforeInsert()
   @BeforeUpdate()
   async savePassword(): Promise<void> {
-    const hashedPassword = await this.hashPassword(this.password);
-    this.password = hashedPassword;
+    if (this.password) {
+      console.log(this.password);
+      const hashedPassword = await this.hashPassword(this.password);
+      this.password = hashedPassword;
+    }
   }
 }
 export default User;

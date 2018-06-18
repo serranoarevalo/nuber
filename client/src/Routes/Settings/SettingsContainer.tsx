@@ -10,7 +10,7 @@ class SettingsContainer extends React.Component {
         {logUserOut => (
           <Query query={ACCOUNT_QUERY}>
             {({ data }) => {
-              if (data.getPlaces) {
+              if (data && data.getPlaces) {
                 const {
                   getPlaces: { places = {} } = {},
                   me: { user = {} } = {}

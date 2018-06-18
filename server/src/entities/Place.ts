@@ -16,10 +16,10 @@ class Place extends BaseEntity {
   @Column({ type: "text" })
   name: string;
 
-  @Column({ type: "decimal" })
+  @Column({ type: "double precision" })
   lat: number;
 
-  @Column({ type: "decimal" })
+  @Column({ type: "double precision" })
   lng: number;
 
   @Column({ type: "text" })
