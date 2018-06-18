@@ -65,26 +65,27 @@ const SettingsPresenter: React.SFC<IProps> = ({
       <title>Account Settings | Nuber</title>
     </Helmet>
     <Header backTo="/" title={"Account Settings"} />
-    {loading ? (
+    {loading || !data.me || !data.getPlaces ? (
       <Placeholder>
         <FontAwesome name="spinner fa-spin" />
       </Placeholder>
     ) : (
       <Container>
+        {console.log(loading, data)}
         <Section first={true}>
           <GridLink to={"/edit-account"}>
-            <Image src={data.user.profilePhoto} />
+            <Image src={data.me.user.profilePhoto} />
             <Keys>
-              <Key>{data.user.fullName}</Key>
-              <Key>{data.user.phoneNumber}</Key>
-              <Key>{data.user.email}</Key>
+              <Key>{data.me.user.fullName}</Key>
+              <Key>{data.me.user.phoneNumber}</Key>
+              <Key>{data.me.user.email}</Key>
             </Keys>
           </GridLink>
         </Section>
 
         <Link to={"/places"}>
           <Section title="Favorites">
-            {data.places.length === 0 || !data.places ? (
+            {data.getPlaces.places.length === 0 || !data.getPlaces.places ? (
               <NoPlaces>
                 You have no favorite places yet.{" "}
                 <FakeLink to={"/add-place"}>Add one</FakeLink>
@@ -92,10 +93,10 @@ const SettingsPresenter: React.SFC<IProps> = ({
             ) : (
               <React.Fragment>
                 <Place
-                  name={data.places[0].name}
-                  fav={data.places[0].fav}
-                  address={data.places[0].address}
-                  id={data.places[0].id}
+                  name={data.getPlaces.places[0].name}
+                  fav={data.getPlaces.places[0].fav}
+                  address={data.getPlaces.places[0].address}
+                  id={data.getPlaces.places[0].id}
                 />
                 <FakeLink>More Saved Places</FakeLink>
               </React.Fragment>
