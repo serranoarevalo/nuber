@@ -1,6 +1,6 @@
 # Nuber
 
-Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, React, Apollo and PWA.
+Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, React and Apollo
 
 ## Features implemented:
 
@@ -8,6 +8,10 @@ Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, Rea
 - Email verification with Mailgun.
 - Phone verification with Twilio.
 - Forgot password
+- Google Maps Routes and Addresses.
+- Real Time Chat.
+- Real Time Notifications.
+- GraphQL JWT Authentication.
 
 ## Packages used:
 
@@ -20,7 +24,7 @@ Cloning Uber with NodeJS, GraphQL, Express, PostgresQL, Typescript, Webpack, Rea
 - JWT (Auth 🔑)
 - Twilio (Sending SMS 📱)
 - Postgresql (DB 📃)
-- S3 (AWS Storage System 🗂)
+- Cloudinary (User Uploads 🗂)
 
 ### On the frontend:
 
